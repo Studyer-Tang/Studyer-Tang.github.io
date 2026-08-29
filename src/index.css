@@ -1,28 +1,26 @@
 :root {
-  --paper: #f8f7f1;
-  --paper-deep: #ece7da;
-  --ink: #151917;
-  --ink-soft: #313934;
-  --muted: #65716b;
-  --line: #d8d2c3;
-  --panel: rgba(255, 255, 250, 0.76);
-  --accent: #0d6b50;
-  --accent-bright: #44b78b;
-  --gold: #b18b34;
-  --shadow: rgba(21, 25, 23, 0.12);
-  --serif: Georgia, 'Times New Roman', serif;
-  --sans:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    sans-serif;
+  --paper: #f4f1e9;
+  --paper-deep: #e8e2d5;
+  --ink: #171815;
+  --ink-soft: #33342f;
+  --muted: #68685f;
+  --line: #cfc8b9;
+  --panel: rgba(250, 248, 241, 0.82);
+  --accent: #355f50;
+  --gold: #9a742e;
+  --shadow: rgba(23, 24, 21, 0.08);
+  --serif: 'Iowan Old Style', Baskerville, 'Palatino Linotype', Palatino,
+    'Times New Roman', 'Songti SC', STSong, SimSun, serif;
+  --display: 'Baskerville', 'Iowan Old Style', 'Times New Roman', 'Songti SC',
+    STSong, serif;
+  --sans: Arial, 'Microsoft YaHei', sans-serif;
 
   color: var(--muted);
-  background:
-    radial-gradient(circle at 78% 12%, rgba(68, 183, 139, 0.18), transparent 28rem),
-    linear-gradient(135deg, rgba(177, 139, 52, 0.12), transparent 24rem), var(--paper);
-  font-family: var(--sans);
+  background: var(--paper);
+  font-family: var(--serif);
   font-size: 16px;
   font-synthesis: none;
-  line-height: 1.5;
+  line-height: 1.6;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

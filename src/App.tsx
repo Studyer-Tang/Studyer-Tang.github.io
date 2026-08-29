@@ -14,6 +14,7 @@ const content = {
     primary: 'View projects',
     secondary: 'Contact',
     statusTitle: 'Current direction',
+    statusMark: '01 / Current inquiry',
     status:
       'I study how formal reasoning, empirical validation, and careful computational practice can make AI-assisted research more reliable.',
     metrics: [
@@ -79,6 +80,7 @@ const content = {
     primary: '查看项目',
     secondary: '联系我',
     statusTitle: '当前方向',
+    statusMark: '01 / 近期思考',
     status:
       '我关心形式推理、经验验证与计算实践如何结合，帮助人和 AI 协作时更可靠地做研究。',
     metrics: [
@@ -177,11 +179,7 @@ function App() {
           </div>
 
           <aside className="signal-panel" aria-label="Research status">
-            <div className="panel-ring" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
+            <p className="panel-index" aria-hidden="true">{t.statusMark}</p>
             <p className="panel-kicker">{t.statusTitle}</p>
             <p className="panel-text">{t.status}</p>
             <dl>
