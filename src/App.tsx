@@ -17,49 +17,47 @@ const content = {
   zh: {
     nav: ['研究', '笔记', '关于', '联系'],
     langLabel: 'EN',
-    identity: '北京大学 · 数学与应用数学（金融方向）',
-    name: '唐庆军',
-    romanizedName: 'Qingjun Tang',
+    identity: '北京大学 · 统计学（金融方向）',
+    name: 'Qingjun Tang',
+    romanizedName: 'Statistics · Finance',
     intro:
-      '我关心一个朴素的问题：面对高维、非平稳而且充满噪声的数据，我们怎样知道一个结论是真的，而不只是恰好拟合了过去？',
+      '我关心统计学习如何帮助我们理解不断变化的金融市场：从高维时间序列和市场微观结构，到可持续投资与风险管理。',
     detail:
-      '目前主要学习统计推断、金融时间序列与可靠的计算研究，也在制作让研究过程更容易复查和复现的开源工具。',
+      '目前重点学习金融时间序列、随机过程与机器学习方法，希望把市场机制、数据证据和真实决策放进同一个可检验的研究框架。',
     projectsLink: '查看研究',
     githubLink: 'GitHub',
     nowLabel: 'NOW · 2026',
-    nowTitle: '从漂亮的回测，走向可信的推断。',
+    nowTitle: '用统计模型连接市场机制、数据与决策。',
     figureLabel: 'signal / noise',
-    figureCaption: '真正的问题不是能否拟合一条曲线，而是它能否在下一个样本中继续成立。',
+    figureCaption: '金融环境始终在变化；模型需要解释变化，也需要经得起变化。',
     researchLabel: 'Selected research',
-    researchTitle: '正在认真追问的三个问题',
+    researchTitle: '研究兴趣与未来方向',
     researchIntro:
-      '不罗列宽泛的兴趣，只保留目前真正投入时间、能够被检验的研究问题。',
+      '以统计学为基础，关注金融市场中的动态结构、行为机制与可验证的决策问题。',
     research: [
       {
         index: '01',
-        field: '市场微观结构',
-        title: '订单流能否揭示正在变化的市场状态？',
+        field: '金融统计学习',
+        title: '怎样从复杂的金融路径中提取稳定信息？',
         description:
-          '从逐笔数据中提取订单簿特征，使用隐马尔可夫模型识别潜在状态，并通过回归与假设检验考察这些状态是否具有稳定、可解释的差异。',
-        methods: 'HMM · order book · inference',
+          '关注高维、非平稳金融时间序列的表示与推断，学习路径特征、扩散因子模型和正则化方法，并考察模型在样本外的可靠性。',
+        methods: 'path signatures · factor models · inference',
       },
       {
         index: '02',
-        field: '高维统计',
-        title: '一个因子在样本外为什么仍然有效？',
+        field: '市场微观结构与适应性行为',
+        title: '市场状态如何在交易行为中形成和演化？',
         description:
-          '关注特征压缩、共线性、结构突变与多重检验，尝试把“回测表现很好”拆解为可以验证、可以失败，也可以被解释的统计命题。',
-        methods: 'regularization · time series · validation',
+          '从订单流、流动性和高频周期性出发，研究参与者行为与市场状态之间的联系，并尝试用适应性市场视角理解结构变化。',
+        methods: 'order flow · liquidity · adaptive markets',
       },
       {
         index: '03',
-        field: '开放研究工具',
-        title: '怎样让计算研究更容易被复查？',
+        field: '可持续投资与量化风险',
+        title: '投资影响与风险能否被一致地度量？',
         description:
-          'Rigorous Research 将假设、数据来源、计算路径与结论边界放在同一份研究记录中，目标不是替代判断，而是让判断留下清楚的证据。',
-        methods: 'Python · provenance · reproducibility',
-        href: 'https://github.com/Studyer-Tang/rigorous-research',
-        linkLabel: '查看项目 ↗',
+          '关注 ESG 与影响力信号的识别、资产间依赖和组合约束，探索可持续目标如何进入投资组合构建、绩效归因与风险管理。',
+        methods: 'impact investing · dependence · portfolio risk',
       },
     ] satisfies ResearchItem[],
     notesLabel: 'Notebook',
@@ -67,29 +65,29 @@ const content = {
     notes: [
       {
         date: '2026.08',
-        title: '“开放问题”究竟指哪一个问题？',
-        text: '当原始定义、自然修正和作者意图不完全一致时，先画出问题的版本树，再讨论结果解决了什么。',
+        title: '路径数据需要怎样的统计表示？',
+        text: '当观测本身是一段动态过程，表示方法不仅要压缩信息，也要保留顺序、尺度和可解释的结构。',
       },
       {
         date: '2026.07',
-        title: '高回测指标不是研究的终点',
-        text: '数据窥探、交易成本和状态变化会怎样共同侵蚀样本外表现，以及哪些检验真正有信息量。',
+        title: '市场规律为什么会改变？',
+        text: '策略、制度和参与者彼此适应，使金融市场更像一个演化系统，而不是参数固定的数据生成器。',
       },
       {
         date: '2026.06',
-        title: '把负面结果留在研究记录里',
-        text: '失败的模型和被排除的解释不是废料，它们决定下一次研究从哪里继续。',
+        title: '“影响力”不应只是一个标签',
+        text: '可持续投资需要区分企业特征、投资者偏好与真实影响，并说明每一种度量究竟支持什么结论。',
       },
     ],
     aboutLabel: 'About',
-    aboutTitle: '比起更复杂的模型，我更在意更清楚的问题。',
+    aboutTitle: '把金融问题变成可以检验的统计问题。',
     aboutText: [
-      '我是北京大学数学科学学院本科生。数学训练让我习惯先检查定义、假设和逻辑边界；量化研究经历则让我看到，真实数据经常比模型预设的世界更混乱。',
-      '我喜欢可以被反驳的结论、能从头复现的实验和诚实保留限制的写作。研究之外，我也在尝试把这些习惯做成小而有用的开源工具。',
+      '我在北京大学学习统计学（金融方向）。在张瑞勋老师指导下，我希望围绕金融统计学习、市场微观结构与适应性金融行为、可持续投资和量化风险开展研究。',
+      '我重视清楚的定义、可以被反驳的结论和能够复现的计算过程。研究之外，我也在尝试把这些习惯做成小而有用的开源工具，例如 Rigorous Research。',
     ],
     facts: [
-      ['学习', '数学、统计与金融'],
-      ['工具', 'Python、SQL、LaTeX'],
+      ['专业', '统计学（金融方向）'],
+      ['关注', '统计学习、金融市场与风险'],
       ['语言', '中文 / English'],
     ],
     contactLabel: 'Contact',
@@ -101,49 +99,47 @@ const content = {
   en: {
     nav: ['Research', 'Notes', 'About', 'Contact'],
     langLabel: '中文',
-    identity: 'Peking University · Mathematics & Applied Mathematics (Finance)',
+    identity: 'Peking University · Statistics (Finance)',
     name: 'Qingjun Tang',
-    romanizedName: '唐庆军',
+    romanizedName: 'Statistics · Finance',
     intro:
-      'I keep returning to a simple question: with high-dimensional, non-stationary, noisy data, how do we know a result is real rather than merely well fitted to the past?',
+      'I study how statistical learning can help us understand changing financial markets—from high-dimensional time series and market microstructure to sustainable investing and risk management.',
     detail:
-      'I currently study statistical inference, financial time series, and reliable computational research, while building small open-source tools that make research easier to inspect and reproduce.',
+      'My current focus is on financial time series, stochastic processes, and machine learning, with the aim of connecting market mechanisms, empirical evidence, and real decisions in a testable framework.',
     projectsLink: 'View research',
     githubLink: 'GitHub',
     nowLabel: 'NOW · 2026',
-    nowTitle: 'From an attractive backtest to a credible inference.',
+    nowTitle: 'Connecting market mechanisms, data, and decisions through statistics.',
     figureLabel: 'signal / noise',
-    figureCaption: 'The question is not whether a curve can be fitted, but whether it survives the next sample.',
+    figureCaption: 'Financial environments keep changing; models should explain change and withstand it.',
     researchLabel: 'Selected research',
-    researchTitle: 'Three questions I am taking seriously',
+    researchTitle: 'Research interests and future directions',
     researchIntro:
-      'Instead of a long list of interests, these are the testable questions that currently receive my time.',
+      'Grounded in statistics, I focus on dynamic structures, behavioral mechanisms, and testable decisions in financial markets.',
     research: [
       {
         index: '01',
-        field: 'Market microstructure',
-        title: 'Can order flow reveal a changing market state?',
+        field: 'Statistical learning in finance',
+        title: 'How can stable information be extracted from complex financial paths?',
         description:
-          'I extract order-book features from transaction data, use hidden Markov models to identify latent states, and test whether the resulting distinctions are stable and interpretable.',
-        methods: 'HMM · order book · inference',
+          'I am interested in representations and inference for high-dimensional, non-stationary financial time series, including path signatures, diffusion factor models, regularization, and out-of-sample reliability.',
+        methods: 'path signatures · factor models · inference',
       },
       {
         index: '02',
-        field: 'High-dimensional statistics',
-        title: 'Why should a factor continue to work out of sample?',
+        field: 'Market microstructure & adaptive behavior',
+        title: 'How do market states form and evolve through trading behavior?',
         description:
-          'I focus on compression, collinearity, structural change, and multiple testing—turning “a strong backtest” into statistical claims that can be tested, fail, and be explained.',
-        methods: 'regularization · time series · validation',
+          'Starting from order flow, liquidity, and high-frequency periodicity, I want to study how participant behavior interacts with market states and structural change.',
+        methods: 'order flow · liquidity · adaptive markets',
       },
       {
         index: '03',
-        field: 'Open research tooling',
-        title: 'How can computational research become easier to audit?',
+        field: 'Sustainable investing & quantitative risk',
+        title: 'Can investment impact and risk be measured coherently?',
         description:
-          'Rigorous Research keeps assumptions, data provenance, computational paths, and claim boundaries in one record. It does not replace judgment; it leaves judgment with evidence.',
-        methods: 'Python · provenance · reproducibility',
-        href: 'https://github.com/Studyer-Tang/rigorous-research',
-        linkLabel: 'View project ↗',
+          'I am interested in identifying ESG and impact signals, modeling dependence, and understanding how sustainable objectives enter portfolio construction, attribution, and risk management.',
+        methods: 'impact investing · dependence · portfolio risk',
       },
     ] satisfies ResearchItem[],
     notesLabel: 'Notebook',
@@ -151,29 +147,29 @@ const content = {
     notes: [
       {
         date: '2026.08',
-        title: 'Which open problem are we actually solving?',
-        text: 'When a printed definition, a natural correction, and authorial intent diverge, map the versions before discussing what a result resolves.',
+        title: 'How should path-valued data be represented?',
+        text: 'When each observation is a dynamic process, a useful representation should compress information while preserving order, scale, and interpretable structure.',
       },
       {
         date: '2026.07',
-        title: 'A strong backtest is not the end of the research',
-        text: 'How data snooping, trading costs, and regime changes jointly erode out-of-sample performance—and which tests remain informative.',
+        title: 'Why do market regularities change?',
+        text: 'Strategies, institutions, and participants adapt to one another, making financial markets evolutionary systems rather than fixed data generators.',
       },
       {
         date: '2026.06',
-        title: 'Keeping negative results visible',
-        text: 'Failed models and rejected explanations are not waste; they determine where the next investigation should begin.',
+        title: 'Impact should be more than a label',
+        text: 'Sustainable investing must separate firm characteristics, investor preferences, and real-world impact—and state what each measure can support.',
       },
     ],
     aboutLabel: 'About',
-    aboutTitle: 'I care more about a clearer question than a more complicated model.',
+    aboutTitle: 'Turning financial questions into testable statistical ones.',
     aboutText: [
-      'I am an undergraduate at the School of Mathematical Sciences, Peking University. Mathematics taught me to inspect definitions, assumptions, and logical boundaries; quantitative research showed me how often real data refuses the world a model presumes.',
-      'I value falsifiable claims, experiments that can be rebuilt from scratch, and writing that keeps its limitations visible. I also turn these habits into small, useful open-source tools.',
+      'I study Statistics (Finance) at Peking University. Under the guidance of Professor Ruixun Zhang, I hope to pursue research in statistical learning for finance, market microstructure and adaptive financial behavior, sustainable investing, and quantitative risk.',
+      'I value precise definitions, falsifiable claims, and reproducible computation. Beyond research, I also turn these habits into small, useful open-source tools, including Rigorous Research.',
     ],
     facts: [
-      ['Study', 'Mathematics, statistics, finance'],
-      ['Tools', 'Python, SQL, LaTeX'],
+      ['Program', 'Statistics (Finance)'],
+      ['Focus', 'Statistical learning, markets, risk'],
       ['Languages', '中文 / English'],
     ],
     contactLabel: 'Contact',
@@ -235,8 +231,8 @@ function App() {
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en'
     document.title =
       language === 'zh'
-        ? '唐庆军 | 数学、统计与金融'
-        : 'Qingjun Tang | Mathematics, Statistics, Finance'
+        ? 'Qingjun Tang | 统计学与金融'
+        : 'Qingjun Tang | Statistics and Finance'
   }, [language])
 
   return (
@@ -296,7 +292,7 @@ function App() {
           <p>{t.researchIntro}</p>
         </div>
         <div className="research-list">
-          {t.research.map((item) => {
+          {t.research.map((item: ResearchItem) => {
             const body = (
               <>
                 <div className="research-index">{item.index}</div>
