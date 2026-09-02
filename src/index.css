@@ -1,26 +1,26 @@
 :root {
-  --paper: #f4f1e9;
-  --paper-deep: #e8e2d5;
-  --ink: #171815;
-  --ink-soft: #33342f;
-  --muted: #68685f;
-  --line: #cfc8b9;
-  --panel: rgba(250, 248, 241, 0.82);
-  --accent: #355f50;
-  --gold: #9a742e;
-  --shadow: rgba(23, 24, 21, 0.08);
-  --serif: 'Iowan Old Style', Baskerville, 'Palatino Linotype', Palatino,
-    'Times New Roman', 'Songti SC', STSong, SimSun, serif;
-  --display: 'Baskerville', 'Iowan Old Style', 'Times New Roman', 'Songti SC',
-    STSong, serif;
-  --sans: Arial, 'Microsoft YaHei', sans-serif;
+  --paper: #f8fafc;
+  --paper-bright: #ffffff;
+  --ink: #111827;
+  --ink-soft: #334155;
+  --muted: #64748b;
+  --quiet: #94a3b8;
+  --line: #dce3ec;
+  --line-strong: #b8c4d3;
+  --blue: #2563eb;
+  --blue-deep: #1d4ed8;
+  --cyan: #0891b2;
+  --blue-wash: #eff6ff;
+  --sans: Inter, 'IBM Plex Sans', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --serif: 'STIX Two Text', 'Times New Roman', 'Songti SC', STSong, serif;
+  --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 
-  color: var(--muted);
+  color: var(--ink-soft);
   background: var(--paper);
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: 16px;
   font-synthesis: none;
-  line-height: 1.6;
+  line-height: 1.65;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,6 +37,11 @@ html {
 body {
   min-width: 320px;
   margin: 0;
+  background:
+    linear-gradient(rgba(37, 99, 235, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.025) 1px, transparent 1px),
+    var(--paper);
+  background-size: 48px 48px;
 }
 
 button,
@@ -47,6 +52,6 @@ select {
 }
 
 ::selection {
-  background: rgba(68, 183, 139, 0.22);
+  background: rgba(37, 99, 235, 0.18);
   color: var(--ink);
 }
