@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { reading, games } from './reading'
+import { textbooks, narratives } from './further-reading'
 
 const content = {
   en: {
@@ -8,6 +9,8 @@ const content = {
     nav: ['About', 'Research interests', 'Software', 'Reading & games', 'Contact'],
     readingNote: 'Selected books in analysis, statistics and history—not a record of completed reading. Prerequisites are noted below. Links lead to authors, publishers or official sources; game recommendations are not academic endorsements.',
     books: 'Books', games: 'Games & deduction',
+    further: 'Further reading', textbooks: 'Texts for deeper study', narratives: 'Literature, history & mathematical fiction',
+    furtherNote: 'Additional reading suggestions, not a completed reading list. Textbook prerequisites and literary genres are distinguished below. Chinese titles may vary by translation.',
     intro: 'I study Statistics (Finance) at Peking University. I am interested in applications of statistical learning to financial markets, with a current focus on financial time series, market microstructure, and investment decisions.',
     detail: 'I want to understand when models work and whether their conclusions survive changes in those conditions. In empirical work, I pay particular attention to out-of-sample evaluation, data leakage, transaction costs, and reproducibility.',
     personal: 'I also enjoy pure mathematics, particularly analysis, as well as history and deductive reasoning.',
@@ -26,6 +29,8 @@ const content = {
     nav: ['简介', '研究兴趣', '开源工作', '阅读与游戏', '联系'],
     readingNote: '分析学、统计学与历史的选读建议，并非已读或已玩清单。各书注明阅读基础，链接指向作者、出版社或官方来源；游戏推荐不代表学术权威背书。',
     books: '书籍选读', games: '游戏与推理',
+    further: '延伸阅读', textbooks: '经典教材与进阶参考', narratives: '文学、历史与数学小说',
+    furtherNote: '以下为延伸阅读建议，并非已读清单。教材注明所需基础，叙事作品区分史学与虚构；中文书名可能随译本有所不同。',
     intro: '我在北京大学学习统计学（金融方向），关注统计学习在金融市场中的应用。目前的学习与探索围绕金融时间序列、市场微观结构和投资决策展开。',
     detail: '我希望理解模型在什么条件下有效，以及这些条件改变时结论是否仍然成立。在实证工作中，我尤其关注样本外检验、数据泄漏、交易成本与结果的可复现性。',
     personal: '我也喜欢纯数学，尤其是分析学，同时也是历史与推理爱好者。',
@@ -67,7 +72,9 @@ function App() {
         <aside className="profile">
           <h1>Qingjun Tang</h1><p>{t.university}</p><p className="program">{t.program}</p>
           <nav aria-label={language === 'zh' ? '页面导航' : 'Page navigation'}>
-            {['about', 'research', 'software', 'reading', 'contact'].map((id, i) => <a key={id} href={'#' + id}>{t.nav[i]}</a>)}
+            {['about', 'research', 'software', 'reading'].map((id, i) => <a key={id} href={'#' + id}>{t.nav[i]}</a>)}
+            <a href="#further-reading">{t.further}</a>
+            <a href="#contact">{t.nav[4]}</a>
           </nav>
           <div className="profile-links"><a href={'mailto:' + email}>{email}</a><a href={github}>GitHub ↗</a></div>
         </aside>
@@ -86,6 +93,16 @@ function App() {
               <h3>{group.title}</h3>
               <ul className="reading-list">{group.items.map(item => <li key={item.url}>
                 <a href={item.url}>{item.title[language]}</a>
+                <span className="reading-credit">{item.credit}</span>
+                <p>{item.description[language]}</p>
+              </li>)}</ul>
+            </div>)}
+          </section>
+          <section id="further-reading"><h2>{t.further}</h2><p className="section-note">{t.furtherNote}</p>
+            {[{ title: t.textbooks, items: textbooks }, { title: t.narratives, items: narratives }].map(group => <div key={group.title}>
+              <h3>{group.title}</h3>
+              <ul className="reading-list">{group.items.map(item => <li key={item.title.en}>
+                {item.url ? <a href={item.url}>{item.title[language]}</a> : <span>{item.title[language]}</span>}
                 <span className="reading-credit">{item.credit}</span>
                 <p>{item.description[language]}</p>
               </li>)}</ul>
