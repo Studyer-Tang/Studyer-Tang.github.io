@@ -35,6 +35,41 @@ export const textbooks: Book[] = [
   },
 ]
 
+export const classics: Book[] = [
+  {
+    title: { en: 'Introduction to Mathematical Philosophy', zh: '数理哲学导论' },
+    credit: 'Bertrand Russell · 1919',
+    description: {
+      en: 'Number, order and infinity through Russell’s logicist perspective. A classic in mathematical philosophy, not a substitute for a modern foundations course.',
+      zh: '从罗素的逻辑主义视角讨论数、序与无穷。适合关注数学基础与概念来由的读者，但不能替代现代数学基础课程。',
+    },
+  },
+  {
+    title: { en: 'The Problems of Philosophy', zh: '哲学问题' },
+    credit: 'Bertrand Russell · 1912 · Philosophy / 哲学',
+    description: {
+      en: 'A short exploration of appearance, reality and the limits of knowledge. A philosophical companion to mathematical reading, rather than a mathematics textbook.',
+      zh: '围绕现象、实在与知识的限度展开的短篇幅哲学著作。作为数学阅读之外的思想补充，不归作数学教材。',
+    },
+  },
+  {
+    title: { en: 'Introduction to Analysis of the Infinite', zh: '无穷分析引论' },
+    credit: 'Leonhard Euler · Introductio in analysin infinitorum · 1748',
+    description: {
+      en: 'Euler’s treatment of functions, infinite series, exponential and trigonometric expressions. Read for the development of analysis; eighteenth-century arguments and convergence assumptions need modern scrutiny.',
+      zh: '从函数、无穷级数到指数与三角表达式，体会欧拉发展分析学的思路。原著中的论证与收敛条件须结合现代分析知识审视。',
+    },
+  },
+  {
+    title: { en: 'Elements of Algebra', zh: '代数基础 · Elements of Algebra' },
+    credit: 'Leonhard Euler · Vollständige Anleitung zur Algebra · 1770',
+    description: {
+      en: 'A classical account of arithmetic, algebraic operations and equations. Valuable for its exposition and historical perspective; not a modern abstract algebra textbook.',
+      zh: '由算术与代数运算推进到方程，适合欣赏欧拉的讲解方式与历史思路；并非现代抽象代数教材。',
+    },
+  },
+]
+
 export const narratives: Book[] = [
   {
     title: { en: 'Ficciones', zh: '虚构集 · Ficciones' },
@@ -53,20 +88,19 @@ export const narratives: Book[] = [
     },
   },
   {
-    title: { en: 'Flatland: A Romance of Many Dimensions', zh: '平面国 · Flatland' },
-    credit: 'Edwin A. Abbott · 1884 · Mathematical fiction / 数学小说',
-    url: 'https://www.gutenberg.org/ebooks/201',
+    title: { en: 'Crime and Punishment', zh: '罪与罚' },
+    credit: 'Fyodor Dostoevsky · 1866 · Fiction / 小说',
     description: {
-      en: 'A geometric satire that uses a two-dimensional world to explore dimension and social hierarchy. The linked English text is available through Project Gutenberg; check local copyright rules.',
-      zh: '以二维世界探讨维度、认知局限与社会等级的几何讽喻小说。链接为 Project Gutenberg 英文原文，使用时请留意所在地版权规则。',
+      en: 'A psychological novel about moral rationalization, guilt and responsibility. Its tension comes as much from inner argument as from the crime itself.',
+      zh: '围绕道德辩解、罪疚与责任展开的心理小说。吸引力不仅在案件，更在人物不断自我辩驳的思想冲突。',
     },
   },
   {
-    title: { en: 'Uncle Petros and Goldbach’s Conjecture', zh: '佩特罗斯叔叔与哥德巴赫猜想' },
-    credit: 'Apostolos Doxiadis · English edition, 2000 · Mathematical fiction / 数学小说',
+    title: { en: 'The Name of the Rose', zh: '玫瑰的名字' },
+    credit: 'Umberto Eco · 1980 · Fiction / 小说',
     description: {
-      en: 'A novel about mathematical ambition, obsession and the cost of pursuing a proof. Its central story is fictional; it does not establish Goldbach’s conjecture.',
-      zh: '围绕数学抱负、执着与证明追求的代价展开的小说。人物故事是虚构的，也没有给出哥德巴赫猜想的证明。',
+      en: 'A medieval murder mystery involving interpretation, books and intellectual authority. A rich historical novel, but not a source of historical evidence.',
+      zh: '将中世纪修道院谜案、文本解释与知识权威交织在一起，兼顾文学与推理趣味。属于历史背景小说，而非史料。',
     },
   },
 ]
