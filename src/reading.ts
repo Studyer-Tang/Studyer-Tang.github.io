@@ -49,15 +49,6 @@ export const reading = [
 
 export const games = [
   {
-    url: 'https://handbook.fide.com/chapter/E012023',
-    title: { en: 'Chess', zh: '国际象棋' },
-    credit: 'FIDE · Laws of Chess',
-    description: {
-      en: 'A perfect-information game for exploring calculation and counterplay. The link leads to FIDE’s official rules, not a playing platform.',
-      zh: '完全信息博弈，适合体会变化计算、反例与对手的应对。链接为国际棋联官方规则，并非在线对弈平台。',
-    },
-  },
-  {
     url: 'https://obradinn.com/',
     title: { en: 'Return of the Obra Dinn', zh: '奥伯拉丁的回归 · Return of the Obra Dinn' },
     credit: 'Lucas Pope · 2018',
