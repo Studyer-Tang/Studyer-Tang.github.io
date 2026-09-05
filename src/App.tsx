@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { reading, games } from './reading'
 
 const content = {
   en: {
     university: 'Peking University', program: 'Statistics (Finance)',
-    nav: ['About', 'Research interests', 'Software', 'Contact'],
+    nav: ['About', 'Research interests', 'Software', 'Reading & games', 'Contact'],
+    readingNote: 'Suggested starting points in mathematics, history and reasoning—not a record of completed reading. Links lead to authors, publishers or official sources; game recommendations are not academic endorsements.',
+    books: 'Books', games: 'Games & deduction',
     intro: 'I study Statistics (Finance) at Peking University. I am interested in applications of statistical learning to financial markets, with a current focus on financial time series, market microstructure, and investment decisions.',
     detail: 'I want to understand when models work and whether their conclusions survive changes in those conditions. In empirical work, I pay particular attention to out-of-sample evaluation, data leakage, transaction costs, and reproducibility.',
     personal: 'Outside my formal studies, I am an amateur enthusiast of pure mathematics, with interests in history and deductive reasoning.',
@@ -20,7 +23,9 @@ const content = {
   },
   zh: {
     university: '北京大学', program: '统计学（金融方向）',
-    nav: ['简介', '研究兴趣', '开源工作', '联系'],
+    nav: ['简介', '研究兴趣', '开源工作', '阅读与游戏', '联系'],
+    readingNote: '数学、历史与推理的入门选读与游戏推荐，并非已读或已玩清单。链接指向作者、出版社或官方来源；游戏推荐不代表学术权威背书。',
+    books: '书籍选读', games: '游戏与推理',
     intro: '我在北京大学学习统计学（金融方向），关注统计学习在金融市场中的应用。目前的学习与探索围绕金融时间序列、市场微观结构和投资决策展开。',
     detail: '我希望理解模型在什么条件下有效，以及这些条件改变时结论是否仍然成立。在实证工作中，我尤其关注样本外检验、数据泄漏、交易成本与结果的可复现性。',
     personal: '专业学习之外，我也是纯数学的业余爱好者，以及历史与推理爱好者。',
@@ -62,7 +67,7 @@ function App() {
         <aside className="profile">
           <h1>Qingjun Tang</h1><p>{t.university}</p><p className="program">{t.program}</p>
           <nav aria-label={language === 'zh' ? '页面导航' : 'Page navigation'}>
-            {['about', 'research', 'software', 'contact'].map((id, i) => <a key={id} href={'#' + id}>{t.nav[i]}</a>)}
+            {['about', 'research', 'software', 'reading', 'contact'].map((id, i) => <a key={id} href={'#' + id}>{t.nav[i]}</a>)}
           </nav>
           <div className="profile-links"><a href={'mailto:' + email}>{email}</a><a href={github}>GitHub ↗</a></div>
         </aside>
@@ -76,7 +81,17 @@ function App() {
               <div className="project-links"><a href={github + '/rigorous-research'}>{t.source} ↗</a><a href={github + '?tab=repositories'}>{t.all} ↗</a></div>
             </article>
           </section>
-          <section id="contact"><h2>{t.nav[3]}</h2><p>{t.contact}</p><a href={'mailto:' + email}>{email}</a></section>
+          <section id="reading"><h2>{t.nav[3]}</h2><p className="section-note">{t.readingNote}</p>
+            {[{ title: t.books, items: reading }, { title: t.games, items: games }].map(group => <div key={group.title}>
+              <h3>{group.title}</h3>
+              <ul className="reading-list">{group.items.map(item => <li key={item.url}>
+                <a href={item.url}>{item.title[language]}</a>
+                <span className="reading-credit">{item.credit}</span>
+                <p>{item.description[language]}</p>
+              </li>)}</ul>
+            </div>)}
+          </section>
+          <section id="contact"><h2>{t.nav[4]}</h2><p>{t.contact}</p><a href={'mailto:' + email}>{email}</a></section>
         </main>
       </div>
       <footer><span>Qingjun Tang · {t.footer}</span><a href={github + '/Studyer-Tang.github.io'}>{t.source}</a></footer>
