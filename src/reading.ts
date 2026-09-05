@@ -1,21 +1,39 @@
 // Link to authors, publishers and official rules, not third-party downloads.
 export const reading = [
   {
-    url: 'https://richardhammack.github.io/BookOfProof/',
-    title: { en: 'Book of Proof', zh: 'Book of Proof（证明入门）' },
-    credit: 'Richard Hammack · 3rd ed., 2018',
+    url: 'https://press.princeton.edu/books/hardcover/9780691113869/real-analysis',
+    title: { en: 'Real Analysis', zh: '实分析 · Real Analysis' },
+    credit: 'Elias M. Stein & Rami Shakarchi · Princeton University Press, 2005',
     description: {
-      en: 'An introduction to logic, sets and proof techniques. The author provides a free edition; a starting point for studying pure mathematics.',
-      zh: '从逻辑、集合到直接证明、反证法与归纳法，适合作为纯数学的入门起点。作者官网提供免费版本。',
+      en: 'Measure theory, integration and Hilbert spaces, in the Princeton Lectures in Analysis series. For readers with a foundation in undergraduate analysis, rather than a first introduction to proofs.',
+      zh: '普林斯顿分析学讲义第三卷，围绕测度论、积分与希尔伯特空间展开。适合已有本科数学分析基础的读者，而非零基础证明入门。',
     },
   },
   {
-    url: 'https://press.princeton.edu/books/paperback/9780691164076/how-to-solve-it',
-    title: { en: 'How to Solve It', zh: '怎样解题 · How to Solve It' },
-    credit: 'George Pólya · Princeton University Press',
+    url: 'https://link.springer.com/book/10.1007/978-0-387-70914-7',
+    title: { en: 'Functional Analysis, Sobolev Spaces and Partial Differential Equations', zh: '泛函分析、Sobolev 空间与偏微分方程' },
+    credit: 'Haim Brezis · Springer, 2011',
     description: {
-      en: 'A classic account of mathematical problem-solving: understanding a problem, devising a plan, carrying it out and looking back. Heuristics guide discovery; they do not replace proof.',
-      zh: '数学解题方法的经典：理解问题、拟定计划、执行计划与回顾。启发式方法帮助发现思路，但不能替代严格证明。',
+      en: 'A graduate-level bridge from functional analysis to Sobolev spaces and PDEs. Best approached with a background in real analysis, Lebesgue integration and linear algebra.',
+      zh: '连接泛函分析、Sobolev 空间与偏微分方程的研究生层次教材。建议具备实分析、Lebesgue 积分与线性代数基础后阅读。',
+    },
+  },
+  {
+    url: 'https://link.springer.com/book/10.1007/978-0-387-21736-9',
+    title: { en: 'All of Statistics', zh: '统计学 · All of Statistics' },
+    credit: 'Larry Wasserman · Springer, 2004',
+    description: {
+      en: 'A concise overview of probability and statistical inference, including estimation, testing and nonparametric methods. Requires calculus and linear algebra; its pace is brisk for a first statistics course.',
+      zh: '紧凑梳理概率与统计推断，涵盖估计、检验与非参数方法。需要微积分和线性代数基础，适合建立整体框架；初学时可能需要补充推导。',
+    },
+  },
+  {
+    url: 'https://www.statlearning.com/',
+    title: { en: 'An Introduction to Statistical Learning', zh: '统计学习导论 · An Introduction to Statistical Learning' },
+    credit: 'Gareth James, Daniela Witten, Trevor Hastie & Robert Tibshirani · Springer; Python edition with Jonathan Taylor',
+    description: {
+      en: 'An applied companion covering regression, classification, resampling and regularization. Basic statistics is helpful; the authors provide free R and Python editions and accompanying labs.',
+      zh: '偏应用的补充读物，涵盖回归、分类、重采样与正则化。建议具备基础统计知识；作者官网提供 R 与 Python 版本的免费电子书及配套实验。',
     },
   },
   {
