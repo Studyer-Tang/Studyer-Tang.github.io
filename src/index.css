@@ -1,57 +1,8 @@
-:root {
-  --paper: #f8fafc;
-  --paper-bright: #ffffff;
-  --ink: #111827;
-  --ink-soft: #334155;
-  --muted: #64748b;
-  --quiet: #94a3b8;
-  --line: #dce3ec;
-  --line-strong: #b8c4d3;
-  --blue: #2563eb;
-  --blue-deep: #1d4ed8;
-  --cyan: #0891b2;
-  --blue-wash: #eff6ff;
-  --sans: Inter, 'IBM Plex Sans', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --serif: 'STIX Two Text', 'Times New Roman', 'Songti SC', STSong, serif;
-  --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
-
-  color: var(--ink-soft);
-  background: var(--paper);
-  font-family: var(--sans);
-  font-size: 16px;
-  font-synthesis: none;
-  line-height: 1.65;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  min-width: 320px;
-  margin: 0;
-  background:
-    linear-gradient(rgba(37, 99, 235, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37, 99, 235, 0.025) 1px, transparent 1px),
-    var(--paper);
-  background-size: 48px 48px;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-::selection {
-  background: rgba(37, 99, 235, 0.18);
-  color: var(--ink);
-}
+:root { font-family: Georgia, 'Times New Roman', 'Songti SC', SimSun, serif; color: #30332f; background: #fff; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; line-height: 1.75; font-size: 17px; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+a { color: #235746; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { color: #142f26; text-decoration: underline; }
+button { font: inherit; }
+::selection { background: #e0eae3; }
+:focus-visible { outline: 2px solid #235746; outline-offset: 5px; }
