@@ -7,6 +7,7 @@ const content = {
     nav: ['About', 'Research interests', 'Software', 'Contact'],
     intro: 'I study Statistics (Finance) at Peking University. I am interested in applications of statistical learning to financial markets, with a current focus on financial time series, market microstructure, and investment decisions.',
     detail: 'I want to understand when models work and whether their conclusions survive changes in those conditions. In empirical work, I pay particular attention to out-of-sample evaluation, data leakage, transaction costs, and reproducibility.',
+    personal: 'Outside my formal studies, I am an amateur enthusiast of pure mathematics, with interests in history and deductive reasoning.',
     note: 'Areas I am currently studying and would like to explore further.',
     topics: [
       ['Statistical learning in finance', 'High-dimensional financial time series, factor models, and regularization, with an emphasis on prediction and inference under non-stationarity.'],
@@ -22,6 +23,7 @@ const content = {
     nav: ['简介', '研究兴趣', '开源工作', '联系'],
     intro: '我在北京大学学习统计学（金融方向），关注统计学习在金融市场中的应用。目前的学习与探索围绕金融时间序列、市场微观结构和投资决策展开。',
     detail: '我希望理解模型在什么条件下有效，以及这些条件改变时结论是否仍然成立。在实证工作中，我尤其关注样本外检验、数据泄漏、交易成本与结果的可复现性。',
+    personal: '专业学习之外，我也是纯数学的业余爱好者，以及历史与推理爱好者。',
     note: '以下是当前希望深入学习和探索的方向。',
     topics: [
       ['金融统计学习', '高维金融时间序列、因子模型与正则化；关注非平稳环境中的预测、推断和样本外表现。'],
@@ -65,7 +67,7 @@ function App() {
           <div className="profile-links"><a href={'mailto:' + email}>{email}</a><a href={github}>GitHub ↗</a></div>
         </aside>
         <main id="content">
-          <section id="about"><h2>{t.nav[0]}</h2><p>{t.intro}</p><p>{t.detail}</p></section>
+          <section id="about"><h2>{t.nav[0]}</h2><p>{t.intro}</p><p>{t.detail}</p><p>{t.personal}</p></section>
           <section id="research"><h2>{t.nav[1]}</h2><p className="section-note">{t.note}</p>
             <dl>{t.topics.map(([title, description]) => <div key={title}><dt>{title}</dt><dd>{description}</dd></div>)}</dl>
           </section>
