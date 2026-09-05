@@ -6,11 +6,11 @@ const content = {
   en: {
     university: 'Peking University', program: 'Statistics (Finance)',
     nav: ['About', 'Research interests', 'Software', 'Reading & games', 'Contact'],
-    readingNote: 'Suggested starting points in mathematics, history and reasoning—not a record of completed reading. Links lead to authors, publishers or official sources; game recommendations are not academic endorsements.',
+    readingNote: 'Selected books in analysis, statistics and history—not a record of completed reading. Prerequisites are noted below. Links lead to authors, publishers or official sources; game recommendations are not academic endorsements.',
     books: 'Books', games: 'Games & deduction',
     intro: 'I study Statistics (Finance) at Peking University. I am interested in applications of statistical learning to financial markets, with a current focus on financial time series, market microstructure, and investment decisions.',
     detail: 'I want to understand when models work and whether their conclusions survive changes in those conditions. In empirical work, I pay particular attention to out-of-sample evaluation, data leakage, transaction costs, and reproducibility.',
-    personal: 'Outside my formal studies, I am an amateur enthusiast of pure mathematics, with interests in history and deductive reasoning.',
+    personal: 'I also enjoy pure mathematics, particularly analysis, as well as history and deductive reasoning.',
     note: 'Areas I am currently studying and would like to explore further.',
     topics: [
       ['Statistical learning in finance', 'High-dimensional financial time series, factor models, and regularization, with an emphasis on prediction and inference under non-stationarity.'],
@@ -24,11 +24,11 @@ const content = {
   zh: {
     university: '北京大学', program: '统计学（金融方向）',
     nav: ['简介', '研究兴趣', '开源工作', '阅读与游戏', '联系'],
-    readingNote: '数学、历史与推理的入门选读与游戏推荐，并非已读或已玩清单。链接指向作者、出版社或官方来源；游戏推荐不代表学术权威背书。',
+    readingNote: '分析学、统计学与历史的选读建议，并非已读或已玩清单。各书注明阅读基础，链接指向作者、出版社或官方来源；游戏推荐不代表学术权威背书。',
     books: '书籍选读', games: '游戏与推理',
     intro: '我在北京大学学习统计学（金融方向），关注统计学习在金融市场中的应用。目前的学习与探索围绕金融时间序列、市场微观结构和投资决策展开。',
     detail: '我希望理解模型在什么条件下有效，以及这些条件改变时结论是否仍然成立。在实证工作中，我尤其关注样本外检验、数据泄漏、交易成本与结果的可复现性。',
-    personal: '专业学习之外，我也是纯数学的业余爱好者，以及历史与推理爱好者。',
+    personal: '我也喜欢纯数学，尤其是分析学，同时也是历史与推理爱好者。',
     note: '以下是当前希望深入学习和探索的方向。',
     topics: [
       ['金融统计学习', '高维金融时间序列、因子模型与正则化；关注非平稳环境中的预测、推断和样本外表现。'],
