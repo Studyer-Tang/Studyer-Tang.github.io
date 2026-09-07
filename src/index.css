@@ -1,8 +1,8 @@
-:root { font-family: Georgia, 'Times New Roman', 'Songti SC', SimSun, serif; color: #30332f; background: #fff; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; line-height: 1.75; font-size: 17px; }
+:root { font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; --ink: #252b30; --muted: #63666a; --accent: #7d303f; --accent-soft: #c3a5aa; --line: #e1ded9; --wash: #f1eeea; color: var(--ink); background: #fcfbf8; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; line-height: 1.85; font-size: 16px; }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
-a { color: #235746; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-a:hover { color: #142f26; text-decoration: underline; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { color: #50202a; text-decoration: underline; }
 button { font: inherit; }
-::selection { background: #e0eae3; }
-:focus-visible { outline: 2px solid #235746; outline-offset: 5px; }
+::selection { background: #eadcdf; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
