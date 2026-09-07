@@ -49,6 +49,42 @@ export const reading = [
 
 export const games = [
   {
+    url: 'https://www.ea.com/games/it-takes-two',
+    title: { en: 'It Takes Two', zh: '双人成行 · It Takes Two' },
+    credit: 'Hazelight Studios · 2021',
+    description: {
+      en: 'A two-player cooperative adventure built around communication, coordination, and inventive shared puzzles.',
+      zh: '围绕沟通、配合与共同解谜展开的双人合作冒险，关卡不断变换玩法。',
+    },
+  },
+  {
+    url: 'https://store.steampowered.com/app/4488860/',
+    title: { en: 'The Red Pearls Of Borneo', zh: '婆罗洲的红珍珠 · The Red Pearls Of Borneo' },
+    credit: 'Bushmonkey Games · 2026',
+    description: {
+      en: 'A noir detective puzzle set in 1941 Borneo. Move between times and locations to reconstruct events and uncover the motives behind a plantation mystery.',
+      zh: '以 1941 年的婆罗洲为背景，在非线性的时间与地点之间追踪线索，重建种植园谜案中的事件与人物动机。',
+    },
+  },
+  {
+    url: 'https://store.steampowered.com/app/942970/',
+    title: { en: 'Unheard', zh: '疑案追声 · Unheard' },
+    credit: 'NEXT Studios · 2019',
+    description: {
+      en: 'An audio-driven detective game: follow conversations, identify voices, and reconstruct events from what people say and hear.',
+      zh: '通过声音重建案件：追踪对话、辨认人物，将不同地点的线索拼成完整事件。',
+    },
+  },
+  {
+    url: 'https://pvp.qq.com/',
+    title: { en: 'Honor of Kings', zh: '王者荣耀 · Honor of Kings' },
+    credit: 'TiMi Studio Group · Tencent Games',
+    description: {
+      en: 'A team-based competitive game combining hero roles, coordination, and decisions made under pressure.',
+      zh: '注重英雄分工、团队协作与临场决策的多人竞技游戏。',
+    },
+  },
+  {
     url: 'https://obradinn.com/',
     title: { en: 'Return of the Obra Dinn', zh: '奥伯拉丁的回归 · Return of the Obra Dinn' },
     credit: 'Lucas Pope · 2018',

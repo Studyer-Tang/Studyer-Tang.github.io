@@ -65,6 +65,9 @@ h3 { font-size: 18px; line-height: 1.55; margin: 0 0 10px; font-weight: 600; }
 .personal-section p:not(.eyebrow) { font-size: 14px; color: var(--muted); }
 .personal-section > a, .back-link { font-size: 13px; }
 .contact-email { overflow-wrap: anywhere; font-size: 19px; }
+.partner-section { border-left: 2px solid var(--accent-soft); padding: 4px 0 4px 22px; }
+.partner-section h2 { color: var(--accent); font-size: 18px; margin-bottom: 10px; }
+.partner-section p { margin: 0; font-size: 15px; }
 .back-link { display: inline-block; margin-bottom: 32px; }
 .reading-list { list-style: none; padding: 0; margin: 0; }
 .reading-list li { padding: 10px 0 22px; }
