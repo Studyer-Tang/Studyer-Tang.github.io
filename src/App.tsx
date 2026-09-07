@@ -75,6 +75,10 @@ function App() {
   }, [language, isReading, readingTitle, siteTitle, description])
 
   const heading = (number: string, title: string) => <div className="section-heading"><span aria-hidden="true">{number}</span><h2>{title}</h2></div>
+  const partner = <section id="partner" className="partner-section">
+    <h2>{t('伴侣', 'My partner')}</h2>
+    <p>{t('可爱、美丽、善良的 Yin Han 女士。', 'Ms. Yin Han — lovely, beautiful, and kind.')}</p>
+  </section>
 
   return <>
     <a className="skip-link" href="#content">{t('跳转到正文', 'Skip to content')}</a>
@@ -95,6 +99,7 @@ function App() {
           <p className="profile-status">{t('本科在读 · 2023—2027', 'Undergraduate · 2023–2027')}</p>
           <nav aria-label={t('页面导航', 'Page navigation')}>
             {nav.map(([id, label]) => <a key={id} href={(isReading ? home : '') + '#' + id}>{label}</a>)}
+            <a href="#partner">{t('伴侣', 'My partner')}</a>
             <a href={readingUrl} aria-current={isReading ? 'page' : undefined}>{readingTitle}</a>
           </nav>
           <div className="profile-links">
@@ -111,11 +116,13 @@ function App() {
               <h2 className="display-title">{readingTitle}</h2><p>{personal}</p>
               <p className="section-note">{t('这是一份选读与兴趣清单，并非完成记录。书目保留作者与出版信息，方便继续查阅。', 'A collection of reading suggestions and interests, not a record of completed reading. Author and publication details are included for further exploration.')}</p>
             </section>
+            {partner}
             {bookGroups.map((group, index) => <section key={group.title}>
               {heading('0' + (index + 1), group.title)}
               <ul className="reading-list">{group.items.map(item => <li key={item.title.en}>
                 <h3>{item.url ? <a href={item.url}>{item.title[language]}</a> : item.title[language]}</h3>
-                <span className="reading-credit">{item.credit}</span><p>{item.description[language]}</p>
+                {item.credit && <span className="reading-credit">{item.credit}</span>}
+                {item.description[language] && <p>{item.description[language]}</p>}
               </li>)}</ul>
             </section>)}
           </> : <>
@@ -155,6 +162,7 @@ function App() {
               <p className="eyebrow">{t('研究之外', 'Beyond research')}</p><h2>{readingTitle}</h2><p>{personal}</p>
               <a href={readingUrl}>{t('浏览书单与游戏', 'Browse books & games')} ↗</a>
             </section>
+            {partner}
             <section id="contact">
               {heading('04', nav[4][1])}
               <p>{t('欢迎交流高频金融数据、股票市场预测、统计学习与可复现研究。', 'I welcome conversations about high-frequency financial data, equity forecasting, statistical learning, and reproducible research.')}</p>
