@@ -16,6 +16,10 @@ the `updated` date and `index.html` metadata when changing the biography.
 
 ## Local Development
 
+Public project descriptions live in `src/projects.ts` (English and Chinese).
+The list was checked against public GitHub repositories on 2026-09-14 and is
+rendered locally without GitHub API requests from visitors' browsers.
+
 ```bash
 npm install
 npm run dev

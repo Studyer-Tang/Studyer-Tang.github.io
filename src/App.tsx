@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { reading, games } from './reading'
 import { textbooks, classics, narratives } from './further-reading'
+import { projects, otherProjects } from './projects'
 
 const github = 'https://github.com/Studyer-Tang'
 const email = 'phdstudytang@gmail.com'
-const updated = '2026-09-07'
+const updated = '2026-09-14'
 
 const topics = [
   {
@@ -41,14 +42,14 @@ function App() {
   const university = t('北京大学', 'Peking University')
   const school = t('数学科学学院', 'School of Mathematical Sciences')
   const description = t(
-    'Qingjun Tang，北京大学数学科学学院本科生。研究兴趣集中于股票市场高频数据、市场微观结构与统计预测。',
-    'Qingjun Tang is an undergraduate at the School of Mathematical Sciences, Peking University, interested in high-frequency equity data, market microstructure, and statistical forecasting.',
+    'Qingjun，北京大学数学科学学院本科生。研究兴趣集中于股票市场高频数据、市场微观结构与统计预测。',
+    'Qingjun is an undergraduate at the School of Mathematical Sciences, Peking University, interested in high-frequency equity data, market microstructure, and statistical forecasting.',
   )
   const nav = [
     ['about', t('简介', 'About')],
     ['research', t('研究兴趣', 'Research interests')],
     ['education', t('教育经历', 'Education')],
-    ['software', t('研究软件', 'Research software')],
+    ['software', t('开源项目', 'Open-source projects')],
     ['contact', t('联系', 'Contact')],
   ]
   const personal = t(
@@ -64,7 +65,7 @@ function App() {
 
   useEffect(() => {
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en'
-    const title = 'Qingjun Tang | ' + (isReading ? readingTitle : siteTitle)
+    const title = 'Qingjun | ' + (isReading ? readingTitle : siteTitle)
     document.title = title
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', title)
@@ -84,7 +85,7 @@ function App() {
     <a className="skip-link" href="#content">{t('跳转到正文', 'Skip to content')}</a>
     <div className="page">
       <header className="masthead">
-        <a href={home} className="home-link">Qingjun Tang<span>{siteTitle}</span></a>
+        <a href={home} className="home-link">Qingjun<span>{siteTitle}</span></a>
         <div className="languages" aria-label={t('语言', 'Language')}>
           <button aria-pressed={!zh} onClick={() => setLanguage('en')}>EN</button>
           <span aria-hidden="true">/</span>
@@ -93,8 +94,8 @@ function App() {
       </header>
       <div className="layout">
         <aside className="profile">
-          <div className="monogram" aria-hidden="true">QT<span>·</span></div>
-          <h1>Qingjun Tang</h1>
+          <div className="monogram" aria-hidden="true">Q<span>·</span></div>
+          <h1>Qingjun</h1>
           <p className="affiliation">{university}</p><p>{school}</p>
           <p className="profile-status">{t('本科在读 · 2023—2027', 'Undergraduate · 2023–2027')}</p>
           <nav aria-label={t('页面导航', 'Page navigation')}>
@@ -151,12 +152,18 @@ function App() {
             </section>
             <section id="software">
               {heading('03', nav[3][1])}
-              <article className="software-project">
-                <p className="topic-label">{t('开源科研工具', 'Open-source research tools')}</p>
-                <h3><a href={github + '/rigorous-research'}>Rigorous Research <span className="project-alias">/ PaperTrail</span></a></h3>
-                <p>{t('围绕文献调研、论文结论与来源核查、数学审阅和计算复现构建的开源项目。PaperTrail 提供论文证据整理与核查界面，支持梳理研究材料与论证依据。', 'An open-source project for literature investigation, claim–source checks, mathematical review, and computational reproduction. PaperTrail provides an interface for organizing evidence from papers and reviewing the support behind their claims.')}</p>
-                <div className="project-links"><a href={github + '/rigorous-research'}>{t('源代码', 'Source code')} ↗</a><a href={github + '?tab=repositories'}>{t('全部项目', 'All repositories')} ↗</a></div>
-              </article>
+              <p className="section-note">{t('近期维护的公开项目，主要围绕研究核查、论文排版与日常工作。功能和使用限制以各仓库说明为准。', 'Public projects I have been working on, focused on research review, academic writing, and everyday tools. See each repository for capabilities and limitations.')}</p>
+              {projects.map(project => <article className="software-project" key={project.repo}>
+                <p className="topic-label">{pick(project.label)}</p>
+                <h3><a href={github + '/' + project.repo}>{project.name}{project.alias && <span className="project-alias"> / {project.alias}</span>} ↗</a></h3>
+                <p>{pick(project.description)}</p>
+              </article>)}
+              <h3 className="other-projects-title">{t('学习笔记与日常工具', 'Study notes & everyday tools')}</h3>
+              <ul className="other-projects">{otherProjects.map(project => <li key={project.repo}>
+                <a href={github + '/' + project.repo}>{pick(project.name)} ↗</a>
+                <p>{pick(project.description)}</p>
+              </li>)}</ul>
+              <div className="project-links"><a href={github + '?tab=repositories'}>{t('浏览全部 GitHub 项目', 'All GitHub repositories')} ↗</a></div>
             </section>
             <section id="reading" className="personal-section">
               <p className="eyebrow">{t('研究之外', 'Beyond research')}</p><h2>{readingTitle}</h2><p>{personal}</p>
@@ -171,7 +178,7 @@ function App() {
           </>}
         </main>
       </div>
-      <footer><span>Qingjun Tang · {university}</span><span>{t('更新于', 'Updated')} <time dateTime={updated}>{updated}</time></span><a href={github + '/Studyer-Tang.github.io'}>{t('源代码', 'Source code')} ↗</a></footer>
+      <footer><span>Qingjun · {university}</span><span>{t('更新于', 'Updated')} <time dateTime={updated}>{updated}</time></span><a href={github + '/Studyer-Tang.github.io'}>{t('源代码', 'Source code')} ↗</a></footer>
     </div>
   </>
 }
