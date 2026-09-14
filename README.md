@@ -1,6 +1,6 @@
 # Qingjun's Academic Homepage
 
-Personal academic homepage for Qingjun Tang at the School of Mathematical
+Personal academic homepage for Qingjun at the School of Mathematical
 Sciences, Peking University. Focus: high-frequency equity data, market
 microstructure, and statistical forecasting.
 
