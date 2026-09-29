@@ -6,7 +6,7 @@ import { projects, otherProjects } from './projects'
 
 const github = 'https://github.com/Studyer-Tang'
 const email = 'phdstudytang@gmail.com'
-const updated = '2026-09-14'
+const updated = '2026-09-29'
 
 const topics = [
   {
@@ -152,13 +152,14 @@ function App() {
             </section>
             <section id="software">
               {heading('03', nav[3][1])}
-              <p className="section-note">{t('近期维护的公开项目，主要围绕研究核查、论文排版与日常工作。功能和使用限制以各仓库说明为准。', 'Public projects I have been working on, focused on research review, academic writing, and everyday tools. See each repository for capabilities and limitations.')}</p>
+              <p className="section-note">{t('围绕统计学学习、论文写作、学术演示与日常工作的公开项目。功能、最新进度和使用限制以各仓库说明为准。', 'Public projects for statistics study, academic writing, research presentations, and everyday work. See each repository for capabilities, current progress, and limitations.')}</p>
               {projects.map(project => <article className="software-project" key={project.repo}>
                 <p className="topic-label">{pick(project.label)}</p>
-                <h3><a href={github + '/' + project.repo}>{project.name}{project.alias && <span className="project-alias"> / {project.alias}</span>} ↗</a></h3>
+                <h3><a href={github + '/' + project.repo}>{pick(project.name)} ↗</a></h3>
                 <p>{pick(project.description)}</p>
+                {project.links && <div className="project-links">{project.links.map(link => <a key={link.path} href={github + '/' + project.repo + '/' + link.path}>{pick(link.label)} ↗</a>)}</div>}
               </article>)}
-              <h3 className="other-projects-title">{t('学习笔记与日常工具', 'Study notes & everyday tools')}</h3>
+              <h3 className="other-projects-title">{t('日常工具', 'Everyday tools')}</h3>
               <ul className="other-projects">{otherProjects.map(project => <li key={project.repo}>
                 <a href={github + '/' + project.repo}>{pick(project.name)} ↗</a>
                 <p>{pick(project.description)}</p>

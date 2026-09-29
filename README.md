@@ -17,8 +17,14 @@ the `updated` date and `index.html` metadata when changing the biography.
 ## Local Development
 
 Public project descriptions live in `src/projects.ts` (English and Chinese).
-The list was checked against public GitHub repositories on 2026-09-14 and is
+The list was checked against public GitHub repositories on 2026-09-29 and is
 rendered locally without GitHub API requests from visitors' browsers.
+It covers all seven public study/tool repositories; the profile and homepage
+repositories are linked separately. When repositories are added, removed, or
+made private, review this list and the bilingual profile READMEs together.
+Check descriptions against each project's README, and update the footer date
+in `src/App.tsx`. The statistics notes' chapter links should follow their
+published PDFs and `PROGRESS.md`.
 
 ```bash
 npm install
