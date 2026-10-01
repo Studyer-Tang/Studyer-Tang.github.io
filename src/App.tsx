@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { reading, games } from './reading'
 import { textbooks, classics, narratives } from './further-reading'
-import { projects, otherProjects } from './projects'
+import { Projects } from './ProjectSection'
 
 const github = 'https://github.com/Studyer-Tang'
 const email = 'phdstudytang@gmail.com'
-const updated = '2026-09-29'
+const updated = '2026-10-01'
 
 const topics = [
   {
@@ -47,9 +47,9 @@ function App() {
   )
   const nav = [
     ['about', t('简介', 'About')],
+    ['software', t('开源项目', 'Open-source projects')],
     ['research', t('研究兴趣', 'Research interests')],
     ['education', t('教育经历', 'Education')],
-    ['software', t('开源项目', 'Open-source projects')],
     ['contact', t('联系', 'Contact')],
   ]
   const personal = t(
@@ -132,10 +132,11 @@ function App() {
               <h2 className="display-title">{t('理解高频市场数据，', 'Understanding market data.')}<br /><span>{t('探索可检验的预测。', 'Testing what we can predict.')}</span></h2>
               <p className="lead">{t('我目前在北京大学数学科学学院攻读本科，主要研究兴趣集中于金融市场，尤其是股票市场的高频数据分析与预测。', 'I am an undergraduate at the School of Mathematical Sciences, Peking University. My research interests center on financial markets, particularly the analysis and prediction of high-frequency equity data.')}</p>
               <p>{t('我关注交易与报价数据中的信息如何形成预测信号，以及这些信号在不同时间尺度和市场环境下能否保持稳定。统计学习与市场微观结构是我希望深入探索的两个相互关联的方向。', 'I am interested in how information in trades and quotes becomes a predictive signal, and whether such signals remain stable across time horizons and market conditions. Statistical learning and market microstructure are two connected directions I hope to explore further.')}</p>
-              <div className="intro-links"><a href="#research">{t('研究兴趣', 'Explore research interests')} ↓</a><a href={'mailto:' + email}>{t('联系交流', 'Get in touch')} ↗</a></div>
+              <div className="intro-links"><a href="#software">{t('探索开源工具', 'Explore the tools')} ↓</a><a href="#research">{t('研究兴趣', 'Research interests')} ↓</a><a href={'mailto:' + email}>{t('联系交流', 'Get in touch')} ↗</a></div>
             </section>
+            <Projects zh={zh} />
             <section id="research">
-              {heading('01', nav[1][1])}
+              {heading('02', t('研究兴趣', 'Research interests'))}
               <p className="section-note">{t('围绕高频股票市场数据，我主要关注以下问题。这里介绍的是研究兴趣与拟探索的问题。', 'The following themes describe my research interests and questions I would like to explore using high-frequency equity data.')}</p>
               {topics.map(topic => <article className="research-topic" key={topic.title[1]}>
                 <p className="topic-label">{pick(topic.label)}</p><h3>{pick(topic.title)}</h3><p>{pick(topic.detail)}</p>
@@ -144,27 +145,11 @@ function App() {
               <aside className="research-principle"><h3>{t('我重视的研究标准', 'Research standards I value')}</h3><p>{t('尊重信息实际可得的时间，防止数据泄漏；采用清晰的基准与样本外检验；说明数据处理、模型假设和结果边界，让分析可以被复现与质疑。', 'Respect when information becomes available and prevent data leakage. Use clear baselines and out-of-sample evaluation. Document data processing, assumptions, and limitations so that an analysis can be reproduced and challenged.')}</p></aside>
             </section>
             <section id="education">
-              {heading('02', nav[2][1])}
+              {heading('03', t('教育经历', 'Education'))}
               <ol className="education-list">
                 <li><p className="education-dates">2023.09 — 2027.09</p><div><h3>{t('本科', 'Undergraduate studies')}<span className="status-label">{t('在读', 'In progress')}</span></h3><p>{university} · {school}</p><p className="section-note">{t('预计 2027 年 9 月完成本科阶段学习。', 'Expected completion in September 2027.')}</p></div></li>
                 <li><p className="education-dates">2027.09 —</p><div><h3>{t('博士阶段', 'Doctoral studies')}<span className="status-label">{t('计划于 2027 年开始', 'Planned for September 2027')}</span></h3><p>{university} · {school}</p><p className="section-note">{t('未来教育安排，尚未开始博士阶段学习。', 'Future education plan; doctoral studies have not yet begun.')}</p></div></li>
               </ol>
-            </section>
-            <section id="software">
-              {heading('03', nav[3][1])}
-              <p className="section-note">{t('围绕统计学学习、论文写作、学术演示与日常工作的公开项目。功能、最新进度和使用限制以各仓库说明为准。', 'Public projects for statistics study, academic writing, research presentations, and everyday work. See each repository for capabilities, current progress, and limitations.')}</p>
-              {projects.map(project => <article className="software-project" key={project.repo}>
-                <p className="topic-label">{pick(project.label)}</p>
-                <h3><a href={github + '/' + project.repo}>{pick(project.name)} ↗</a></h3>
-                <p>{pick(project.description)}</p>
-                {project.links && <div className="project-links">{project.links.map(link => <a key={link.path} href={github + '/' + project.repo + '/' + link.path}>{pick(link.label)} ↗</a>)}</div>}
-              </article>)}
-              <h3 className="other-projects-title">{t('日常工具', 'Everyday tools')}</h3>
-              <ul className="other-projects">{otherProjects.map(project => <li key={project.repo}>
-                <a href={github + '/' + project.repo}>{pick(project.name)} ↗</a>
-                <p>{pick(project.description)}</p>
-              </li>)}</ul>
-              <div className="project-links"><a href={github + '?tab=repositories'}>{t('浏览全部 GitHub 项目', 'All GitHub repositories')} ↗</a></div>
             </section>
             <section id="reading" className="personal-section">
               <p className="eyebrow">{t('研究之外', 'Beyond research')}</p><h2>{readingTitle}</h2><p>{personal}</p>
@@ -172,14 +157,14 @@ function App() {
             </section>
             {partner}
             <section id="contact">
-              {heading('04', nav[4][1])}
+              {heading('04', t('联系', 'Contact'))}
               <p>{t('欢迎交流高频金融数据、股票市场预测、统计学习与可复现研究。', 'I welcome conversations about high-frequency financial data, equity forecasting, statistical learning, and reproducible research.')}</p>
               <a className="contact-email" href={'mailto:' + email}>{email} ↗</a>
             </section>
           </>}
         </main>
       </div>
-      <footer><span>Qingjun · {university}</span><span>{t('更新于', 'Updated')} <time dateTime={updated}>{updated}</time></span><a href={github + '/Studyer-Tang.github.io'}>{t('源代码', 'Source code')} ↗</a></footer>
+      <footer><span>Qingjun · {university}</span><span>{t('个人介绍更新', 'Biography updated')} <time dateTime={updated}>{updated}</time></span><a href={github + '/Studyer-Tang.github.io'}>{t('源代码', 'Source code')} ↗</a></footer>
     </div>
   </>
 }

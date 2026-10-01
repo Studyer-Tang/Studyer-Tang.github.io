@@ -1,46 +1,44 @@
-# Qingjun's Academic Homepage
+# Qingjun’s academic homepage
 
-Personal academic homepage for Qingjun at the School of Mathematical
-Sciences, Peking University. Focus: high-frequency equity data, market
-microstructure, and statistical forecasting.
+A bilingual academic homepage for statistics, financial markets and practical
+research tools. [Visit the site](https://studyer-tang.github.io/).
 
-The bilingual homepage contains research interests, education, software, and
-contact details. Reading recommendations live at `?page=reading&lang=en`
-(or `lang=zh`) so both views work directly on GitHub Pages.
+## Editing
 
-Edit biography, education, and research themes in `src/App.tsx`. Reading data
-is in `src/reading.ts` and `src/further-reading.ts`. Education currently marks
-2023.09–2027.09 as undergraduate studies in progress and 2027.09 onward as
-planned doctoral studies; review the status when enrollment begins. Update
-the `updated` date and `index.html` metadata when changing the biography.
+- Biography, education and research: `src/App.tsx`; keep future plans clearly labelled.
+- Reading: `src/reading.ts` and `src/further-reading.ts`.
+- Project layout: `src/ProjectSection.tsx`. Styling: `src/App.css` and `src/index.css`.
+- Project facts: `src/projects.json` is a local development snapshot, refreshed during
+  every production build. Change a project's GitHub **About description** to update
+  its summary; do not maintain a second project list here.
 
-## Local Development
+## Automatic project updates
 
-Public project descriptions live in `src/projects.ts` (English and Chinese).
-The list was checked against public GitHub repositories on 2026-09-29 and is
-rendered locally without GitHub API requests from visitors' browsers.
-It covers all seven public study/tool repositories; the profile and homepage
-repositories are linked separately. When repositories are added, removed, or
-made private, review this list and the bilingual profile READMEs together.
-Check descriptions against each project's README, and update the footer date
-in `src/App.tsx`. The statistics notes' chapter links should follow their
-published PDFs and `PROGRESS.md`.
+The Pages workflow runs on main pushes, manual dispatch, and every six hours.
+It checks out the shared standard-library Python generator from
+[the profile repository](https://github.com/Studyer-Tang/Studyer-Tang/blob/main/scripts/sync_projects.py),
+fetches current public repositories and releases, then builds and deploys in the
+same run. New projects appear automatically; deleted, private, archived and forked
+repositories disappear. Previews are labelled separately from stable releases.
+An API failure stops deployment and preserves the last successful live site.
 
-```bash
-npm install
+No browser-side API calls, tracking, external widget service or personal access token
+is required. Descriptions retain the language of the repository About field; headings
+and interface labels are bilingual. Personal information is never generated from code.
+
+Schedules may be delayed; GitHub disables schedules in public repositories after
+60 days without activity. Re-enable them under Actions when needed. See
+[automation details](https://github.com/Studyer-Tang/Studyer-Tang/blob/main/AUTOMATION.md).
+
+## Development
+
+```sh
+npm ci
 npm run dev
-```
-
-## Build
-
-```bash
+npm run lint
 npm run build
 ```
 
-## Deploy to GitHub Pages
-
-Create a GitHub repository named `Studyer-Tang.github.io`, push this project to
-the `main` branch, and enable GitHub Pages with GitHub Actions as the source.
-
-The included workflow in `.github/workflows/deploy.yml` will build the site and
-publish `dist` automatically after each push to `main`.
+English: `?lang=en`; Chinese: `?lang=zh`; reading: `?lang=zh&page=reading`.
+PRs run checks without deploying. Main pushes, manual runs and scheduled runs deploy
+with the GitHub Pages environment. In Settings → Pages, the source is GitHub Actions.
