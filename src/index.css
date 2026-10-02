@@ -1,8 +1,26 @@
-:root { font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; --ink: #252b30; --muted: #63666a; --accent: #7d303f; --accent-soft: #c3a5aa; --line: #e1ded9; --wash: #f1eeea; color: var(--ink); background: #fcfbf8; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; line-height: 1.85; font-size: 16px; }
+:root {
+  font-family: 'Times New Roman', 'Songti SC', STSong, SimSun, serif;
+  color: #302c26;
+  background: #363a32;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  line-height: 1.85;
+  --paper: #f7f4ea;
+  --ink: #302c26;
+  --muted: #686256;
+  --accent: #514939;
+  --line: #c5bca633;
+}
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
-a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 4px; }
-a:hover { color: #50202a; text-decoration: underline; }
-button { font: inherit; }
-::selection { background: #eadcdf; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: default; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { color: #181511; }
+::selection { background: #d8d0b9; color: #221e19; }
+:focus-visible { outline: 2px solid #766b51; outline-offset: 5px; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-weight: 400; }
