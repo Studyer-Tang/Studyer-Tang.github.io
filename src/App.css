@@ -151,6 +151,6 @@ footer a:hover { color: #fffaf0; }
   .control-name { display: none; }
   footer { padding: 20px 8px 25px; }
 }
-@media (max-width: 360px) { .desk { padding-inline: 8px; } .leaf { padding-inline: 23px; } .bookmarks a { font-size: 9px; } h1 { font-size: 39px; } .book-title { font-size: 26px; } }
+@media (max-width: 360px) { .desk { padding-inline: 8px; } .leaf { padding-inline: 23px; } .bookmarks a { font-size: 9px; } .title-page { padding-top: 20px; } .title-edition { margin-bottom: 14px; } .title-project { margin-top: 16px; } h1 { font-size: 39px; } .book-title { font-size: 26px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; } .turning-page { display: none; } }
 @media print { body { background: white; } .desk { max-width: none; padding: 0; } .masthead, .bookmarks, .page-controls, footer, .skip-link, .book-binding, .turning-page { display: none; } .book { border: 0; padding: 0; background: none; box-shadow: none; } .book::after, .leaf::before { display: none; } .leaf { background: white; padding: 25px; } .book-spread { animation: none; } .project-entries li, .reading-list li { break-inside: avoid; } }
