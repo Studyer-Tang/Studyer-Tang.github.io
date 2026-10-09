@@ -11,8 +11,10 @@ const email = 'GitHub Issues'
 const chapters = ['home', 'projects', 'research', 'reading', 'personal'] as const
 type Chapter = (typeof chapters)[number]
 const names = [['扉页', 'Preface'], ['项目案卷', 'Projects'], ['研究问题', 'Questions'], ['阅读札记', 'Reading'], ['个人与联系', 'Personal']]
+const researchProjects = projects.filter(p => p.repo === 'strategy-inference')
 const mathProjects = projects.filter(p => ['advanced-mathematical-statistics-notes', 'learning-theory-to-optimization'].includes(p.repo))
-const toolProjects = projects.filter(p => !mathProjects.includes(p))
+const toolProjects = projects.filter(p => !researchProjects.includes(p) && !mathProjects.includes(p))
+const featuredProject = researchProjects[0]
 
 function readChapter(): Chapter {
   const params = new URLSearchParams(location.search)
@@ -107,6 +109,7 @@ function App() {
             <h1 ref={pageHeading} tabIndex={-1}>Studyer-Tang</h1>
             <h2 className="book-title">{t('研究手记', 'A Research Notebook')}</h2>
             <p className="title-subtitle">{t('数学、统计与研究工具', 'Mathematics, statistics and research tools')}</p>
+            {featuredProject && <div className="title-project"><span>{t('代表项目', 'Selected work')}</span><a href={featuredProject.url}>{featuredProject.name[zh ? 0 : 1]} ↗</a></div>}
             <div className="title-affiliation"><p>{university}</p><p>{school}</p>
               <p className="title-status">{t("公开项目与学习记录", "Public projects and study notes")}</p>
             </div>
@@ -116,8 +119,8 @@ function App() {
             <h2 className="preface-title" ref={pageHeading} tabIndex={-1}>{t('自序', 'Preface')}</h2>
             <div className="book-prose">
               <p>{t('我在开放研究开源工具读本科，关注统计学及其在金融市场中的应用，尤其是高频股票数据、市场微观结构与短期预测。', 'I am an undergraduate at the Open-source tools, Open research. My interests are in statistics and its applications to financial markets, particularly high-frequency equity data, market microstructure and short-horizon prediction.')}</p>
-              <p>{t('这册手记收录了我的数学学习笔记和研究工具。统计学笔记围绕讲义中的定义、证明和例题展开；学习理论与优化的笔记配有数值实验，便于对照推导与计算结果。', 'This notebook brings together my mathematics notes and research tools. The statistics notes work through definitions, proofs and examples from course lectures. The learning theory and optimization notes include numerical experiments that can be compared with the derivations.')}</p>
-              <p>{t('我也整理了一些用于论文摘录、写作排版和学术演示的程序。研究兴趣与已完成的作品分别记录，各项的使用说明、代码和适用范围都可以从项目页查阅。', 'I also keep programs for collecting excerpts, formatting theses and preparing academic presentations. Research interests and completed work are recorded separately, with documentation, source code and limitations linked from the project pages.')}</p>
+              <p>{t('我主要维护三项作品：用于时序预测比较与不确定性分析的 strategy-inference、配有推导与数值实验的学习理论笔记，以及保存原文和出处的 Academic Clipboard。代码、例子与使用边界列在项目页。', 'My main projects are strategy-inference for time-series forecast comparison and uncertainty analysis, learning theory notes with derivations and numerical experiments, and Academic Clipboard for keeping excerpts with their sources. The project pages link to code, examples and their scope of use.')}</p>
+              <p>{t('高等统计学笔记记录课程中的定义、证明和例题；其他程序处理论文排版与学术演示中的具体问题。我把研究兴趣另列一章，作为仍需探索的问题。', 'My statistics notes record definitions, proofs and examples from coursework. Other programs address thesis formatting and academic presentations. Research interests have their own chapter, as questions still to explore.')}</p>
               <p>{t('学习之外，我喜欢分析学、历史与推理，尤其喜欢罗素与欧拉的著作。书与游戏的选读线索留在后面的阅读页。', 'Outside my studies, I enjoy analysis, history and deductive reasoning, especially the works of Russell and Euler. Reading suggestions and games appear in the later pages.')}</p>
             </div>
             <div className="contents-heading">{t('本册目录', 'Contents')}</div>
@@ -127,8 +130,8 @@ function App() {
           </>)}
         </>}
         {chapter === 'projects' && <>
-          {leaf('left', <>{heading(t('第一节', 'Section I'), t('推导与实验', 'Derivations & experiments'))}<p>{t('从统计学的概念与证明，到学习理论和优化。笔记与代码一起保存，方便重读、复现和订正。', 'From statistical concepts and proofs to learning theory and optimization. Notes and code are kept together for rereading, reproduction and correction.')}</p><ProjectEntries entries={mathProjects} zh={zh} /></>)}
-          {leaf('right', <><p className="eyebrow">{t('第二节', 'Section II')}</p><h2 className="chapter-title">{t('研究工具', 'Research tools')}</h2><p>{t('解决摘录、论文排版和学术演示中的具体问题。每项的使用方式与适用边界，以仓库文档为准。', 'Tools for concrete problems in collecting excerpts, formatting theses and presenting research. Each repository documents its use and limitations.')}</p><ProjectEntries entries={toolProjects} zh={zh} offset={mathProjects.length} /><div className="catalog-note"><span>{t('资料变更', 'Catalog changed')} <time dateTime={projectsUpdated}>{projectsUpdated}</time></span><a href={github + '?tab=repositories'}>{t('全部公开仓库', 'All public repositories')} ↗</a></div></>)}
+          {leaf('left', <>{heading(t('第一节', 'Section I'), t('统计研究工具', 'Statistical software'))}<p>{t('先检查信息何时可得，再比较预测与不确定性。库的假设、适用范围和可复现示例列在文档中。', 'Establish when information is available, then compare forecasts and uncertainty. The documentation sets out assumptions, scope and reproducible examples.')}</p><ProjectEntries entries={researchProjects} zh={zh} /><div className="project-group-heading"><p className="eyebrow">{t('第二节', 'Section II')}</p><h2>{t('数学训练', 'Mathematical study')}</h2></div><ProjectEntries entries={mathProjects} zh={zh} offset={researchProjects.length} /></>)}
+          {leaf('right', <><p className="eyebrow">{t('第三节', 'Section III')}</p><h2 className="chapter-title">{t('实用工具', 'Practical tools')}</h2><p>{t('从保存原文与出处，到论文排版和学术演示。每项的使用方式与适用边界，以仓库文档为准。', 'From keeping excerpts and sources to formatting theses and presenting research. Each repository documents its use and limitations.')}</p><ProjectEntries entries={toolProjects} zh={zh} offset={researchProjects.length + mathProjects.length} /><div className="catalog-note"><span>{t('资料变更', 'Catalog changed')} <time dateTime={projectsUpdated}>{projectsUpdated}</time></span><a href={github + '?tab=repositories'}>{t('全部公开仓库', 'All public repositories')} ↗</a></div></>)}
         </>}
         {chapter === 'research' && <>
           {leaf('left', <>{heading(t('问题 01 / 市场', 'Question 01 / Markets'), t('市场中的信息', 'Information in markets'))}<p className="lead">{t('逐笔交易、报价和订单流中，哪些信息有助于理解短期价格变化？', 'What information in trades, quotes and order flow helps explain short-horizon price changes?')}</p><p>{t('我希望理解交易机制如何影响观测数据、价格变化与流动性，再考虑如何构造预测特征。这里记录的是研究兴趣与待探索的问题。', 'I would like to understand how trading mechanisms shape observations, price changes and liquidity, and then consider how to construct predictive features. These are research interests and questions to explore.')}</p><aside className="annotation"><span>{t('关于信息的时间', 'Information timing')}</span><p>{t('先确认信息何时可得，再讨论模型能知道什么。', 'Establish when information is available before asking what a model can know.')}</p></aside></>)}

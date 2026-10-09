@@ -34,7 +34,10 @@ body { background: radial-gradient(ellipse at 50% 15%, #53584b 0, #383d34 55%, #
 h1 { font-size: 46px; font-weight: 400; letter-spacing: .015em; line-height: 1.3; margin-bottom: 20px; }
 .book-title { font-size: 30px; line-height: 1.6; letter-spacing: .18em; margin-bottom: 19px; }
 .title-subtitle { font-size: 14px; letter-spacing: .1em; line-height: 1.8; }
-.title-affiliation { margin-top: 87px; font-size: 13px; line-height: 2.15; }
+.title-project { margin-top: 31px; font-size: 13px; line-height: 1.9; }
+.title-project > span { display: block; color: var(--muted); font-size: 11px; letter-spacing: .08em; }
+.title-project a { display: inline-block; min-height: 32px; padding-top: 2px; }
+.title-affiliation { margin-top: 42px; font-size: 13px; line-height: 2.15; }
 .title-status { color: var(--muted); font-size: 11px; margin-top: 10px; }
 .title-year { font-size: 13px; margin-top: auto; padding-top: 47px; }
 .preface-title { text-align: center; font-size: 25px; line-height: 1.5; letter-spacing: .22em; margin: 14px 0 34px; }
@@ -55,6 +58,8 @@ h1 { font-size: 46px; font-weight: 400; letter-spacing: .015em; line-height: 1.3
 h3 { font-size: 17px; line-height: 1.65; }
 h3 a { text-decoration: none; }
 h3 a:hover { text-decoration: underline; }
+.project-group-heading { margin-top: 34px; text-align: center; }
+.project-group-heading h2 { font-size: 21px; letter-spacing: .06em; line-height: 1.6; }
 .project-entries, .reading-list { list-style: none; margin: 28px 0 0; padding: 0; }
 .project-entries > li, .reading-list > li { display: flex; gap: 14px; align-items: baseline; margin-bottom: 29px; }
 .project-entries > li:last-child, .reading-list > li:last-child { margin-bottom: 0; }
@@ -130,11 +135,12 @@ footer a:hover { color: #fffaf0; }
   .leaf-right { border-radius: 0 0 6px 6px; border-top: 1px solid #b7aa8c88; background: linear-gradient(90deg, #ede8db, #faf7ee 7%, #f8f5ec 91%, #eee9dc); }
   .book-binding, .turning-page { display: none; }
   .running-head { margin-bottom: 29px; font-size: 10px; }
-  .title-page { min-height: 520px; padding-top: 43px; }
-  .title-edition { margin-bottom: 45px; }
+  .title-page { min-height: 520px; padding-top: 35px; }
+  .title-edition { margin-bottom: 28px; }
   h1 { font-size: 43px; }
   .book-title { font-size: 28px; }
-  .title-affiliation { margin-top: 68px; }
+  .title-project { margin-top: 24px; }
+  .title-affiliation { margin-top: 32px; }
   .preface-title { font-size: 25px; margin-top: 6px; }
   .book-prose p, .leaf-content > p:not(.eyebrow) { font-size: 15px; }
   .project-entries p, .reading-list p { font-size: 14px; }
