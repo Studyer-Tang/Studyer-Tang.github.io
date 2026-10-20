@@ -6,7 +6,7 @@ an open book, with a title page, a prose preface, chapter bookmarks and facing p
 
 ## Editing
 
-- Biography, education and research: `src/App.tsx`; keep future plans clearly labelled.
+- Public project overview, research interests and GitHub contact: `src/App.tsx`.
 - Reading: `src/reading.ts` and `src/further-reading.ts`.
 - Project entries: `src/ProjectSection.tsx`. Book layout and navigation: `src/App.tsx`.
   Styling: `src/App.css` and `src/index.css`.
@@ -28,8 +28,8 @@ An API failure stops deployment and preserves the last successful live site.
 
 No browser-side API calls, tracking, external widget service or personal access token
 is required. Headings and interface labels are bilingual. Curated project summaries are bilingual;
-unlisted repositories retain their About language. Personal information is never
-generated from code. A published release label makes no claim of stability.
+unlisted repositories retain their About language. The scheduled generator refreshes
+project facts only. A published release label makes no claim of stability.
 
 Schedules may be delayed; GitHub disables schedules in public repositories after
 60 days without activity. Re-enable them under Actions when needed. See
@@ -45,7 +45,7 @@ npm run build
 ```
 
 Chinese is the default; English: `?lang=en`. Chapters use `?chapter=projects`,
-`research`, `reading`, or `personal`. The previous `?lang=zh&page=reading` and
+`research`, `reading`, or `personal` (About & contact). The previous `?lang=zh&page=reading` and
 section anchors remain supported. Browser back/forward restores chapters and
 language. On narrow screens the facing pages form one reading column; reduced
 motion disables the page animation. Published release tags are labelled

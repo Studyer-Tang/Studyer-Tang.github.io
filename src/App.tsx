@@ -7,10 +7,9 @@ import { ProjectEntries } from './ProjectSection'
 import { projects, projectsUpdated } from './projects'
 
 const github = 'https://github.com/Studyer-Tang'
-const email = 'GitHub Issues'
 const chapters = ['home', 'projects', 'research', 'reading', 'personal'] as const
 type Chapter = (typeof chapters)[number]
-const names = [['扉页', 'Preface'], ['项目案卷', 'Projects'], ['研究问题', 'Questions'], ['阅读札记', 'Reading'], ['个人与联系', 'Personal']]
+const names = [['扉页', 'Preface'], ['项目案卷', 'Projects'], ['研究问题', 'Questions'], ['阅读札记', 'Reading'], ['关于与联系', 'About & contact']]
 const researchProjects = projects.filter(p => p.repo === 'strategy-inference')
 const mathProjects = projects.filter(p => ['advanced-mathematical-statistics-notes', 'learning-theory-to-optimization'].includes(p.repo))
 const toolProjects = projects.filter(p => !researchProjects.includes(p) && !mathProjects.includes(p))
@@ -34,8 +33,6 @@ function App() {
   const t = (cn: string, en: string) => zh ? cn : en
   const chapterIndex = chapters.indexOf(chapter)
   const chapterName = names[chapterIndex][zh ? 0 : 1]
-  const university = t('开放研究', 'Open research')
-  const school = t('开源工具', 'Open-source tools')
   const bookGroups = [
     { title: t('分析与统计', 'Analysis & statistics'), items: [...reading.filter(item => !item.title.en.includes('Historian')), ...textbooks] },
     { title: t('罗素与欧拉', 'Russell & Euler'), items: classics },
@@ -45,7 +42,7 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en'
     const title = 'Studyer-Tang · ' + (language === 'zh' ? '研究手记' : 'Field notes') + ' / ' + chapterName
-    const description = language === 'zh' ? 'Studyer-Tang，开放研究开源工具本科生。关于统计、金融市场、数学学习与研究工具的个人手记。' : 'Studyer-Tang, an undergraduate at Open research. Personal notes on statistics, financial markets, mathematics and research tools.'
+    const description = language === 'zh' ? 'Studyer-Tang 的研究手记：统计、金融市场、数学学习与开源研究工具。' : 'Field notes by Studyer-Tang on statistics, financial markets, mathematics and open-source research tools.'
     document.title = title
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', title)
@@ -110,15 +107,13 @@ function App() {
             <h2 className="book-title">{t('研究手记', 'A Research Notebook')}</h2>
             <p className="title-subtitle">{t('数学、统计与研究工具', 'Mathematics, statistics and research tools')}</p>
             {featuredProject && <div className="title-project"><span>{t('代表项目', 'Selected work')}</span><a href={featuredProject.url}>{featuredProject.name[zh ? 0 : 1]} ↗</a></div>}
-            <div className="title-affiliation"><p>{university}</p><p>{school}</p>
-              <p className="title-status">{t("公开项目与学习记录", "Public projects and study notes")}</p>
-            </div>
+            <div className="title-themes"><p>{t('开放研究', 'Open research')}</p><p>{t('可复现实验 · 开源工具', 'Reproducible experiments · Open-source tools')}</p></div>
             <p className="title-year">2026</p>
           </div>)}
           {leaf('right', <>
             <h2 className="preface-title" ref={pageHeading} tabIndex={-1}>{t('自序', 'Preface')}</h2>
             <div className="book-prose">
-              <p>{t('我在开放研究开源工具读本科，关注统计学及其在金融市场中的应用，尤其是高频股票数据、市场微观结构与短期预测。', 'I am an undergraduate at the Open-source tools, Open research. My interests are in statistics and its applications to financial markets, particularly high-frequency equity data, market microstructure and short-horizon prediction.')}</p>
+              <p>{t('我关注统计学及其在金融市场中的应用，尤其是高频股票数据、市场微观结构与短期预测。', 'My interests are in statistics and its applications to financial markets, particularly high-frequency equity data, market microstructure and short-horizon prediction.')}</p>
               <p>{t('我主要维护三项作品：用于时序预测比较与不确定性分析的 strategy-inference、配有推导与数值实验的学习理论笔记，以及保存原文和出处的 Academic Clipboard。代码、例子与使用边界列在项目页。', 'My main projects are strategy-inference for time-series forecast comparison and uncertainty analysis, learning theory notes with derivations and numerical experiments, and Academic Clipboard for keeping excerpts with their sources. The project pages link to code, examples and their scope of use.')}</p>
               <p>{t('高等统计学笔记记录课程中的定义、证明和例题；其他程序处理论文排版与学术演示中的具体问题。我把研究兴趣另列一章，作为仍需探索的问题。', 'My statistics notes record definitions, proofs and examples from coursework. Other programs address thesis formatting and academic presentations. Research interests have their own chapter, as questions still to explore.')}</p>
               <p>{t('学习之外，我喜欢分析学、历史与推理，尤其喜欢罗素与欧拉的著作。书与游戏的选读线索留在后面的阅读页。', 'Outside my studies, I enjoy analysis, history and deductive reasoning, especially the works of Russell and Euler. Reading suggestions and games appear in the later pages.')}</p>
@@ -142,12 +137,12 @@ function App() {
           {leaf('right', <><p className="eyebrow">{t('接续左页', 'Continued from the facing page')}</p><h2 className="chapter-title">{t('续页', 'Continued')}</h2>{readingList(midpoint, group.items.length)}</>)}
         </>}
         {chapter === 'personal' && <>
-          {leaf('left', <>{heading(t('作者档案 / 经历', 'Author’s file / Education'), t('教育经历', 'Education'))}<div className="education-entry"><h3>公开项目 / Public projects</h3><p>开放研究 · 可复现实验 · 开源工具 / Open research · Reproducible experiments · Open-source tools</p></div><div className="education-entry"><h3>公开项目 / Public projects</h3><p>开放研究 · 可复现实验 · 开源工具 / Open research · Reproducible experiments · Open-source tools</p></div></>)}
-          {leaf('right', <><p className="eyebrow">{t('附记 / 联系', 'Postscript / Correspondence')}</p><h2 className="chapter-title">{t('欢迎来信', 'Correspondence is welcome')}</h2><p className="lead">{t('关于高频金融数据、统计学习，或一次有趣的推导。', 'About high-frequency financial data, statistical learning, or an interesting derivation.')}</p><a className="contact-email" href={"https://github.com/Studyer-Tang/Studyer-Tang.github.io/issues"}>{email} ↗</a><a className="quiet-link" href={github}>GitHub / Studyer-Tang ↗</a><div className="personal-note"><h3>公开项目 / Public projects</h3><p>通过 GitHub Issues 联系。 / Contact through GitHub Issues.</p></div><div className="colophon"><h3>{t('关于这册手记', 'About this notebook')}</h3><p>{t('个人介绍更新于 2026 年 10 月 2 日。项目信息由公开仓库同步；书目保留作者与出版信息。', 'Biography updated on 2 October 2026. Project information is synchronized from public repositories; reading entries retain authors and publication details.')}</p><a href={github + '/Studyer-Tang.github.io'}>{t('查看主页源代码', 'View the homepage source')} ↗</a></div></>)}
+          {leaf('left', <>{heading(t('附记 / 开放工作', 'Postscript / Open work'), t('关于本册', 'About this notebook'))}<div className="about-entry"><h3>{t('公开项目与学习记录', 'Public projects and study notes')}</h3><p>{t('这里汇集统计、金融市场与数学学习中的问题，以及围绕这些问题编写的开源工具。', 'This notebook brings together questions in statistics, financial markets and mathematics, alongside open-source tools built around them.')}</p><p>{t('项目页提供代码、可复现例子与适用边界；阅读页保留书目作者与出版信息。', 'The project pages link to code, reproducible examples and their scope of use. Reading entries retain authors and publication details.')}</p><a className="quiet-link" href={github + '?tab=repositories'}>{t('浏览公开仓库', 'Browse public repositories')} ↗</a></div></>)}
+          {leaf('right', <><p className="eyebrow">{t('联系 / 项目反馈', 'Contact / Project feedback')}</p><h2 className="chapter-title">{t('通过 GitHub 联系', 'Contact via GitHub')}</h2><p className="lead">{t('使用中遇到问题、发现错误，或希望讨论改进，请在相应项目的 GitHub Issues 中留言。', 'For questions, errors or suggested improvements, open an issue in the relevant project on GitHub.')}</p><a className="contact-link" href={github + '/Studyer-Tang.github.io/issues'}>{t('主页反馈与联系', 'Homepage feedback & contact')} ↗</a><a className="quiet-link" href={github}>GitHub / Studyer-Tang ↗</a><div className="colophon"><h3>{t('关于这册手记', 'About this notebook')}</h3><p>{t('以公开代码、实验与文档记录工作。项目信息由公开仓库同步；书目保留作者与出版信息。', 'Work is documented through public code, experiments and notes. Project information is synchronized from public repositories; reading entries retain authors and publication details.')}</p><a href={github + '/Studyer-Tang.github.io'}>{t('查看主页源代码', 'View the homepage source')} ↗</a></div></>)}
         </>}
       </div><div className="book-binding" aria-hidden="true" />{turn > 0 && <div key={'turn-' + turn} className="turning-page" aria-hidden="true" />}</main>
       <div className="page-controls"><button disabled={chapterIndex === 0} onClick={() => navigate(chapters[chapterIndex - 1])}>← {t('上一章', 'Previous chapter')}</button><span>{String(chapterIndex + 1).padStart(2, '0')} / 05 <span className="control-name">· {chapterName}</span></span><button disabled={chapterIndex === chapters.length - 1} onClick={() => navigate(chapters[chapterIndex + 1])}>{t('下一章', 'Next chapter')} →</button></div>
-      <footer><span>© Studyer-Tang · {university}</span><a href={github + '/Studyer-Tang.github.io'}>{t('源代码', 'Source')} ↗</a></footer>
+      <footer><span>© Studyer-Tang</span><a href={github + '/Studyer-Tang.github.io'}>{t('源代码', 'Source')} ↗</a></footer>
     </div>
   </>
 }
