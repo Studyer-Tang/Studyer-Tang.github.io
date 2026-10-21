@@ -40,6 +40,7 @@ Schedules may be delayed; GitHub disables schedules in public repositories after
 ```sh
 npm ci
 npm run dev
+npm test
 npm run lint
 npm run build
 ```
@@ -47,8 +48,13 @@ npm run build
 Chinese is the default; English: `?lang=en`. Chapters use `?chapter=projects`,
 `research`, `reading`, or `personal` (About & contact). The previous `?lang=zh&page=reading` and
 section anchors remain supported. Browser back/forward restores chapters and
-language. On narrow screens the facing pages form one reading column; reduced
-motion disables the page animation. Published release tags are labelled
+language. Desktop chapter changes turn a curved, two-sided paper leaf; the reverse
+face contains the next page. Language changes and browser history restoration update
+immediately. Narrow screens use a single reading column; reduced motion skips the
+3D transition. Temporary animation pages are hidden from assistive technology and
+cannot receive input. A horizontal two-finger trackpad swipe over the book turns
+one chapter at a time, with momentum filtered; vertical scrolling and pinch zoom
+retain their normal behavior. Published release tags are labelled
 “Release”, with prereleases identified separately.
 PRs run checks without deploying. Main pushes, manual runs and scheduled runs deploy
 with the GitHub Pages environment. In Settings → Pages, the source is GitHub Actions.
