@@ -20,15 +20,10 @@ const names = {
 const subtitles = {
   home: ['山水之间，保持好奇。', 'Stay curious. Take the long view.'],
   interests: ['那些让我愿意多想一会儿的事。', 'Things I like to spend a little more time thinking about.'],
-  research: ['我关心的问题，以及希望逐步理解的方向。', 'Questions I care about, and directions I hope to understand.'],
+  research: ['金融时间序列中的统计与机器学习。', 'Statistics and machine learning for financial time series.'],
   reading: ['在书与推理中，拓宽看待世界的方式。', 'Books and deduction offer other ways to see.'],
   personal: ['一点兴趣，一些常常回到的问题。', 'A few interests, and questions I keep returning to.'],
 }
-const principles = [
-  ['信息何时可得', 'Respect information timing'], ['基准是否公平', 'Use fair baselines'],
-  ['结果能否复现', 'Make results reproducible'], ['边界是否清楚', 'State the limits'],
-]
-
 function App() {
   const [{ chapter, language }, setRoute] = useState(() => readRoute(new URL(location.href)))
   const [readingGroup, setReadingGroup] = useState(0)
@@ -134,16 +129,8 @@ function App() {
           <p className="research-intro">{researchIntro[language]}</p>
           <div className="research-directions">{researchDirections.map((direction, index) => <article className="research-entry" key={direction.id}>
             <span className="entry-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-            <div><p className="entry-kicker">{t('关注方向', 'DIRECTION')}</p><h2>{direction.title[language]}</h2><p className="research-question">{direction.question[language]}</p>
-              <details><summary>{t('研究路径与下一步', 'Approach & next steps')}<span aria-hidden="true">+</span></summary><div className="research-plan">
-                <div><h3>{t('方法', 'Methods')}</h3><p>{direction.methods[language]}</p></div>
-                <div><h3>{t('起点', 'First experiment')}</h3><p>{direction.experiment[language]}</p></div>
-                <div><h3>{t('评估', 'Evaluation')}</h3><p>{direction.evaluation[language]}</p></div>
-                <div><h3>{t('边界', 'Scope')}</h3><p>{direction.boundary[language]}</p></div>
-              </div></details>
-            </div>
+            <div><h2>{direction.title[language]}</h2><p className="research-description">{direction.description[language]}</p></div>
           </article>)}</div>
-          <aside className="working-notes"><span className="eyebrow">{t('工作原则', 'WORKING PRINCIPLES')}</span><ol>{principles.map(([cn, en], index) => <li key={en}><span>{String(index + 1).padStart(2, '0')}</span>{t(cn, en)}</li>)}</ol></aside>
         </>}
 
         {chapter === 'reading' && <>

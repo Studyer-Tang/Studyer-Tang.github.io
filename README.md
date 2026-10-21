@@ -9,7 +9,7 @@ an about page. Only the GitHub handle is used for the owner's identity.
 
 - Page copy and GitHub contact: `src/App.tsx`.
 - Personal interests: `src/interests.ts`.
-- Research questions, planned experiments and scope: `src/research.ts`.
+- Research interests: `src/research.ts`.
 - Reading: `src/literature.ts`, `src/reading.ts` and `src/further-reading.ts`.
 - Routing: `src/navigation.ts`.
   Styling: `src/App.css` and `src/index.css`.
@@ -18,7 +18,7 @@ an about page. Only the GitHub handle is used for the owner's identity.
 
 The site is self-contained: no repository catalog, browser-side API calls,
 tracking, external widget service or personal access token is required. Research
-text describes interests and planned exploration, not completed results. Reading
+text describes interests, not completed results or a fixed research plan. Reading
 entries are suggestions and interests, not a completed reading log.
 
 ## Development
