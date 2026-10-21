@@ -3,8 +3,6 @@ on:
   push:
     branches: [main]
   pull_request:
-  schedule:
-    - cron: '47 */6 * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,25 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Check out shared project generator
-        uses: actions/checkout@v5
-        with:
-          repository: Studyer-Tang/Studyer-Tang
-          ref: main
-          path: .profile-source
-          sparse-checkout: |
-            scripts
-            tests
-          persist-credentials: false
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
-      - name: Validate and refresh public project data
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python -m unittest discover -s .profile-source/tests -v
-          python .profile-source/scripts/sync_projects.py --output src/projects.json
       - uses: actions/setup-node@v6
         with:
           node-version: 22
