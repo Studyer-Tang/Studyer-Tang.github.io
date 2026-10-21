@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test tests/page-geometry.test.ts tests/page-swipe.test.ts"
+    "test": "node --experimental-strip-types --test tests/navigation.test.ts tests/page-swipe.test.ts"
   },
   "dependencies": {
     "react": "^19.2.8",

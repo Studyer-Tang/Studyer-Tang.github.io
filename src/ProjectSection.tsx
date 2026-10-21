@@ -5,7 +5,7 @@ export function ProjectEntries({ entries, zh, offset = 0 }: { entries: Project[]
   return <ol className="project-entries" start={offset + 1}>{entries.map((project, index) => <li key={project.repo}>
     <span className="entry-number" aria-hidden="true">{String(index + offset + 1).padStart(2, '0')}</span>
     <article><div className="entry-meta"><span>{project.label[zh ? 0 : 1]}</span><span>{project.language}</span></div>
-      <h3><a href={project.url}>{project.name[zh ? 0 : 1]} <span aria-hidden="true">↗</span></a></h3>
+      <h2><a href={project.url}>{project.name[zh ? 0 : 1]} <span aria-hidden="true">↗</span></a></h2>
       <p>{project.summary?.[zh ? 0 : 1] || project.description || t('项目说明与源代码见仓库。', 'Documentation and source are in the repository.')}</p>
       <div className="entry-links"><a href={project.url}>{t('代码与文档', 'Source & notes')} ↗</a>{project.release && <a href={project.release.url}>{project.release.tag} · {project.release.prerelease ? t('预览发布', 'Prerelease') : t('版本发布', 'Release')} ↗</a>}</div>
     </article>

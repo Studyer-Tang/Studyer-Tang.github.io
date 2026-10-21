@@ -1,0 +1,19 @@
+.scenery { --scene: url('/night-lake.webp'); position: fixed; inset: 0; z-index: -1; overflow: hidden; background: #081b2d; pointer-events: none; }
+.scenery-frame { position: absolute; inset: -3%; animation: landscape-drift 64s ease-in-out infinite alternate; will-change: transform; }
+.scenery-image, .scenery-water { position: absolute; inset: 0; background-image: var(--scene); background-size: cover; background-position: center; }
+.scenery-water { mask-image: linear-gradient(transparent 59%, #000 69%); opacity: .38; animation: water-drift 9s ease-in-out infinite alternate; will-change: transform; }
+.scenery-mist { position: absolute; inset: 45% -15% 20%; background: radial-gradient(ellipse at 35% 50%, #d1e5e70f, transparent 45%), radial-gradient(ellipse at 72% 57%, #dae9e91a, transparent 46%); animation: mist-drift 32s ease-in-out infinite alternate; will-change: transform, opacity; }
+.scenery-shade { position: absolute; inset: 0; background: linear-gradient(180deg, #04111c69, #04111c19 44%, #04111c30 70%, #04111c91), radial-gradient(ellipse at 50% 39%, #06141c05, #04111c40 85%); }
+.scenery[data-running=false] *, .scenery[data-running=false] *::before { animation-play-state: paused; }
+.scene-control { position: fixed; z-index: 6; bottom: 24px; right: 32px; display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 7px 12px; border: 1px solid #c5d8df24; border-radius: 30px; background: #0819259e; color: #c3d2da; font-size: 11px; backdrop-filter: blur(10px); }
+.scene-control:hover { border-color: #c5d8df66; color: #fff; }
+.site-inner .scene-control { position: absolute; }
+.scene-control:disabled { cursor: default; opacity: .7; }
+.motion-dot { width: 5px; height: 5px; border-radius: 50%; background: #83959f; }
+.motion-dot-on { background: #b5d7c8; box-shadow: 0 0 9px #b5d7c838; }
+@keyframes landscape-drift { from { transform: scale(1.01) translate3d(.2%, 0, 0); } to { transform: scale(1.045) translate3d(-.4%, .35%, 0); } }
+@keyframes water-drift { from { transform: scaleX(1.012) translate3d(-3px, -1px, 0); } to { transform: scaleX(1.018) translate3d(3px, 2px, 0); } }
+@keyframes mist-drift { from { transform: translate3d(-4%, 0, 0); opacity: .5; } to { transform: translate3d(4%, 1%, 0); opacity: 1; } }
+@media (max-width: 600px) { .scenery { --scene: url('/night-lake-small.webp'); } .scene-control { bottom: 16px; right: 16px; } }
+@media (prefers-reduced-motion: reduce) { .scenery * { animation: none !important; transform: none !important; } }
+@media print { .scenery, .scene-control { display: none; } }

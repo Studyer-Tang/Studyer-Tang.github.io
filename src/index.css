@@ -1,26 +1,48 @@
 :root {
-  font-family: 'Times New Roman', 'Songti SC', STSong, SimSun, serif;
-  color: #302c26;
-  background: #363a32;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Songti SC', STSong, Georgia, serif;
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --ink: #e6ecec;
+  --muted: #a2b3bd;
+  --accent: #bed8d5;
+  --line: #9db7c329;
+  --surface: #0c1b26f5;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: #08141e;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   font-size: 16px;
-  line-height: 1.85;
-  --paper: #f7f4ea;
-  --ink: #302c26;
-  --muted: #686256;
-  --accent: #514939;
-  --line: #c5bca633;
+  line-height: 1.8;
+  color-scheme: dark;
 }
+
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; }
+html { min-width: 320px; scroll-padding-top: 24px; }
+body { min-width: 320px; margin: 0; }
 button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-button { font: inherit; cursor: pointer; }
+button { font: inherit; color: inherit; cursor: pointer; }
 button:disabled { cursor: default; }
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-a:hover { color: #181511; }
-::selection { background: #d8d0b9; color: #221e19; }
-:focus-visible { outline: 2px solid #766b51; outline-offset: 5px; }
+a:hover { color: var(--accent); }
+::selection { color: #f2f7f6; background: #4b6a76; }
+:focus-visible { outline: 2px solid #c4dfda; outline-offset: 5px; }
 h1, h2, h3, p { margin: 0; }
 h1, h2, h3 { font-weight: 400; }
+img, svg { max-width: 100%; }
+button, input { font-family: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  :root { color: #172027; background: #fff; color-scheme: light; }
+  body { min-width: 0; background: #fff; }
+  a, a:visited { color: inherit; }
+}

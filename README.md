@@ -1,15 +1,19 @@
-# Studyer-Tang’s academic homepage
+# Studyer-Tang · Field notes
 
 A bilingual academic homepage for statistics, financial markets and practical
-research tools. [Visit the site](https://studyer-tang.github.io/). The interface is
-an open book, with a title page, a prose preface, chapter bookmarks and facing pages.
+research tools. [Visit the site](https://studyer-tang.github.io/). An original
+night-lake landscape frames a quiet cover, with dedicated project, research,
+reading and about pages. Only the GitHub handle is used for the owner's identity.
 
 ## Editing
 
-- Public project overview, research interests and GitHub contact: `src/App.tsx`.
+- Public project overview and GitHub contact: `src/App.tsx`.
+- Research questions, planned experiments and scope: `src/research.ts`.
 - Reading: `src/reading.ts` and `src/further-reading.ts`.
-- Project entries: `src/ProjectSection.tsx`. Book layout and navigation: `src/App.tsx`.
+- Project entries: `src/ProjectSection.tsx`. Routing: `src/navigation.ts`.
   Styling: `src/App.css` and `src/index.css`.
+- Scenery and motion controls: `src/Scenery.tsx` and `src/Scenery.css`.
+  Image provenance and generation prompt: [visual assets](docs/visual-assets.md).
 - Project facts: `src/projects.json` is a local development snapshot, refreshed during
   every production build. Names, categories and bilingual summaries are maintained
   in the profile generator's `FEATURED` and `SUMMARIES`; URLs, GitHub About fields
@@ -48,13 +52,19 @@ npm run build
 Chinese is the default; English: `?lang=en`. Chapters use `?chapter=projects`,
 `research`, `reading`, or `personal` (About & contact). The previous `?lang=zh&page=reading` and
 section anchors remain supported. Browser back/forward restores chapters and
-language. Desktop chapter changes turn a curved, two-sided paper leaf; the reverse
-face contains the next page. Language changes and browser history restoration update
-immediately. Narrow screens use a single reading column; reduced motion skips the
-3D transition. Temporary animation pages are hidden from assistive technology and
-cannot receive input. A horizontal two-finger trackpad swipe over the book turns
-one chapter at a time, with momentum filtered; vertical scrolling and pinch zoom
-retain their normal behavior. Published release tags are labelled
+language. A horizontal two-finger trackpad swipe over the main content changes
+one section at a time, with momentum filtered; vertical scrolling and pinch zoom
+retain their normal behavior. Mobile visitors use the visible navigation links.
+Scenery uses local WebP images with CSS water, mist and camera movement. The motion
+button pauses the background; system reduced-motion preferences and hidden tabs
+also stop it. It uses no per-frame JavaScript, video download or motion library.
+The switch applies to the current visit and writes no browser storage.
+Published release tags are labelled
 “Release”, with prereleases identified separately.
 PRs run checks without deploying. Main pushes, manual runs and scheduled runs deploy
 with the GitHub Pages environment. In Settings → Pages, the source is GitHub Actions.
+
+The centered identity and concise navigation were inspired by
+[dmego/home.github.io](https://github.com/dmego/home.github.io). The interface,
+landscape and implementation here are original; no upstream scripts, photographs,
+fonts or services are loaded by visitors.
