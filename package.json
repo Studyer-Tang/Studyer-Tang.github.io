@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/check-fonts.mjs && tsc -b && vite build",
+    "check:fonts": "node scripts/check-fonts.mjs",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test tests/navigation.test.ts tests/page-swipe.test.ts"
+    "test": "node --experimental-strip-types --test tests/*.test.ts"
   },
   "dependencies": {
     "react": "^19.2.8",

@@ -2,8 +2,9 @@
 
 A bilingual personal space for interests, reading and research questions.
 [Visit the site](https://studyer-tang.github.io/). An original night-lake landscape
-frames a quiet cover with personal interests, research interests, a bookshelf and
-an about page. Only the GitHub handle is used for the owner's identity.
+frames an open editorial cover with personal interests, research interests, a
+bookshelf and an about page. Self-hosted Chinese and Latin serif fonts keep the
+typography consistent across platforms. Only the GitHub handle is used for the owner's identity.
 
 ## Editing
 
@@ -13,6 +14,8 @@ an about page. Only the GitHub handle is used for the owner's identity.
 - Reading: `src/literature.ts`, `src/reading.ts` and `src/further-reading.ts`.
 - Routing: `src/navigation.ts`.
   Styling: `src/App.css` and `src/index.css`.
+- Route transitions: `src/useRouteTransition.ts` and `src/route-transition.ts`.
+- Font sources, licenses and regeneration: [font assets](public/fonts/README.md).
 - Scenery and motion controls: `src/Scenery.tsx` and `src/Scenery.css`.
   Image provenance and generation prompt: [visual assets](docs/visual-assets.md).
 
@@ -27,6 +30,7 @@ entries are suggestions and interests, not a completed reading log.
 npm ci
 npm run dev
 npm test
+npm run check:fonts
 npm run lint
 npm run build
 ```
@@ -48,3 +52,8 @@ The centered identity and concise navigation were inspired by
 [dmego/home.github.io](https://github.com/dmego/home.github.io). The interface,
 landscape and implementation here are original; no upstream scripts, photographs,
 fonts or services are loaded by visitors.
+
+Navigation uses native view transitions where available and a short CSS entry
+animation elsewhere. Trackpad gestures remain scoped to the content; vertical
+scrolling is preserved. System reduced-motion settings disable transitions and
+landscape motion. The mountains stay still while water and mist move gently.

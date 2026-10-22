@@ -8,6 +8,7 @@ import { researchDirections, researchIntro } from './research'
 import { chapters, readRoute, routeHref } from './navigation'
 import type { Chapter, Language } from './navigation'
 import { usePageSwipe } from './usePageSwipe'
+import { useRouteTransition } from './useRouteTransition'
 import { Scenery } from './Scenery'
 import './App.css'
 import './Interests.css'
@@ -24,8 +25,14 @@ const subtitles = {
   reading: ['在书与推理中，拓宽看待世界的方式。', 'Books and deduction offer other ways to see.'],
   personal: ['一点兴趣，一些常常回到的问题。', 'A few interests, and questions I keep returning to.'],
 }
+const coverCaptions = {
+  home: '', interests: 'HISTORY, POETRY & IDEAS', research: 'STATISTICS & LEARNING',
+  reading: 'BOOKS & CLASSICS', personal: 'A LITTLE ABOUT ME',
+}
 function App() {
   const [{ chapter, language }, setRoute] = useState(() => readRoute(new URL(location.href)))
+  const requestedRoute = useRef({ chapter, language })
+  const { transition, busy } = useRouteTransition()
   const [readingGroup, setReadingGroup] = useState(0)
   const mainRef = useRef<HTMLElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
@@ -46,16 +53,19 @@ function App() {
   useEffect(() => {
     const restore = () => {
       const next = readRoute(new URL(location.href))
-      setRoute(previous => {
-        if (previous.chapter === next.chapter && previous.language === next.language) return previous
+      const previous = requestedRoute.current
+      if (previous.chapter === next.chapter && previous.language === next.language) return
+      const step = chapters.indexOf(next.chapter) - chapters.indexOf(previous.chapter)
+      requestedRoute.current = next
+      transition(() => {
         focusAfterNavigation.current = true
-        return next
-      })
+        setRoute(next)
+      }, step > 0 ? 'forward' : step < 0 ? 'backward' : 'neutral')
     }
     window.addEventListener('popstate', restore)
     window.addEventListener('hashchange', restore)
     return () => { window.removeEventListener('popstate', restore); window.removeEventListener('hashchange', restore) }
-  }, [])
+  }, [transition])
 
   useEffect(() => {
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en'
@@ -73,26 +83,40 @@ function App() {
     }
   }, [chapter, language])
 
-  const navigate = useCallback((next: Chapter, nextLanguage: Language = language) => {
-    if (chapter === next && language === nextLanguage) return
-    history.pushState(null, '', routeHref(next, nextLanguage))
-    focusAfterNavigation.current = true
-    setRoute({ chapter: next, language: nextLanguage })
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [chapter, language])
+  const navigate = useCallback((next: Chapter, nextLanguage: Language = requestedRoute.current.language) => {
+    const previous = requestedRoute.current
+    if (previous.chapter === next && previous.language === nextLanguage) return
+    const step = chapters.indexOf(next) - chapters.indexOf(previous.chapter)
+    requestedRoute.current = { chapter: next, language: nextLanguage }
+    transition(() => {
+      history.pushState(null, '', routeHref(next, nextLanguage))
+      focusAfterNavigation.current = true
+      setRoute({ chapter: next, language: nextLanguage })
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    }, step > 0 ? 'forward' : step < 0 ? 'backward' : 'neutral')
+  }, [transition])
 
   usePageSwipe(mainRef, step => {
     const next = chapters[chapterIndex + step]
     if (next) navigate(next)
-  })
+  }, busy)
 
   const follow = (event: MouseEvent<HTMLAnchorElement>, next: Chapter) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
     event.preventDefault()
     navigate(next)
   }
+  const selectReadingGroup = (index: number) => {
+    if (readingGroup === index && !busy) return
+    const address = readRoute(new URL(location.href))
+    // Back/forward has already changed the URL; let its route update finish.
+    if (address.chapter !== chapter || address.language !== language) return
+    // A category click can interrupt navigation before the new route commits.
+    requestedRoute.current = { chapter, language }
+    transition(() => setReadingGroup(index), 'neutral')
+  }
   const navLink = (key: Chapter, numbered = false) => <a key={key} href={routeHref(key, language)} aria-current={chapter === key ? 'page' : undefined} onClick={event => follow(event, key)}>
-    {numbered && <span className="nav-index" aria-hidden="true">{String(chapters.indexOf(key)).padStart(2, '0')}</span>}{label(key)}
+    {numbered ? <><span className="nav-index" aria-hidden="true">{String(chapters.indexOf(key)).padStart(2, '0')}</span><span className="cover-nav-label">{label(key)}<span className="cover-nav-caption" aria-hidden="true">{coverCaptions[key]}</span></span><span className="cover-nav-arrow" aria-hidden="true">↗</span></> : label(key)}
   </a>
 
   return <div className={'site ' + (chapter === 'home' ? 'site-cover' : 'site-inner')}>
@@ -106,18 +130,18 @@ function App() {
     <header className="site-header">
       <a className="brand" href={routeHref('home', language)} onClick={event => follow(event, 'home')} aria-label={t('Studyer-Tang 首页', 'Studyer-Tang home')}><span className="brand-mark" aria-hidden="true">st.</span><span className="brand-caption">STUDYER-TANG<span>FIELD NOTES</span></span></a>
       {chapter !== 'home' && <nav className="header-nav" aria-label={t('主导航', 'Main navigation')}>{chapters.map(key => navLink(key))}</nav>}
-      <div className="header-tools"><div className="languages" aria-label={t('语言', 'Language')}><button type="button" aria-pressed={zh} onClick={() => navigate(chapter, 'zh')}>中</button><span aria-hidden="true">/</span><button type="button" aria-pressed={!zh} onClick={() => navigate(chapter, 'en')}>EN</button></div></div>
+      <div className="header-tools"><div className="languages" aria-label={t('语言', 'Language')}><button type="button" aria-pressed={zh} onClick={() => navigate(requestedRoute.current.chapter, 'zh')}>中</button><span aria-hidden="true">/</span><button type="button" aria-pressed={!zh} onClick={() => navigate(requestedRoute.current.chapter, 'en')}>EN</button></div></div>
     </header>
 
     <main ref={mainRef} id="content" tabIndex={-1}>
-      {chapter === 'home' ? <section className="cover" aria-label={t('个人主页封面', 'Personal homepage cover')}>
-        <div className="cover-identity"><span className="identity-monogram" aria-hidden="true">st.</span><span className="identity-caption">READ · THINK · EXPLORE</span></div>
-        <h1 ref={headingRef} tabIndex={-1}>Studyer-Tang</h1>
-        <p className="cover-motto">{subtitles.home[zh ? 0 : 1]}</p>
-        <div className="cover-rule" aria-hidden="true" />
-        <p className="cover-description">{t('喜欢古文史书与诗词散文，也喜欢数学与推理。', 'History, poetry, classical prose, mathematics and deduction.')}</p>
+      {chapter === 'home' ? <section className="cover" key={chapter + language} aria-label={t('个人主页封面', 'Personal homepage cover')}>
+        <div className="cover-copy"><p className="cover-kicker">READ · THINK · EXPLORE</p>
+          <h1 ref={headingRef} tabIndex={-1}>Studyer-<em>Tang</em></h1>
+          <p className="cover-motto">{subtitles.home[zh ? 0 : 1]}</p>
+          <p className="cover-description">{t('喜欢古文史书与诗词散文，也喜欢数学与推理。', 'History, poetry, classical prose, mathematics and deduction.')}</p>
+        </div>
         <nav className="cover-nav" aria-label={t('探索主页', 'Explore the site')}>{chapters.slice(1).map(key => navLink(key, true))}</nav>
-      </section> : <section className="content-panel" key={chapter} aria-labelledby="page-title">
+      </section> : <section className="content-panel" key={chapter + language} aria-labelledby="page-title">
         <header className="page-heading"><p className="eyebrow">{String(chapterIndex).padStart(2, '0')} <span>/</span> {['', 'PERSONAL INTERESTS', 'RESEARCH INTERESTS', 'THE BOOKSHELF', 'A LITTLE ABOUT ME'][chapterIndex]}</p><h1 id="page-title" ref={headingRef} tabIndex={-1}>{label(chapter)}</h1><p className="page-subtitle">{subtitles[chapter][zh ? 0 : 1]}</p></header>
 
         {chapter === 'interests' && <>
@@ -135,9 +159,9 @@ function App() {
 
         {chapter === 'reading' && <>
           <p className="reading-intro">{t('喜欢读古文史书，也喜欢有节奏、有余韵的诗词散文；分析学与推理也常让我停下来思考。这里是一份选读与兴趣清单，并非已读完的记录。', 'I enjoy historical writing, classical prose and poetry with rhythm and resonance, alongside analysis and deduction. These are reading suggestions and interests, not a completed reading log.')}</p>
-          <div className="reading-tabs" role="group" aria-label={t('阅读分类', 'Reading categories')}>{bookGroups.map((item, index) => <button type="button" key={item.title} aria-pressed={readingGroup === index} onClick={() => setReadingGroup(index)}>{item.title}</button>)}</div>
-          <h2 className="reading-group-title">{group.title}<span>{String(group.items.length).padStart(2, '0')}</span></h2>
-          <ol className="reading-list">{group.items.map((item, index) => <li key={item.title.en}><span className="entry-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><div><h3>{item.url ? <a href={item.url}>{item.title[language]} <span aria-hidden="true">↗</span></a> : item.title[language]}</h3><p className="reading-credit">{item.credit}</p><p>{item.description[language]}</p></div></li>)}</ol>
+          <div className="reading-tabs" role="group" aria-label={t('阅读分类', 'Reading categories')}>{bookGroups.map((item, index) => <button type="button" key={item.title} aria-pressed={readingGroup === index} onClick={() => selectReadingGroup(index)}>{item.title}</button>)}</div>
+          <div className="reading-shelf" key={readingGroup}><h2 className="reading-group-title">{group.title}<span>{String(group.items.length).padStart(2, '0')}</span></h2>
+          <ol className="reading-list">{group.items.map((item, index) => <li key={item.title.en}><span className="entry-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><div><h3>{item.url ? <a href={item.url}>{item.title[language]} <span aria-hidden="true">↗</span></a> : item.title[language]}</h3><p className="reading-credit">{item.credit}</p><p>{item.description[language]}</p></div></li>)}</ol></div>
         </>}
 
         {chapter === 'personal' && <div className="about-layout">
