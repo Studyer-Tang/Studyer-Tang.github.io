@@ -19,7 +19,7 @@ Verified on 2026-10-23. [`sources.json`](../public/world-assets/sources.json) re
 | [Island Tree 02](https://polyhaven.com/a/island_tree_02) | Rob Tuytel (scanning/processing); Rico Cilliers (cleanup/processing) | `leaf.webp`, `leaves.webp`, `tree/*.glb` | 3,252,548 B |
 | [Fern 02](https://polyhaven.com/a/fern_02) | Rob Tuytel (scanning); Rico Cilliers (modeling) | `fern/`, four plant variants | 2,111,553 B |
 
-**Total scene asset payload: 11,703,259 bytes (11.16 MiB)**, excluding the small manifest and license text. The original large source downloads and original high-poly tree geometry are not shipped. The five PBR sets, HDR, fern and both tree levels together total **11,632,995 bytes**. The small standalone leaf images remain available as source derivatives but are not needed by the complete tree model. The separate [ocean recording](sea-recording.md) loads only on entering the sea viewer.
+**Total scene asset payload: 11,703,259 bytes (11.16 MiB)**, excluding the small manifest and license text. The original large source downloads and original high-poly tree geometry are not shipped. The five PBR sets, HDR, fern and both tree levels together total **11,632,995 bytes**. The small standalone leaf images remain available as source derivatives but are not needed by the complete tree model.
 
 ## Material maps
 
@@ -38,10 +38,6 @@ Approximate physical width of one texture repeat, from the source metadata: ston
 `/world-assets/coast-environment.hdr` is the official 1024 × 512 Radiance RGBE
 file for Fish Hoek Beach, copied unchanged (1,433,636 bytes). It supplies ambient
 lighting and reflections in the island. It is not displayed as a live sea view.
-
-The former 8K/4K static panoramic sea images have been removed. The pier now
-opens a separate real moving-wave recording; see [video provenance, processing
-and license](sea-recording.md).
 
 ## Foliage
 

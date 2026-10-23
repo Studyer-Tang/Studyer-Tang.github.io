@@ -24,11 +24,7 @@ cover photographs and is not presented as a reconstruction of a real palace.
 No upstream portfolio source or car model is used.
 
 [Poly Haven photographic materials and vegetation](world-assets.md) supply
-stone, timber, tile, ground, scanned trees and ferns under CC0. The pier opens
-[actual filmed ocean waves](sea-recording.md) by Amada44 under CC BY-SA 4.0,
-with a short loop crossfade and responsive video encoding. This is recorded
-footage, not live imagery. The previous static 360° sea viewer and its two
-large photo textures have been removed. [Animated actor credits](actors.md) document the Quaternius
+stone, timber, tile, ground, scanned trees and ferns under CC0. [Animated actor credits](actors.md) document the Quaternius
 traveler (CC0) and the Khronos Fox sample (model CC0; rigging, animation and
 conversion CC BY 4.0). Full notices and machine-readable source hashes are
 self-hosted alongside the assets. Visible Credits links retain required

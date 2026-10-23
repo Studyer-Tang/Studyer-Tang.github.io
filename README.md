@@ -19,9 +19,7 @@ used for the owner's identity.
 - Island: `src/IslandGate.tsx` lazily opens `src/IslandExplorer.tsx`;
   `src/island/world.ts` builds the scene, `movement.ts` handles collision and
   pathfinding, and `landmarks.ts` maps places to chapters.
-- Activities: `src/Seascape.tsx` opens a real ocean recording;
-  `src/sea-playback.ts` manages native video playback;
-  `src/observatory/` contains the sky chart and local ephemeris calculations.
+- Observatory: `src/observatory/` contains the sky chart and local ephemeris calculations.
 - [Scene assets](docs/world-assets.md), [animated actors](docs/actors.md), and
   [visual asset and data licenses](docs/visual-assets.md).
 - [Font sources, licenses and subset regeneration](public/fonts/README.md).
@@ -82,16 +80,7 @@ reduced motion starts the island paused and disables its ambient movement.
 WebGL failures retain the content links and a retry option. The 3D engine loads
 only after entering the island; ordinary reading does not require WebGL.
 
-At the pier, **Ocean waves** opens a self-hosted real video by Amada44, filmed
-on 2014-07-13. White surf and the sea move continuously in a 17.6-second loop;
-this is recorded footage, not a live camera. Native H.264 video uses 1080p on
-desktop and a 608×1080 portrait crop on smaller screens, with a short crossfade at the loop boundary.
-It starts muted, provides a play/pause button and supports Space/K when the video
-has focus. Reduced motion starts still, blocked autoplay offers a direct Play
-action, and hidden tabs pause without undoing a deliberate manual pause. Closing
-removes the media source and releases the decoder. The viewer needs no extra
-WebGL context, 8K photo texture or animation loop. See [recording provenance and
-derivative terms](docs/sea-recording.md); the video retains CC BY-SA 4.0.
+The pier remains walkable and opens the About chapter.
 
 The **Observatory** plots 400 real HYG catalog stars and locally calculates the
 Sun and Moon for a chosen UTC time and latitude/longitude. It starts at Greenwich

@@ -13,7 +13,6 @@ export type IslandCallbacks = {
   onReady: () => void
   onError: (message: string) => void
   onObserve?: () => void
-  onSeascape?: () => void
   onNearAnimal?: (id: string | null) => void
   onAnimal?: (action: AnimalAction) => void
 }
@@ -350,7 +349,6 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
       else if (near) {
         event.preventDefault()
         if (near === 'research' && callbacks.onObserve) callbacks.onObserve()
-        else if (near === 'personal' && callbacks.onSeascape) callbacks.onSeascape()
         else callbacks.onVisit(near)
       }
     }

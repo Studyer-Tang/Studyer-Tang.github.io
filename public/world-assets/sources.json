@@ -419,7 +419,7 @@
           "providerMd5": "f31636b9c10f05882ec81071bdce8c91"
         }
       ],
-      "changes": "Official 1K Radiance HDR copied unchanged for island environment lighting only. The sea viewer uses a separately licensed real video.",
+      "changes": "Official 1K Radiance HDR copied unchanged for island environment lighting only.",
       "files": [
         {
           "path": "/world-assets/coast-environment.hdr",
