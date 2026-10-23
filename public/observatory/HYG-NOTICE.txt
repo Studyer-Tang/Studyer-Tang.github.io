@@ -1,0 +1,30 @@
+HYG BRIGHT-STAR CATALOG NOTICE
+
+Adapted from HYG Database v4.1 by David Nash / Astronexus.
+Source repository: https://github.com/astronexus/HYG-Database
+Current upstream home: https://codeberg.org/astronexus/hyg
+Pinned upstream commit: c7f7f883fe678cc7680169a50ccd7dcc49b060ce
+Source file: hyg/CURRENT/hygdata_v41.csv
+Attribution: HYG Database v4.1, David Nash / Astronexus, CC BY-SA 4.0.
+License: Creative Commons Attribution-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Changes: exclude HYG id 0 (the Sun); select the 400 smallest apparent visual magnitudes, breaking ties by original HYG id; keep selected original identifier, coordinate, magnitude, color, name, constellation and proper-motion fields; rename JSON keys and convert numeric text to JSON numbers. No invented stars, names or positions. Coordinates remain the source catalog epoch/equinox 2000.0. Common names may include unofficial companion names as described by the upstream README. No endorsement by the original author is implied.
+
+The adapted bright-stars.json data file is distributed under CC BY-SA 4.0. Its data license is separate from the surrounding application code and from the NASA photographs. Keep this notice, source attribution and license with redistributed adaptations of the data. See sources.json for provenance and field meanings.
+
+A complete, unmodified copy of the CC BY-SA 4.0 legal code is provided alongside this notice as CC-BY-SA-4.0.html, downloaded from Creative Commons' official source repository:
+https://raw.githubusercontent.com/creativecommons/creativecommons.org/main/docroot/legalcode/by-sa_4.0.html
+Canonical legal code: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+UPSTREAM LICENSE FILE (verbatim)
+Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+
+[![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
+
+[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
+[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
+[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg

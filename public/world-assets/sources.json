@@ -1,0 +1,786 @@
+{
+  "version": 1,
+  "verifiedAt": "2026-10-23",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "providerLicenseUrl": "https://polyhaven.com/license",
+  "assets": [
+    {
+      "id": "grey_stone_path",
+      "title": "Grey Stone Path",
+      "kind": "pbr-material",
+      "sourceUrl": "https://polyhaven.com/a/grey_stone_path",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        16384,
+        16384
+      ],
+      "sourceDimensionsMm": [
+        1799.999713897705,
+        1799.999713897705
+      ],
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_stone_path/grey_stone_path_diff_1k.jpg",
+          "bytes": 839527,
+          "sha256": "9b98572f768a5ca2a050f060807c737e640da303eb1700383bf4d549def2835c",
+          "providerMd5": "587730d9d8cee8d49819cee606cfeff0"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/grey_stone_path/grey_stone_path_nor_gl_1k.png",
+          "bytes": 5646322,
+          "sha256": "865d7cff7e5509cc6519b08c85b88cab594c93f760e96dd1ca9af8c71bd94134",
+          "providerMd5": "1a646d3d2b33451a71b81c1462095038"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/grey_stone_path/grey_stone_path_arm_1k.png",
+          "bytes": 4239474,
+          "sha256": "fd360fbc41e3e414cbd76920bb5ba694c06798467963d4ee19906703aa4e7d9d",
+          "providerMd5": "a3764b6673d1e989e72cbe893700f6f3"
+        }
+      ],
+      "changes": "Albedo re-encoded to WebP at quality 90. Data maps converted from source PNG to 8-bit RGB, resized to 512x512 with Lanczos in their original linear channel space, and encoded as lossless WebP; no gamma transform or crop. No generative processing.",
+      "files": [
+        {
+          "path": "/world-assets/stone-albedo.webp",
+          "bytes": 316692,
+          "sha256": "23ef5de82dde8b30c72efbfbd5b1e0e050ac569274e21bc465fec4de98bfb623",
+          "role": "albedo",
+          "colorSpace": "srgb",
+          "encoding": "WebP lossy quality 90",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/stone-normal.webp",
+          "bytes": 420792,
+          "sha256": "83f1d4389de129ccec99c729e24a83c90897a14809634dc8faacba3e5bd8bd14",
+          "role": "normal",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        },
+        {
+          "path": "/world-assets/stone-arm.webp",
+          "bytes": 279544,
+          "sha256": "7a8aa60b60b6fe31ed9f463e83b5b349af533f78ed78da70b2107256df4cb131",
+          "role": "arm",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "normalConvention": "OpenGL +Y",
+      "packedChannels": {
+        "R": "ambient occlusion",
+        "G": "roughness",
+        "B": "metallic"
+      }
+    },
+    {
+      "id": "wood_floor_deck",
+      "title": "Wood Floor Deck",
+      "kind": "pbr-material",
+      "sourceUrl": "https://polyhaven.com/a/wood_floor_deck",
+      "authors": {
+        "Dimitrios Savva": "All"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        8192,
+        8192
+      ],
+      "sourceDimensionsMm": [
+        1799.9999523162842,
+        1799.9999523162842
+      ],
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_floor_deck/wood_floor_deck_diff_1k.jpg",
+          "bytes": 925789,
+          "sha256": "1f2c623e87b0ee905f6f4ec8664dd19b4b135207c96e86198ff2919770b47166",
+          "providerMd5": "186a695239216a4b9dc970a87d6dbb15"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wood_floor_deck/wood_floor_deck_nor_gl_1k.png",
+          "bytes": 5334032,
+          "sha256": "cf1f1629935d5decccfe66a771e8c6cc84f3ffd7157c60580322b4600441d75b",
+          "providerMd5": "3e9cc7ef9ac74488f144135df0688db5"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/wood_floor_deck/wood_floor_deck_arm_1k.png",
+          "bytes": 4357263,
+          "sha256": "64feecafafe4cad209b19fcbbe1439a750f868ad5817438a66e2f815c81fdc04",
+          "providerMd5": "7234f6e5ea72fa04301e270e1a6bed1a"
+        }
+      ],
+      "changes": "Albedo re-encoded to WebP at quality 90. Data maps converted from source PNG to 8-bit RGB, resized to 512x512 with Lanczos in their original linear channel space, and encoded as lossless WebP; no gamma transform or crop. No generative processing.",
+      "files": [
+        {
+          "path": "/world-assets/wood-albedo.webp",
+          "bytes": 319792,
+          "sha256": "b827445b3672b2ff57c5e18a91e245edd50079c282f921155d7ebc49c20f0a6f",
+          "role": "albedo",
+          "colorSpace": "srgb",
+          "encoding": "WebP lossy quality 90",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/wood-normal.webp",
+          "bytes": 270220,
+          "sha256": "3fe5ca41df741dac6fee4c1c36de1a9b69758426fdd66e81cb085004280622dc",
+          "role": "normal",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        },
+        {
+          "path": "/world-assets/wood-arm.webp",
+          "bytes": 254312,
+          "sha256": "6d621d6214e9962343aa3dcad1a9598765796441591e9fa4efc63f827e0b6ecc",
+          "role": "arm",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "normalConvention": "OpenGL +Y",
+      "packedChannels": {
+        "R": "ambient occlusion",
+        "G": "roughness",
+        "B": "metallic"
+      }
+    },
+    {
+      "id": "grey_roof_tiles",
+      "title": "Grey Roof Tiles",
+      "kind": "pbr-material",
+      "sourceUrl": "https://polyhaven.com/a/grey_roof_tiles",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        8192,
+        8192
+      ],
+      "sourceDimensionsMm": [
+        3000,
+        3000
+      ],
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_roof_tiles/grey_roof_tiles_diff_1k.jpg",
+          "bytes": 596156,
+          "sha256": "f61107b70cf56074c9db09384a332620c94c678ed2baabfae78029a8242e49a3",
+          "providerMd5": "9a0d2c1ca66e79972c7c35cefa238cf7"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/grey_roof_tiles/grey_roof_tiles_nor_gl_1k.png",
+          "bytes": 1412599,
+          "sha256": "95e5e98c35f3797c689881fbf88c966ff42f4c3ebb777fbe1002f7199d9c0640",
+          "providerMd5": "928bb588c62f1424462fc37769ec4e6a"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/grey_roof_tiles/grey_roof_tiles_arm_1k.png",
+          "bytes": 1143972,
+          "sha256": "b781e22a5a88cf6e9d4b856ae1b7aef7e2270f4e23aa6b40b3ff0c281c6e4402",
+          "providerMd5": "2e0ca8ca29d9b55f9710e20cf126b41f"
+        }
+      ],
+      "changes": "Albedo re-encoded to WebP at quality 90. Data maps converted from source PNG to 8-bit RGB, resized to 512x512 with Lanczos in their original linear channel space, and encoded as lossless WebP; no gamma transform or crop. No generative processing.",
+      "files": [
+        {
+          "path": "/world-assets/roof-albedo.webp",
+          "bytes": 302806,
+          "sha256": "14e5912f114ff467b7189cab72ecbdb1cb10c57c5459da7d60cef32fe21fa8a2",
+          "role": "albedo",
+          "colorSpace": "srgb",
+          "encoding": "WebP lossy quality 90",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/roof-normal.webp",
+          "bytes": 385096,
+          "sha256": "e0f2dadbca85019699032f687c93ac0c313069595eaec3b73f580185ef6231e4",
+          "role": "normal",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        },
+        {
+          "path": "/world-assets/roof-arm.webp",
+          "bytes": 237212,
+          "sha256": "0ce9a5f44100ca75fbe35bea6e55cffec80d960214b93aee5dc0239d450c1a6c",
+          "role": "arm",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "normalConvention": "OpenGL +Y",
+      "packedChannels": {
+        "R": "ambient occlusion",
+        "G": "roughness",
+        "B": "metallic"
+      }
+    },
+    {
+      "id": "chinese_cedar_bark",
+      "title": "Chinese Cedar Bark",
+      "kind": "pbr-material",
+      "sourceUrl": "https://polyhaven.com/a/chinese_cedar_bark",
+      "authors": {
+        "Charlotte Baglioni": "All"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        8192,
+        8192
+      ],
+      "sourceDimensionsMm": [
+        2269.9999809265137,
+        2269.9999809265137
+      ],
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/chinese_cedar_bark/chinese_cedar_bark_diff_1k.jpg",
+          "bytes": 735610,
+          "sha256": "53e388eda1394bcb322d5c36f4fceeee23fd6888245a59bbd229d0319f4646cd",
+          "providerMd5": "ad3d7d486f77b8d625ac74fc7d0ec04e"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/chinese_cedar_bark/chinese_cedar_bark_nor_gl_1k.png",
+          "bytes": 5685003,
+          "sha256": "a42cd1bf341be6503c618c8d3db5bae682f719ef6eac143f826fa58796e47e84",
+          "providerMd5": "1301d3d71a8365170bf9b36d8c1462a8"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/chinese_cedar_bark/chinese_cedar_bark_arm_1k.png",
+          "bytes": 3949190,
+          "sha256": "20b41c6a8411cca9a36026a97b8bfc55835cccd4c54854c798679170fbbf5c91",
+          "providerMd5": "2b1b444ff880754d6aaff3ed579d9958"
+        }
+      ],
+      "changes": "Albedo re-encoded to WebP at quality 90. Data maps converted from source PNG to 8-bit RGB, resized to 512x512 with Lanczos in their original linear channel space, and encoded as lossless WebP; no gamma transform or crop. No generative processing.",
+      "files": [
+        {
+          "path": "/world-assets/bark-albedo.webp",
+          "bytes": 232180,
+          "sha256": "b514592290e58e3f6819771e70162ccc2812799c20ed80818689780f8c066ef2",
+          "role": "albedo",
+          "colorSpace": "srgb",
+          "encoding": "WebP lossy quality 90",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/bark-normal.webp",
+          "bytes": 504626,
+          "sha256": "8ebe73fe92628b0a3cd965b91b70083454e8e1e80e63c55ff91cf630d9ab731c",
+          "role": "normal",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        },
+        {
+          "path": "/world-assets/bark-arm.webp",
+          "bytes": 234706,
+          "sha256": "c36cd3d7c615642b3dddc75830e629bfbc0fb9edcd995734e0be5b0b27615904",
+          "role": "arm",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "normalConvention": "OpenGL +Y",
+      "packedChannels": {
+        "R": "ambient occlusion",
+        "G": "roughness",
+        "B": "metallic"
+      }
+    },
+    {
+      "id": "aerial_grass_rock",
+      "title": "Aerial Grass Rock",
+      "kind": "pbr-material",
+      "sourceUrl": "https://polyhaven.com/a/aerial_grass_rock",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        8192,
+        8192
+      ],
+      "sourceDimensionsMm": [
+        15000,
+        15000
+      ],
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_diff_1k.jpg",
+          "bytes": 666655,
+          "sha256": "57b8041bfe0d0f01430e4dbaad45e7ddddf0a9fc97317f90dbc51f7b0d9e1b5d",
+          "providerMd5": "e920ce36afd0abff000b8366d3d768d3"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/aerial_grass_rock/aerial_grass_rock_nor_gl_1k.png",
+          "bytes": 6366521,
+          "sha256": "23bf3adc3f0d2a59eac317718377ca681dab9398fe824eb89925f89a2469f62e",
+          "providerMd5": "7f8e7115d05196a294c10e545fa35fd5"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/aerial_grass_rock/aerial_grass_rock_arm_1k.png",
+          "bytes": 4624657,
+          "sha256": "9738a3fe3b93e6d5d8bee60800519df49f13ced7a5ec39f956ff31a94b335d18",
+          "providerMd5": "4c48969da80d8ea834d54a9506063c8c"
+        }
+      ],
+      "changes": "Albedo re-encoded to WebP at quality 90. Data maps converted from source PNG to 8-bit RGB, resized to 512x512 with Lanczos in their original linear channel space, and encoded as lossless WebP; no gamma transform or crop. No generative processing.",
+      "files": [
+        {
+          "path": "/world-assets/ground-albedo.webp",
+          "bytes": 335138,
+          "sha256": "4142f57cd397bf7ee1553797d93220ac7f40c2c41d0468f4713a3eedc53f0e4b",
+          "role": "albedo",
+          "colorSpace": "srgb",
+          "encoding": "WebP lossy quality 90",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/ground-normal.webp",
+          "bytes": 484670,
+          "sha256": "ce801887c03029c6cc2e2234d85504fb63b35e03389b769fb76310d9e68effbe",
+          "role": "normal",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        },
+        {
+          "path": "/world-assets/ground-arm.webp",
+          "bytes": 327736,
+          "sha256": "c216d9fd4c002957c78c1eddb3e08c2b009ae848b42994c1e8306def282ed99b",
+          "role": "arm",
+          "colorSpace": "linear",
+          "encoding": "WebP lossless RGB8",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "normalConvention": "OpenGL +Y",
+      "packedChannels": {
+        "R": "ambient occlusion",
+        "G": "roughness",
+        "B": "metallic"
+      }
+    },
+    {
+      "id": "fish_hoek_beach",
+      "title": "Fish Hoek Beach",
+      "kind": "photographic-environment",
+      "sourceUrl": "https://polyhaven.com/a/fish_hoek_beach",
+      "authors": {
+        "Greg Zaal": "All",
+        "Rico Cilliers": "Backplates"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        16384,
+        8192
+      ],
+      "sourceDimensionsMm": null,
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/fish_hoek_beach.jpg",
+          "bytes": 2179730,
+          "sha256": "953154daf7c0ab7f9ff5ffc3743de021d5922bd4287e58290ef4f9702c5c2d77",
+          "providerMd5": "771173ffa871c7da6a9c9042aaf7ce2b"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/fish_hoek_beach_1k.hdr",
+          "bytes": 1433636,
+          "sha256": "5e1615f4f0485b45c813762b7cd6af8a6cdb5d0e4c01a79e05ae04e8019a94c2",
+          "providerMd5": "f31636b9c10f05882ec81071bdce8c91"
+        }
+      ],
+      "changes": "Official tonemapped photographic panorama re-encoded to WebP; 4K derivative resized with Lanczos. Original HDR copied without changes. No crop, recoloring or generative processing.",
+      "files": [
+        {
+          "path": "/world-assets/coast-panorama-8k.webp",
+          "bytes": 965648,
+          "sha256": "fdbde87b07dda356d83230897abcbbff6dc02359881f8341a37ef008c21e498e",
+          "role": "equirectangular-background",
+          "colorSpace": "srgb",
+          "encoding": "WebP quality 90",
+          "recommended": "desktop on demand",
+          "width": 8192,
+          "height": 4096
+        },
+        {
+          "path": "/world-assets/coast-panorama.webp",
+          "bytes": 317916,
+          "sha256": "777691b4821468cf9e70c0c87627802d86245df775bd6d4568b36108bf5f8689",
+          "role": "equirectangular-background",
+          "colorSpace": "srgb",
+          "encoding": "WebP quality 90",
+          "recommended": "mobile on demand",
+          "width": 4096,
+          "height": 2048
+        },
+        {
+          "path": "/world-assets/coast-environment.hdr",
+          "bytes": 1433636,
+          "sha256": "5e1615f4f0485b45c813762b7cd6af8a6cdb5d0e4c01a79e05ae04e8019a94c2",
+          "role": "lighting",
+          "colorSpace": "linear",
+          "width": 1024,
+          "height": 512,
+          "encoding": "Radiance RGBE; unmodified"
+        }
+      ],
+      "projection": "equirectangular",
+      "seaCenterUV": [
+        0.57,
+        0.5
+      ]
+    },
+    {
+      "id": "island_tree_02",
+      "title": "Island Tree 02",
+      "kind": "photographic-foliage-and-simplified-tree",
+      "sourceUrl": "https://polyhaven.com/a/island_tree_02",
+      "authors": {
+        "Rob Tuytel": "scanning, processing",
+        "Rico Cilliers": "cleanup, processing"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        8192,
+        8192
+      ],
+      "sourceDimensionsMm": [
+        8485.51321029663,
+        4078.6155462265015,
+        3408.9039135724306
+      ],
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/island_tree_02/island_tree_02_leaves_diff_1k.jpg",
+          "bytes": 191886,
+          "sha256": "f56d762a1507754752abf164cc12acbc1e87ce87fa609ac44b98a1b0037c89d8",
+          "providerMd5": "1356cbb5a5dd1318f9f2a01eddbf03e1"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/island_tree_02/island_tree_02_leaves_alpha_1k.png",
+          "bytes": 57438,
+          "sha256": "f4341f147988dbe6b58d9ca841a8f0e4bcff25bc40d05f9877da82006d489c39",
+          "providerMd5": "5ad9fb9a06e70c069bd3d3ba23577375"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/island_tree_02/island_tree_02_1k.gltf",
+          "bytes": 8545,
+          "sha256": "d8c5d9ead41cdbef91a648f40ff60470faa19eb3a7010e59e44cb1a01250f75d",
+          "providerMd5": "825057164e987894cbfc6c462977fa71"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/island_tree_02/island_tree_02.bin",
+          "bytes": 40686576,
+          "sha256": "427d69ccc1ea12d1fb9c6af89691563b4a097f39a6f34c15be6e45ef5e5fd4ce",
+          "providerMd5": "7fa9d6ee752b670cabb65053a5c6395b"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/island_tree_02/island_tree_02_diff_1k.jpg",
+          "bytes": 738738,
+          "sha256": "8fc20397ab5d514c119d7a025868414d78e436138d3867a4b7ba12334a72ec3a",
+          "providerMd5": "b7435527d9628527ce47d89fc1468e9a"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/island_tree_02/island_tree_02_branches_diff_1k.jpg",
+          "bytes": 528304,
+          "sha256": "bee5ec22196e9e31ad0c95a5a9b4636571cc0124d5bb27a92f1e307d289cc60d",
+          "providerMd5": "7792907fe2b2b748c129a2384192a579"
+        }
+      ],
+      "changes": "Combined photographed leaf color and 16-bit source alpha into RGBA; single-leaf derivative cropped from the atlas. The GLB uses the original tree trunk/branches simplified offline, retaining referenced source positions/normals/UVs. To preserve complete leaves instead of pruning them into fragments, original 21-vertex leaves are fitted to local UV-to-position planes and represented by 2-triangle alpha cards. Deterministically retained 10,500 of 29,781 leaves and scaled each leaf by 1.684 for area compensation, preserving source positions/orientations/atlas layout. The result has 23,639 triangles with three material groups and original branch texture transform. Embedded trunk/branch photos use JPEG quality 90 without chroma subsampling; leaf color/alpha uses PNG with MASK 0.47. No runtime geometry codec or generative processing. Added a geometry-only distant LOD with 3,800 complete leaf cards (2.799x area-compensation scale) and the same trunk/branch geometry. The LOD keeps original local coordinates and three material names for binding the high-detail model materials; no duplicate textures are shipped.",
+      "files": [
+        {
+          "path": "/world-assets/leaves.webp",
+          "bytes": 62580,
+          "sha256": "044f2235b85a05ca5494e31f69d3718cc1b4271a10e75c04f0ddb2eb61cb742c",
+          "role": "leaf-atlas",
+          "colorSpace": "srgb",
+          "encoding": "WebP RGBA quality 92",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/leaf.webp",
+          "bytes": 7684,
+          "sha256": "3e4dd2f08e23fbbc27cf51dbdb89ff9016374f7523310f551501b6db71c85603",
+          "role": "single-leaf",
+          "colorSpace": "srgb",
+          "encoding": "WebP RGBA quality 92",
+          "sourceCrop": [
+            169,
+            20,
+            361,
+            402
+          ],
+          "width": 192,
+          "height": 382
+        },
+        {
+          "path": "/world-assets/tree/island-tree.glb",
+          "bytes": 2564432,
+          "sha256": "4aa7cf27b7d64815b0ecad4274eeec2ea09617f700be8a1aa03dbbe9cbf1c850",
+          "role": "simplified-tree-model",
+          "encoding": "glTF 2.0 binary; core geometry; KHR_texture_transform",
+          "triangles": 23639,
+          "vertices": 44073,
+          "materialGroups": 3,
+          "boundsMeters": {
+            "min": [
+              -1.8631579875946045,
+              -0.01397637277841568,
+              -1.1348612308502197
+            ],
+            "max": [
+              2.002516508102417,
+              3.367648124694824,
+              2.9584033489227295
+            ],
+            "dimensions": [
+              3.8656744956970215,
+              3.38162449747324,
+              4.093264579772949
+            ]
+          }
+        },
+        {
+          "path": "/world-assets/tree/island-tree-lod.glb",
+          "bytes": 617852,
+          "sha256": "54569a476bb8a6e600254d923cae0c82a56d2f6b452d7ad1167def370a351dc5",
+          "role": "geometry-only-distant-tree-lod",
+          "encoding": "glTF 2.0 binary; no embedded images or geometry codec",
+          "triangles": 10239,
+          "vertices": 17273,
+          "materialGroups": 3,
+          "requiresMaterialsFrom": "/world-assets/tree/island-tree.glb",
+          "materialNames": [
+            "scanned-trunk",
+            "photographic-leaves",
+            "scanned-branches"
+          ],
+          "transformContract": "Original local coordinates retained. Reuse high-detail tree height and feet offset; do not independently normalize the LOD."
+        }
+      ],
+      "notes": "Original 40.7 MB binary and temporary tools are outside the repository. Earlier 7,139-triangle whole-tree simplification was rejected as too sparse. The current complete-leaf high-detail canopy was reviewed in the integrated browser scene on 2026-10-23 and accepted for density. The geometry-only distant LOD must share the high-detail materials and transform normalization; scene integration remains responsible for distance selection and lighting.",
+      "simplification": {
+        "tool": "meshoptimizer",
+        "version": "1.3.0",
+        "toolSource": "https://github.com/zeux/meshoptimizer",
+        "originalTriangles": 1072213,
+        "resultTriangles": 23639,
+        "materialGroups": [
+          {
+            "material": 0,
+            "triangles": 1198,
+            "vertices": 832
+          },
+          {
+            "material": 1,
+            "triangles": 21000,
+            "vertices": 42000
+          },
+          {
+            "material": 2,
+            "triangles": 1441,
+            "vertices": 1241
+          }
+        ],
+        "leafCards": {
+          "sourceLeaves": 29781,
+          "retainedLeaves": 10500,
+          "leafCardsTriangles": 21000,
+          "perLeafScale": 1.6841275825440642,
+          "selectionSeed": 529138,
+          "method": "Fit affine UV-to-position plane per original 21-vertex leaf; keep complete source UV bounds and alpha; sample complete leaves deterministically and compensate area through uniform per-leaf scaling."
+        },
+        "canopyValidation": "High-detail leaf-card model accepted for canopy density after real browser review on 2026-10-23. Original sparse model was rejected. Distant LOD uses the same complete-leaf method and shared source textures.",
+        "distantLod": {
+          "sourceLeaves": 29781,
+          "retainedLeaves": 3800,
+          "leafCardsTriangles": 7600,
+          "perLeafScale": 2.7994830349830475,
+          "selectionSeed": 529138,
+          "method": "Fit affine UV-to-position plane per original 21-vertex leaf; keep complete source UV bounds and alpha; sample complete leaves deterministically and compensate area through uniform per-leaf scaling.",
+          "triangles": 10239,
+          "materialGroups": [
+            {
+              "material": 0,
+              "triangles": 1198,
+              "vertices": 832
+            },
+            {
+              "material": 1,
+              "triangles": 7600,
+              "vertices": 15200
+            },
+            {
+              "material": 2,
+              "triangles": 1441,
+              "vertices": 1241
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fern_02",
+      "title": "Fern 02",
+      "kind": "scanned-plant-model",
+      "sourceUrl": "https://polyhaven.com/a/fern_02",
+      "authors": {
+        "Rob Tuytel": "scanning",
+        "Rico Cilliers": "modeling"
+      },
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "originalMaxResolution": [
+        8192,
+        8192
+      ],
+      "sourceDimensionsMm": [
+        1972.5302457809448,
+        1724.0281701087952,
+        427.6947118341923
+      ],
+      "sources": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/fern_02/fern_02_diff_1k.jpg",
+          "bytes": 315705,
+          "sha256": "a828a6e7b4c01c826911e2eac4b3afc7457dab7b3b392a31c681ed88b7d50029",
+          "providerMd5": "82c18a6cfd5ae91c37c0e078f591181c"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/fern_02/fern_02_alpha_1k.png",
+          "bytes": 114589,
+          "sha256": "ea3c64284c7ebdeedf484d2d816eae92825ec526140c3bb83859ddc7a64001f9",
+          "providerMd5": "1421e5e36946c23a7ddcc907de89025c"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/fern_02/fern_02_nor_gl_1k.png",
+          "bytes": 3192675,
+          "sha256": "438c065c60754ad410c5b4690df6547d06d9907b8d2c9c3a908cb135ffd52b97",
+          "providerMd5": "a76a9a49279279502af311c3c7ad79e3"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/fern_02/fern_02_arm_1k.png",
+          "bytes": 403273,
+          "sha256": "669019fa5996ed6ba0423b63e3d61a021dd07b192d93c683ac4ee1ad7790a66b",
+          "providerMd5": "2056caf57c0081d97b3e8860eeeafaa1"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/fern_02/fern_02.bin",
+          "bytes": 176176,
+          "sha256": "fe1abb762bcbbc7ad9e86925c8080437a62add257d9280e9142fdc85c226e64c",
+          "providerMd5": "c061e9255f7d36ae9ce0e92ef3e100b2"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/fern_02/fern_02_1k.gltf",
+          "bytes": 6899,
+          "sha256": "33974295ee19670af4877705fc7d91f33f42d6302f0d44a625e072271223031f",
+          "providerMd5": "cf276874d37bfb73c299504a6b355b77"
+        }
+      ],
+      "changes": "Original geometry and UVs retained. Combined photographic color with source alpha; source data maps converted to RGB8 PNG. Rewrote resource URIs locally. Fixes the provider glTF JPEG color map losing its mask. No geometry generation.",
+      "files": [
+        {
+          "path": "/world-assets/fern/fern.gltf",
+          "bytes": 4147,
+          "sha256": "f55cdbe956a31e9ae3fd594306b04f3aa02766839e4267fa0860c4d52e008aea",
+          "role": "gltf"
+        },
+        {
+          "path": "/world-assets/fern/fern.bin",
+          "bytes": 176176,
+          "sha256": "fe1abb762bcbbc7ad9e86925c8080437a62add257d9280e9142fdc85c226e64c",
+          "role": "geometry"
+        },
+        {
+          "path": "/world-assets/fern/albedo.png",
+          "bytes": 887835,
+          "sha256": "95acd207f8aa4591da06bd3966ff733a5edf134b958ddf8d42dc3bc86dd81c28",
+          "role": "albedo-alpha",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/fern/normal.png",
+          "bytes": 686871,
+          "sha256": "a8746652336d66e473effd527d959b53e395a03bf77ad49f05135ace7ef4f2d3",
+          "role": "normal",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "/world-assets/fern/arm.png",
+          "bytes": 356524,
+          "sha256": "13557d563814ba3115d1eb03d14285040ea72a878077003e0b2274e3fd62262e",
+          "role": "arm",
+          "width": 1024,
+          "height": 1024
+        }
+      ],
+      "meshNames": [
+        "fern_02_b",
+        "fern_02_c",
+        "fern_02_a",
+        "fern_02_d"
+      ],
+      "triangles": [
+        2384,
+        2248,
+        784,
+        816
+      ],
+      "trianglesTotal": 6232,
+      "normalConvention": "OpenGL +Y",
+      "packedChannels": {
+        "R": "ambient occlusion",
+        "G": "roughness",
+        "B": "metallic"
+      }
+    }
+  ],
+  "totalAssetBytes": 12986823,
+  "licenseText": {
+    "path": "/world-assets/LICENSE-CC0.txt",
+    "sourceUrl": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+    "bytes": 7048,
+    "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "id": "hyg-v41-bright-400",
+  "title": "HYG Database v4.1: 400 brightest catalog records",
+  "credit": "David Nash / Astronexus",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "sourceUrl": "https://github.com/astronexus/HYG-Database",
+  "currentUpstreamUrl": "https://codeberg.org/astronexus/hyg",
+  "sourceReadmeUrl": "https://github.com/astronexus/HYG-Database/blob/c7f7f883fe678cc7680169a50ccd7dcc49b060ce/hyg/README.md",
+  "sourceLicenseUrl": "https://github.com/astronexus/HYG-Database/blob/c7f7f883fe678cc7680169a50ccd7dcc49b060ce/hyg/CURRENT/LICENSE",
+  "rawSourceUrl": "https://raw.githubusercontent.com/astronexus/HYG-Database/c7f7f883fe678cc7680169a50ccd7dcc49b060ce/hyg/CURRENT/hygdata_v41.csv",
+  "sourceCommit": "c7f7f883fe678cc7680169a50ccd7dcc49b060ce",
+  "sourceGitBlobSha1": "ba2dec4eb0f6768914c7fc1051258100214ddf84",
+  "sourceSha256": "d9f69fd86bbf90a4e4d52b4c5c53eacfa6dfc0bfdef85bfd94f095e0bebe4ebd",
+  "sourceBytes": 33932548,
+  "retrievedOn": "2026-10-23",
+  "count": 400,
+  "namedCount": 221,
+  "magnitudeRange": [
+    -1.44,
+    3.77
+  ],
+  "downloadPath": "/observatory/bright-stars.json",
+  "noticePath": "/observatory/HYG-NOTICE.txt",
+  "fullLicensePath": "/observatory/CC-BY-SA-4.0.html",
+  "adaptedDataSha256": "359e3913cbc5d90bdbc70125b7165d065fa08c144d1540477373c0407421a9b9",
+  "epoch": 2000.0,
+  "equinox": 2000.0,
+  "coordinateFrame": "Source HYG equatorial coordinates, epoch/equinox 2000.0 (J2000).",
+  "selection": "Exclude HYG id 0 (the Sun), sort finite source records by ascending apparent visual magnitude then ascending HYG id, take the first 400.",
+  "changes": [
+    "Select 400 records from the upstream v4.1 CSV.",
+    "Rename selected fields to the documented JSON keys and parse numeric text as JSON numbers.",
+    "Preserve the original numeric coordinate/magnitude/proper-motion values, proper/common names, and original identifiers; represent missing fields as null.",
+    "No synthetic stars, invented proper names, random positions, positional precession or epoch propagation are stored in this file."
+  ],
+  "fieldDefinitions": {
+    "hygId": "Original HYG v4.1 database primary key; stable provenance within this pinned version.",
+    "hip": "Original Hipparcos identifier, or null.",
+    "hd": "Original Henry Draper identifier, or null.",
+    "hr": "Original Harvard Revised / Yale Bright Star identifier, or null.",
+    "name": "Original HYG proper/common-name field, or null. Some companion labels in HYG v4.1 are explicitly unofficial; do not present every label as an IAU-approved proper name.",
+    "raHours": "Right ascension in decimal hours, epoch/equinox 2000.0; multiply by 15 for degrees.",
+    "decDeg": "Declination in decimal degrees, epoch/equinox 2000.0.",
+    "magnitude": "Source apparent visual magnitude, not an absolute magnitude or current variable-star light curve.",
+    "colorIndex": "Source B minus V color index in magnitudes, or null; this is not a measured RGB color.",
+    "bayer": "Original upstream Bayer designation token, or null.",
+    "constellation": "Original upstream three-letter constellation abbreviation, or null.",
+    "pmRaMasYr": "Tangent-plane RA proper motion μ_α* = (dα/dt) cos δ, in milliarcseconds per Julian year. See properMotionEvidence for the evidence and caveat.",
+    "pmDecMasYr": "Declination proper motion dδ/dt in milliarcseconds per Julian year."
+  },
+  "properMotionEvidence": {
+    "convention": "mu_alpha_star = d(alpha)/dt * cos(delta)",
+    "definitionSourceUrl": "https://hipparcos-tools.cosmos.esa.int/pstex/sect2_01.pdf",
+    "definitionReference": "ESA, The Hipparcos and Tycho Catalogues, Volume 1, section 2.1, H12/H13.",
+    "upstreamReadmeCaveat": "The HYG README states mas/year but does not explicitly spell out the RA cosine convention. The interpretation here is corroborated by original Hipparcos fields and by the source Cartesian velocities; it is not quoted as an explicit HYG README guarantee.",
+    "crosscheck": {
+      "catalog": "Hipparcos I/239/hip_main",
+      "rowsReturned": 396,
+      "compared": 396,
+      "maxPmRaDifferenceMasYr": 77.84000000000015,
+      "maxPmDecDifferenceMasYr": 470.27000000000004,
+      "different": 1,
+      "largestDifferences": [
+        [
+          77.84000000000015,
+          470.27000000000004,
+          71681,
+          "Toliman"
+        ],
+        [
+          0.0,
+          0.0,
+          116727,
+          "Errai"
+        ],
+        [
+          0.0,
+          0.0,
+          114971,
+          null
+        ],
+        [
+          0.0,
+          0.0,
+          114341,
+          null
+        ]
+      ]
+    },
+    "crosscheckService": "https://tapvizier.cds.unistra.fr/TAPVizieR/tap/sync",
+    "crosscheckQuery": "SELECT HIP, pmRA, pmDE FROM \"I/239/hip_main\" WHERE HIP IN (the 396 non-null HIP identifiers in bright-stars.json)",
+    "internalVelocityCheck": "For all 400 selected records, project upstream (vx,vy,vz) on (-sin(alpha),cos(alpha),0), divide by source distance, and convert radians/year to mas/year. This tangent-plane rate agrees with pmra to at most 0.31 mas/year at the published source precision. The comparison uses the unrounded source CSV vectors and does not alter distributed PM values.",
+    "internalVelocityMaxRaResidualMasYr": 0.3097729377225278,
+    "internalVelocityMaxDecResidualMasYr": 1.4153976115313753,
+    "propagationScope": "A UI may apply a documented linear tangent-vector proper-motion approximation from J2000 before precession/nutation. These catalog values alone do not give current astrometric measurements, a complete binary orbit, perspective acceleration or a topocentric/relativistic solution."
+  },
+  "limitations": [
+    "This is a brightness-limited educational subset, not a complete or precision astrometric catalog.",
+    "Close binary components are retained as separate upstream records and may overlap at wide-field display scales.",
+    "The magnitude and color values are catalog values; variable stars and unresolved multiple systems can differ from an observation on a particular night.",
+    "NASA image usage terms are separate; see /observatory/NASA-NOTICE.txt and /observatory/images.json."
+  ],
+  "licenseTextSourceUrl": "https://raw.githubusercontent.com/creativecommons/creativecommons.org/main/docroot/legalcode/by-sa_4.0.html"
+}

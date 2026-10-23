@@ -39,3 +39,19 @@ test('font coverage rejects a changed font with a stale cmap manifest', async ()
     await rm(directory, { recursive: true, force: true })
   }
 })
+
+test('font coverage includes the visible photography metadata', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'field-font-photography-'))
+  try {
+    await mkdir(join(directory, 'scripts'))
+    await mkdir(join(directory, 'src'))
+    await cp(new URL('../public/fonts', import.meta.url), join(directory, 'public/fonts'), { recursive: true })
+    await cp(new URL('../scripts/check-fonts.mjs', import.meta.url), join(directory, 'scripts/check-fonts.mjs'))
+    await writeFile(join(directory, 'src/photographs.json'), JSON.stringify([{ title: { zh: '𠀀' } }]))
+    const result = spawnSync(process.execPath, [join(directory, 'scripts/check-fonts.mjs')], { encoding: 'utf8' })
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /U\+20000/)
+  } finally {
+    await rm(directory, { recursive: true, force: true })
+  }
+})

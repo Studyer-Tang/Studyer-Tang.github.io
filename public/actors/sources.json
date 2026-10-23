@@ -1,0 +1,20 @@
+[
+  {
+    "file": "traveler.glb",
+    "title": "Adventurer",
+    "author": "Quaternius",
+    "sourceUrl": "https://quaternius.com/packs/ultimatemodularcharacters.html",
+    "license": "CC0-1.0",
+    "bytes": 1333828,
+    "sha256": "5285f441a60d72d5ddbf577369865fc4ea9174b32bb4a034fd960b9d58b11c33"
+  },
+  {
+    "file": "fox.glb",
+    "title": "Fox",
+    "author": "PixelMannen (model); tomkranis (rig and animation); AsoboStudio and scurest (glTF conversion)",
+    "sourceUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+    "license": "CC0-1.0 (model); CC-BY-4.0 (animation and conversion)",
+    "bytes": 162852,
+    "sha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+  }
+]

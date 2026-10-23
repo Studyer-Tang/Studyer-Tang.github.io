@@ -1,18 +1,47 @@
-.scenery { --scene: url('/night-lake.webp'); position: fixed; inset: 0; z-index: -2; overflow: hidden; background: #081b2d; pointer-events: none; }
-.scenery-frame { position: absolute; inset: -1%; }
-.scenery-image, .scenery-water { position: absolute; inset: 0; background-image: var(--scene); background-size: cover; background-position: center; }
-.scenery-water { mask-image: linear-gradient(transparent 62%, #000 74%); opacity: .28; animation: water-drift 12s ease-in-out infinite alternate; will-change: transform; }
-.scenery-mist { position: absolute; inset: 48% -10% 24%; background: radial-gradient(ellipse at 35% 50%, #d1e5e71c, transparent 48%), radial-gradient(ellipse at 72% 57%, #dae9e916, transparent 46%); animation: mist-breathe 24s ease-in-out infinite alternate; }
-.scenery-shade { position: absolute; inset: 0; background: linear-gradient(180deg, #04111c45, #04111c0a 46%, #04111c26 70%, #04111c85), linear-gradient(90deg, #04111c4d, transparent 65%); }
-.scenery[data-running=false] *, .scenery[data-running=false] *::before { animation-play-state: paused; }
-.scene-control { position: fixed; z-index: 6; bottom: 27px; right: clamp(24px, 5vw, 80px); display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 8px 0 8px 10px; border: 0; background: transparent; color: #b4c8ca; font: 11px/1.8 var(--sans); transition: color 220ms; }
-.scene-control:hover { color: #f1eee1; }
-.site-inner .scene-control { position: absolute; }
-.scene-control:disabled { cursor: default; opacity: .65; }
-.motion-dot { width: 5px; height: 5px; border-radius: 50%; background: #8fa4aa; }
-.motion-dot-on { background: #d1d7b6; box-shadow: 0 0 9px #d1d7b62b; }
-@keyframes water-drift { from { transform: scaleY(1.002) translate3d(-1px, 0, 0); } to { transform: scaleY(1.006) translate3d(1px, 1px, 0); } }
-@keyframes mist-breathe { from { opacity: .25; } to { opacity: .65; } }
-@media (max-width: 600px) { .scenery { --scene: url('/night-lake-small.webp'); } .scene-control { bottom: 25px; right: 24px; font-size: 10px; } }
-@media (prefers-reduced-motion: reduce) { .scenery * { animation: none !important; transform: none !important; } }
-@media print { .scenery, .scene-control { display: none; } }
+.scenery { position: fixed; inset: 0; z-index: -2; overflow: hidden; background: #081b2d; pointer-events: none; }
+.photo-layer, .scenery-shade, .scenery-lights { position: absolute; inset: 0; width: 100%; height: 100%; }
+.photo-layer img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.photo-current { z-index: 1; animation: photograph-in 1600ms ease both; }
+.photo-outgoing { z-index: 0; }
+.scenery-shade { z-index: 2; background: linear-gradient(180deg, #03121e66, #03121e33 45%, #03121e63 78%, #03121ed9), linear-gradient(90deg, #04111c99, #04111c66 60%, #04111c80); }
+.scenery-lights { z-index: 3; }
+.landscape-bar { position: relative; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 0 22px; width: 100%; max-width: 1260px; margin: 8px auto 0; padding: 15px 0 0; border-top: 1px solid #c6d6d133; font-family: var(--sans); }
+.landscape-caption { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px 15px; min-width: 0; }
+.landscape-kicker { color: #a9c0c6; font-size: 9px; letter-spacing: .15em; }
+.landscape-title { color: #e0e7db; font: 17px/1.6 var(--serif); }
+.landscape-navigation { display: flex; align-items: center; gap: 3px; }
+.landscape-navigation button { position: relative; display: grid; place-items: center; min-width: 36px; min-height: 44px; padding: 5px; border: 0; background: transparent; color: #b0c3c9; font-size: 17px; }
+.landscape-navigation button > span { font: 10px/1 var(--mono); }
+.landscape-navigation button[aria-pressed=true] { color: #f0edcf; }
+.landscape-navigation button[aria-pressed=true]::after { content: ''; position: absolute; bottom: 5px; left: 11px; right: 11px; height: 1px; background: currentColor; }
+.landscape-navigation button:hover { color: #fff7dd; }
+.landscape-motion { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 0 6px 10px; border: 0; background: transparent; color: #d0dacb; font-size: 11px; }
+.landscape-motion > span { font-size: 14px; }
+.landscape-motion:disabled { color: #9bb0ba; }
+.landscape-credit { grid-column: 1 / -1; color: #a9bbc3; font: 10px/1.8 var(--sans); }
+.landscape-credit a { text-decoration-color: #a9bbc35c; }
+.landscape-status { position: absolute; left: 0; bottom: -23px; color: #ced8c7; font: 10px/1.7 var(--sans); }
+.site-inner .landscape-bar { max-width: 1040px; margin-top: 28px; }
+@keyframes photograph-in { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 768px) {
+  .landscape-bar { grid-template-columns: 1fr auto; gap: 4px 12px; }
+  .landscape-navigation { justify-self: end; }
+  .landscape-motion { grid-column: 2; grid-row: 2; justify-self: end; font-size: 10px; }
+  .landscape-credit { grid-column: 1; grid-row: 2; max-width: 400px; font-size: 9px; }
+  .landscape-caption { gap: 1px 10px; }
+  .landscape-title { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .landscape-bar { grid-template-columns: 1fr auto; }
+  .landscape-caption { display: block; }
+  .landscape-kicker { display: block; font-size: 8px; margin-bottom: 2px; }
+  .landscape-title { display: block; max-width: 150px; font-size: 15px; }
+  .landscape-navigation { grid-column: 1 / -1; grid-row: 2; justify-self: stretch; justify-content: space-between; gap: 0; }
+  .landscape-navigation button { min-width: 40px; }
+  .landscape-navigation button[aria-pressed=true]::after { left: 13px; right: 13px; }
+  .landscape-navigation button > span { font-size: 9px; }
+  .landscape-motion { grid-row: 1; grid-column: 2; }
+  .landscape-credit { grid-column: 1 / -1; grid-row: 3; }
+}
+@media (prefers-reduced-motion: reduce) { .photo-current { animation: none; } }
+@media print { .scenery, .landscape-bar { display: none; } }

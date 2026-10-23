@@ -1,0 +1,34 @@
+{
+  "catalog": "Hipparcos I/239/hip_main",
+  "rowsReturned": 396,
+  "compared": 396,
+  "maxPmRaDifferenceMasYr": 77.84000000000015,
+  "maxPmDecDifferenceMasYr": 470.27000000000004,
+  "different": 1,
+  "largestDifferences": [
+    [
+      77.84000000000015,
+      470.27000000000004,
+      71681,
+      "Toliman"
+    ],
+    [
+      0.0,
+      0.0,
+      116727,
+      "Errai"
+    ],
+    [
+      0.0,
+      0.0,
+      114971,
+      null
+    ],
+    [
+      0.0,
+      0.0,
+      114341,
+      null
+    ]
+  ]
+}

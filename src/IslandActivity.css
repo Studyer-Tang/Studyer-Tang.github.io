@@ -1,0 +1,38 @@
+.island-activity { position: fixed; inset: 0; display: flex; flex-direction: column; width: 100%; height: 100%; height: 100svh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; color: #e6eee7; background: #081923; overflow: hidden; font-family: var(--serif); }
+.island-activity:not([open]) { display: none; }
+.island-activity::backdrop { background: #081923; }
+.activity-header { position: absolute; z-index: 5; inset: 0 0 auto; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: max(25px, env(safe-area-inset-top)) max(32px, env(safe-area-inset-right)) 45px max(32px, env(safe-area-inset-left)); background: linear-gradient(#071823e8, transparent); pointer-events: none; }
+.activity-header p { color: #a4bbc1; font: 9px/1.8 var(--mono); letter-spacing: .16em; }
+.activity-header h2 { margin-top: 8px; font: 27px/1.5 var(--serif); letter-spacing: .06em; }
+.activity-header > button { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; padding: 5px; border: 0; color: #e0ece7; background: none; font: 12px/1.6 var(--sans); pointer-events: auto; }
+.activity-header > button > span { font: 26px/1 var(--sans); }
+.activity-body { position: relative; flex: 1; min-height: 0; }
+.activity-message { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 40px; color: #c4d6d7; font: 19px/2 var(--serif); text-align: center; }
+.island-activity :focus-visible { outline: 1px solid #e3e6c8; outline-offset: 4px; }
+.seascape-canvas { display: block; width: 100%; height: 100%; touch-action: none; outline-offset: -5px !important; }
+.seascape-canvas:focus:not(:focus-visible) { outline: none; }
+.seascape-loading { position: absolute; inset: 0; pointer-events: none; background: #081923; }
+.seascape-error { position: absolute; top: 35%; left: 50%; width: min(500px, calc(100% - 48px)); transform: translateX(-50%); padding: 25px; background: #081923d9; text-align: center; font: 17px/2 var(--serif); }
+.seascape-error button { display: block; min-height: 44px; margin: 18px auto 0; padding: 5px 18px; border: 1px solid #b6cec870; background: transparent; color: #e5e8d9; font: 12px/1.8 var(--sans); }
+.seascape-fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.seascape-bottom { position: absolute; z-index: 3; inset: auto 0 0; padding: 45px 32px max(24px, env(safe-area-inset-bottom)); background: linear-gradient(transparent, #071823d9); }
+.seascape-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 10px; margin-bottom: 17px; }
+.seascape-controls button { min-height: 44px; min-width: 44px; padding: 8px 12px; border: 1px solid #bdd1cc47; border-radius: 2px; background: #0c263253; color: #e6eee0; font: 16px/1.4 var(--sans); }
+.seascape-controls button:last-child { font-size: 11px; }
+.seascape-controls button:disabled { opacity: .4; }
+.seascape-credits { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 28px; color: #c0d0d2; font: 11px/1.9 var(--sans); }
+.seascape-credits a { text-decoration-color: #b6d0ca66; }
+.seascape-credits > p { max-width: 680px; }
+.seascape-help { color: #9fb6c0; font: 10px/1.9 var(--sans); }
+@media (max-width: 600px) {
+  .activity-header { padding: max(17px, env(safe-area-inset-top)) 20px 35px; gap: 15px; }
+  .activity-header h2 { font-size: 24px; }
+  .activity-header p { font-size: 8px; }
+  .activity-header > button { gap: 8px; font-size: 10px; }
+  .seascape-bottom { padding: 35px 20px max(18px, env(safe-area-inset-bottom)); }
+  .seascape-credits { font-size: 10px; gap: 6px; }
+  .seascape-help { font-size: 9px; }
+  .seascape-controls { gap: 4px; }
+  .seascape-controls button { min-width: 38px; padding-inline: 8px; }
+}
+@media print { .island-activity { display: none !important; } }

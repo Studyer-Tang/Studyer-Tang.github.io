@@ -1,0 +1,61 @@
+[
+  {
+    "id": "moon-galileo-1992",
+    "path": "/observatory/moon-galileo-1992-12-07.jpg",
+    "title": {
+      "zh": "伽利略号镜头中的月球",
+      "en": "Earth’s Moon from Galileo"
+    },
+    "observedAt": "1992-12-07",
+    "sourceUrl": "https://science.nasa.gov/photojournal/earths-moon/",
+    "originalUrl": "https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia00/pia00405/PIA00405.jpg",
+    "recordId": "PIA00405",
+    "credit": "NASA/JPL/USGS",
+    "license": "NASA media usage guidelines; credit required; no endorsement implied",
+    "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "additionalLicenseUrl": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+    "details": {
+      "zh": "1992年12月7日的归档航天器观测。由紫光、756 nm与968 nm滤镜影像组成的增强色图像，包含人眼不可见的近红外信息。不是当前月相，也不是可见光自然色。",
+      "en": "Archived spacecraft observations from 7 December 1992. An enhanced-color composite of violet, 756 nm and 968 nm filter images, including near-infrared information outside human vision. Not the current lunar phase or natural visible color."
+    },
+    "wavelength": "Violet / 756 nm / 968 nm (enhanced-color composite)",
+    "width": 1986,
+    "height": 1986,
+    "live": false,
+    "changes": "None: downloaded the original NASA JPEG without resizing or color changes.",
+    "bytes": 403335,
+    "sha256": "e13ec17cfd0b6e952ebe1cb15a941d6195da0d691122ffe4bb9579d162bcadf4"
+  },
+  {
+    "id": "sun-sdo-2018",
+    "path": "/observatory/sun-sdo-2018-05-15.jpg",
+    "title": {
+      "zh": "太阳动力学天文台的太阳观测",
+      "en": "The Sun from Solar Dynamics Observatory"
+    },
+    "observedAt": "2018-05-15",
+    "sourceUrl": "https://www.nasa.gov/image-article/sunny-day/",
+    "originalUrl": "https://www.nasa.gov/wp-content/uploads/2023/03/sun_0.jpg",
+    "recordId": "NASA A Sunny Day (2018-05-15)",
+    "credit": "NASA/Solar Dynamics Observatory",
+    "license": "NASA media usage guidelines; acknowledge NASA; no endorsement implied",
+    "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "additionalLicenseUrl": "https://sdo.gsfc.nasa.gov/gallery/copyright/",
+    "details": {
+      "zh": "2018年5月15日的归档观测，由AIA 211、304及171埃通道组成的伪彩合成。原图标注约14:15 UTC的各通道拍摄时刻。颜色用于呈现极紫外信息，不是人眼直接看到的太阳颜色，也不是实时太阳。",
+      "en": "An archived, false-color composite of AIA 211, 304 and 171 angstrom observations on 15 May 2018. The original image labels the channel exposure times around 14:15 UTC. The colors represent extreme ultraviolet information, not direct human vision; this is not a live view."
+    },
+    "wavelength": "AIA 211 / 304 / 171 angstrom (false-color composite, as labelled in the source image)",
+    "observedChannelTimesUtc": {
+      "211": "2018-05-15T14:15:33.630Z",
+      "304": "2018-05-15T14:15:29.130Z",
+      "171": "2018-05-15T14:15:33.350Z"
+    },
+    "width": 1041,
+    "height": 1041,
+    "live": false,
+    "changes": "None: downloaded the original NASA JPEG without resizing or color changes.",
+    "bytes": 110807,
+    "sha256": "f35c780787d90c91190ed1b04fabbd8a3abe1c2c1f206ffe0886482b64fc48ff"
+  }
+]

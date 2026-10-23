@@ -10,9 +10,9 @@ distinguish these subsets from the upstream fonts; they are not an OFL requireme
 | --- | --- | --- | --- | ---: |
 | `field-serif.woff2` | Field Serif | normal | 400 | 33,984 B |
 | `field-serif-italic.woff2` | Field Serif | italic | 400 | 36,596 B |
-| `field-serif-sc.woff2` | Field Serif SC | normal | 400–500 variable | 272,608 B |
+| `field-serif-sc.woff2` | Field Serif SC | normal | 400–500 variable | 326,316 B |
 
-Total font data: 343,188 bytes (335.1 KiB). Newsreader is instantiated at optical
+Total font data: 396,896 bytes (387.6 KiB). Newsreader is instantiated at optical
 size 18 for reading text; its italic is a separate original italic design.
 Noto Serif SC keeps the actual weight axis from 400 through 500. Its character
 subset includes the current source text plus Western letters, punctuation, Greek
@@ -47,7 +47,8 @@ The large original CJK font is deliberately not stored in this repository.
 dependencies. It verifies WOFF2 signatures, hashes and the combined 500 KiB budget,
 then checks source Han characters, Greek, mathematical symbols and CJK punctuation.
 Literal `\uXXXX` and `\u{XXXXX}` escapes are checked too. All text-like files under
-`src/`, including comments, are scanned. The build runs this check before TypeScript
+`src/`, including comments and the imported landscape metadata in
+`src/photographs.json`, are scanned. The build runs this check before TypeScript
 and Vite, so new CJK text cannot silently fall back to a different font.
 
 When the check reports missing characters:

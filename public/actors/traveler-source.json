@@ -1,0 +1,14 @@
+{
+  "title": "Adventurer / Ultimate Modular Men",
+  "author": "Quaternius",
+  "source": "https://quaternius.com/packs/ultimatemodularcharacters.html",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "downloadMirror": "https://github.com/godotengine/godot/files/9843669/Adventurer.zip",
+  "mirrorContext": "https://github.com/godotengine/godot/issues/67733",
+  "originalGltfSha256": "21f7a61afb6bd6cef6961490c367594e3c2fc01ec1f041662131172ce763063e",
+  "outputSha256": "5285f441a60d72d5ddbf577369865fc4ea9174b32bb4a034fd960b9d58b11c33",
+  "bytes": 1333828,
+  "changes": "Repacked embedded glTF as GLB; retained Idle_Neutral, Walk, Run, Interact and Wave and pruned unused animation accessors. No geometry or rig changes in the asset. Display is proportionally scaled and normals smoothed at runtime.",
+  "verifiedAt": "2026-10-23"
+}

@@ -1,14 +1,54 @@
-# Landscape asset
+# Visual assets
 
-`public/night-lake.webp` and `public/night-lake-small.webp` are compressed versions
-of an original image generated with the built-in imagegen tool on 2026-10-21.
-The smaller version is used below 600 CSS pixels. No third-party photograph or
-video is bundled. The image is decorative; all website text remains HTML.
+## Real landscape photography
 
-Motion is authored in CSS: a slow camera drift, a masked water layer and a low fog
-layer. This is an animated photograph, not a video. Only transforms and opacity
-animate. Reduced motion, a hidden tab or the user pause switch stops playback.
+The current backgrounds are four real photographs: Lake Bled at blue hour,
+Huangshan in mist, Fuji above a sea of clouds and a Skye coastal sunset.
+[Photography credits](photography.md) record each creator, source, license,
+original resolution and modifications. Machine-readable records and output
+hashes are in [`src/photographs.json`](../src/photographs.json).
+Every WebP also embeds attribution XMP. Derivatives are cropped, resized,
+converted to sRGB and compressed, with no generative changes or retouching.
+The displayed credit includes author, original file, license and modification
+notice. CC BY-SA derivatives retain CC BY-SA; CC BY derivatives retain CC BY.
 
-## Generation prompt
+Former generated night-lake background assets have been removed from the
+current site. They are not requested by any current page.
 
-Use case: photorealistic-natural. Asset type: full-screen landscape background for a personal research website. Generate an original cinematic photographic scene of quiet Chinese mountain water scenery at blue hour turning into night. Layered realistic steep forested mountain silhouettes fading in soft low mist, a broad calm lake occupying the lower 40%, muted reflected mountain shapes and delicate water ripples. Deep ink navy and desaturated blue-green, natural soft moonlit haze, restrained and contemplative, beautiful rich photographic detail without bright visual clutter. Very wide 16:9 landscape composition. Main mountains grouped to far left and right, open calm distant water and dark clear sky in the central half so white centered website text can be readable. Horizon around 57% down. No buildings, no people, no boats, no large moon, no mathematical diagrams, no charts, no text, no logos, no watermark. Avoid fantasy neon colors and painted/cartoon shapes. The image will be subtly animated in website CSS, so clean stable composition, natural water and a thin horizontal layer of low fog near the waterline.
+## Interactive island
+
+`src/AmbientLight.tsx` draws a separate restrained light overlay. It does not
+alter the photographic files. `src/island/world.ts` assembles a designed island
+with original palace, pier, terrace and path geometry. It is separate from the
+cover photographs and is not presented as a reconstruction of a real palace.
+No upstream portfolio source or car model is used.
+
+[Poly Haven photographic materials and vegetation](world-assets.md) supply
+stone, timber, tile, ground, scanned trees and ferns under CC0. A real coastal
+360° photograph opens as a separate sea viewer; it is a still panorama, not
+live imagery. [Animated actor credits](actors.md) document the Quaternius
+traveler (CC0) and the Khronos Fox sample (model CC0; rigging, animation and
+conversion CC BY 4.0). Full notices and machine-readable source hashes are
+self-hosted alongside the assets. Visible Credits links retain required
+attribution. No AI image or model generation service is used.
+
+## Sky data and space imagery
+
+`src/observatory/data/` includes a documented 400-star subset of HYG v4.1 by
+David Nash / Astronexus, CC BY-SA 4.0. The adapted subset and full legal code are
+downloadable under `public/observatory/`, with original identifiers, source
+revision, hashes and processing notes. Catalog positions are propagated and
+converted to the selected time and horizon by the application; they are not
+invented decorative stars.
+
+Sun/Moon positions are calculated locally with Astronomy Engine. The separate
+Moon and Sun photographs are NASA archive images with dates and source links;
+they do not represent a current live feed or the selected simulation time.
+See [NASA image notice](../public/observatory/NASA-NOTICE.txt),
+[image provenance](../public/observatory/images.json), and
+[HYG notice](../public/observatory/HYG-NOTICE.txt) for terms and limitations.
+
+The engine is [Three.js](https://threejs.org/), distributed under its MIT license. Bundled JavaScript dependency notices are
+[available here](../public/licenses/THIRD-PARTY.txt).
+Self-hosted font subsets and their OFL licenses are documented in
+[`public/fonts/README.md`](../public/fonts/README.md).

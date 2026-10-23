@@ -1,0 +1,22 @@
+NASA OBSERVATORY IMAGE NOTICE
+Retrieved 2026-10-23. These files are unmodified archived observational JPEG products, not rendered lunar textures or current/live observations.
+
+moon-galileo-1992-12-07.jpg
+Record: PIA00405. Observation: 1992-12-07. Credit: NASA/JPL/USGS.
+Source: https://science.nasa.gov/photojournal/earths-moon/
+Original: https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia00/pia00405/PIA00405.jpg
+The NASA caption describes a composite of violet, 756 nm and 968 nm filter images. Its enhanced color includes near-infrared information, not a natural-color photograph. The individual photographer is not identified; attribution is the mission/agency credit above.
+
+sun-sdo-2018-05-15.jpg
+Observation: 2018-05-15. Credit: NASA/Solar Dynamics Observatory.
+Source: https://www.nasa.gov/image-article/sunny-day/
+Original: https://www.nasa.gov/wp-content/uploads/2023/03/sun_0.jpg
+The image itself identifies the AIA 211/304/171 angstrom channels and exposure times around 14:15 UTC. This is a false-color composite of measured extreme-ultraviolet imagery, not the Sun in natural visible color. The individual photographer is not identified; attribution is the mission/agency credit above.
+
+USAGE TERMS (summary; the linked policy pages govern)
+NASA media generally are not subject to copyright in the United States and are offered for factual educational/informational uses, including personal web pages. Acknowledge NASA and retain the specific image credits above. Do not imply endorsement by NASA, JPL or Caltech. NASA logos/identifiers have separate protection and are not licensed here. Third-party material, if marked, requires separate rights; these source captions credit NASA/JPL/USGS or NASA/SDO and do not identify a third-party copyright holder. Do not label these assets CC0 or apply the star catalog's CC BY-SA license to them.
+NASA policy: https://www.nasa.gov/nasa-brand-center/images-and-media/
+JPL policy: https://www.jpl.nasa.gov/jpl-image-use-policy/
+SDO policy: https://sdo.gsfc.nasa.gov/gallery/copyright/
+
+Machine-readable provenance, original URLs, dimensions, file sizes, checksums and bilingual captions are in images.json. No crop, resize, color editing, AI generation or other image transformation was applied locally.

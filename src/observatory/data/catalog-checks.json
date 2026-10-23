@@ -1,0 +1,71 @@
+{
+  "count": 400,
+  "bytes": 85264,
+  "rawSourceBytes": 33932548,
+  "sourceSha256": "d9f69fd86bbf90a4e4d52b4c5c53eacfa6dfc0bfdef85bfd94f095e0bebe4ebd",
+  "sourceGitBlobSha1": "ba2dec4eb0f6768914c7fc1051258100214ddf84",
+  "sourceCommit": "c7f7f883fe678cc7680169a50ccd7dcc49b060ce",
+  "sourceUrl": "https://raw.githubusercontent.com/astronexus/HYG-Database/c7f7f883fe678cc7680169a50ccd7dcc49b060ce/hyg/CURRENT/hygdata_v41.csv",
+  "magnitudeRange": [
+    -1.44,
+    3.77
+  ],
+  "hipMissing": 4,
+  "named": 221,
+  "pmRaVsVelocityMaxMasYr": 0.3097729377225278,
+  "pmDecVsVelocityMaxMasYr": 1.4153976115313753,
+  "pmRaVsVelocityWorst": [
+    [
+      0.3097729377225278,
+      "",
+      -1721.82,
+      -1721.5102270622774
+    ],
+    [
+      0.29050890988617084,
+      "Procyon",
+      -716.57,
+      -716.8605089098862
+    ],
+    [
+      0.24462075497399383,
+      "Altair",
+      536.82,
+      537.064620754974
+    ]
+  ],
+  "brightChecks": [
+    {
+      "hygId": 32263,
+      "hip": 32349,
+      "name": "Sirius",
+      "raHours": 6.752481,
+      "decDeg": -16.716116,
+      "pmRaMasYr": -546.01
+    },
+    {
+      "hygId": 69451,
+      "hip": 69673,
+      "name": "Arcturus",
+      "raHours": 14.26103,
+      "decDeg": 19.18241,
+      "pmRaMasYr": -1093.45
+    },
+    {
+      "hygId": 90979,
+      "hip": 91262,
+      "name": "Vega",
+      "raHours": 18.61564,
+      "decDeg": 38.783692,
+      "pmRaMasYr": 201.02
+    },
+    {
+      "hygId": 11734,
+      "hip": 11767,
+      "name": "Polaris",
+      "raHours": 2.52975,
+      "decDeg": 89.264109,
+      "pmRaMasYr": 44.22
+    }
+  ]
+}

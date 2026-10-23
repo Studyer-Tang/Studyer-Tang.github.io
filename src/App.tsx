@@ -10,6 +10,7 @@ import type { Chapter, Language } from './navigation'
 import { usePageSwipe } from './usePageSwipe'
 import { useRouteTransition } from './useRouteTransition'
 import { Scenery } from './Scenery'
+import { IslandGate } from './IslandGate'
 import './App.css'
 import './Interests.css'
 
@@ -34,6 +35,9 @@ function App() {
   const requestedRoute = useRef({ chapter, language })
   const { transition, busy } = useRouteTransition()
   const [readingGroup, setReadingGroup] = useState(0)
+  const [exploring, setExploring] = useState(() => new URL(location.href).searchParams.get('island') === '1')
+  const islandButtonRef = useRef<HTMLButtonElement>(null)
+  const previouslyExploring = useRef(false)
   const mainRef = useRef<HTMLElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const focusAfterNavigation = useRef(false)
@@ -52,7 +56,9 @@ function App() {
 
   useEffect(() => {
     const restore = () => {
-      const next = readRoute(new URL(location.href))
+      const address = new URL(location.href)
+      setExploring(address.searchParams.get('island') === '1')
+      const next = readRoute(address)
       const previous = requestedRoute.current
       if (previous.chapter === next.chapter && previous.language === next.language) return
       const step = chapters.indexOf(next.chapter) - chapters.indexOf(previous.chapter)
@@ -83,6 +89,29 @@ function App() {
     }
   }, [chapter, language])
 
+
+  useEffect(() => {
+    if (previouslyExploring.current && !exploring) islandButtonRef.current?.focus({ preventScroll: true })
+    previouslyExploring.current = exploring
+  }, [exploring])
+
+  const openIsland = () => {
+    const address = readRoute(new URL(location.href))
+    if (address.chapter !== chapter || address.language !== language) return
+    requestedRoute.current = { chapter, language }
+    transition(() => {
+      const target = new URL(routeHref(chapter, language), location.href)
+      target.searchParams.set('island', '1')
+      history.pushState({ islandEntry: true }, '', target)
+      setExploring(true)
+    }, 'neutral')
+  }
+  const closeIsland = () => {
+    setExploring(false)
+    if (history.state?.islandEntry) history.back()
+    else history.replaceState(null, '', routeHref(requestedRoute.current.chapter, requestedRoute.current.language))
+  }
+
   const navigate = useCallback((next: Chapter, nextLanguage: Language = requestedRoute.current.language) => {
     const previous = requestedRoute.current
     if (previous.chapter === next && previous.language === nextLanguage) return
@@ -99,7 +128,7 @@ function App() {
   usePageSwipe(mainRef, step => {
     const next = chapters[chapterIndex + step]
     if (next) navigate(next)
-  }, busy)
+  }, busy || exploring)
 
   const follow = (event: MouseEvent<HTMLAnchorElement>, next: Chapter) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
@@ -119,7 +148,7 @@ function App() {
     {numbered ? <><span className="nav-index" aria-hidden="true">{String(chapters.indexOf(key)).padStart(2, '0')}</span><span className="cover-nav-label">{label(key)}<span className="cover-nav-caption" aria-hidden="true">{coverCaptions[key]}</span></span><span className="cover-nav-arrow" aria-hidden="true">↗</span></> : label(key)}
   </a>
 
-  return <div className={'site ' + (chapter === 'home' ? 'site-cover' : 'site-inner')}>
+  return <><div className={'site ' + (chapter === 'home' ? 'site-cover' : 'site-inner')} inert={exploring} aria-hidden={exploring ? true : undefined}>
     <a className="skip-link" href={routeHref(chapter, language) + '#content'} onClick={event => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
       event.preventDefault()
@@ -130,7 +159,7 @@ function App() {
     <header className="site-header">
       <a className="brand" href={routeHref('home', language)} onClick={event => follow(event, 'home')} aria-label={t('Studyer-Tang 首页', 'Studyer-Tang home')}><span className="brand-mark" aria-hidden="true">st.</span><span className="brand-caption">STUDYER-TANG<span>FIELD NOTES</span></span></a>
       {chapter !== 'home' && <nav className="header-nav" aria-label={t('主导航', 'Main navigation')}>{chapters.map(key => navLink(key))}</nav>}
-      <div className="header-tools"><div className="languages" aria-label={t('语言', 'Language')}><button type="button" aria-pressed={zh} onClick={() => navigate(requestedRoute.current.chapter, 'zh')}>中</button><span aria-hidden="true">/</span><button type="button" aria-pressed={!zh} onClick={() => navigate(requestedRoute.current.chapter, 'en')}>EN</button></div></div>
+      <div className="header-tools">{chapter !== 'home' && <button className="island-text-link" ref={islandButtonRef} type="button" onClick={openIsland}>{t('登岛漫游', 'Explore the island')} <span aria-hidden="true">↗</span></button>}<div className="languages" aria-label={t('语言', 'Language')}><button type="button" aria-pressed={zh} onClick={() => navigate(requestedRoute.current.chapter, 'zh')}>中</button><span aria-hidden="true">/</span><button type="button" aria-pressed={!zh} onClick={() => navigate(requestedRoute.current.chapter, 'en')}>EN</button></div></div>
     </header>
 
     <main ref={mainRef} id="content" tabIndex={-1}>
@@ -139,6 +168,7 @@ function App() {
           <h1 ref={headingRef} tabIndex={-1}>Studyer-<em>Tang</em></h1>
           <p className="cover-motto">{subtitles.home[zh ? 0 : 1]}</p>
           <p className="cover-description">{t('喜欢古文史书与诗词散文，也喜欢数学与推理。', 'History, poetry, classical prose, mathematics and deduction.')}</p>
+          <button ref={islandButtonRef} className="island-invitation" type="button" onClick={openIsland}><span><span className="island-invitation-title">{t('登岛漫游', 'Explore the island')}</span><span className="island-invitation-caption">{t('步行 · 跑步 · 探索', 'Walk · run · wander')}</span></span><span className="island-invitation-arrow" aria-hidden="true">↗</span></button>
         </div>
         <nav className="cover-nav" aria-label={t('探索主页', 'Explore the site')}>{chapters.slice(1).map(key => navLink(key, true))}</nav>
       </section> : <section className="content-panel" key={chapter + language} aria-labelledby="page-title">
@@ -172,9 +202,13 @@ function App() {
     </main>
 
     {chapter !== 'home' && <nav className="chapter-controls" aria-label={t('切换栏目', 'Change section')}>{chapterIndex > 0 ? <a href={routeHref(chapters[chapterIndex - 1], language)} onClick={event => follow(event, chapters[chapterIndex - 1])}>← {label(chapters[chapterIndex - 1])}</a> : <span />}<span>{String(chapterIndex + 1).padStart(2, '0')} / {String(chapters.length).padStart(2, '0')}</span>{chapterIndex < chapters.length - 1 ? <a href={routeHref(chapters[chapterIndex + 1], language)} onClick={event => follow(event, chapters[chapterIndex + 1])}>{label(chapters[chapterIndex + 1])} →</a> : <span />}</nav>}
+    <Scenery language={language} reading={chapter !== 'home'} exploring={exploring} />
     <footer className="site-footer"><span>© {new Date().getFullYear()} Studyer-Tang</span><p className="gesture-hint">{t('触控板双指左右轻扫，切换栏目', 'Swipe with two fingers to change sections')}</p></footer>
-    <Scenery language={language} />
-  </div>
+  </div>{exploring && <IslandGate language={language} onClose={closeIsland} onVisit={next => {
+    setExploring(false)
+    if (next === requestedRoute.current.chapter) history.replaceState(null, '', routeHref(next, requestedRoute.current.language))
+    else navigate(next)
+  }} />}</>
 }
 
 export default App

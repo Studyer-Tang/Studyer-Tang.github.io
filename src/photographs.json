@@ -1,0 +1,218 @@
+[
+  {
+    "id": "bled-blue-hour",
+    "title": {
+      "zh": "布莱德湖 · 蓝调时刻",
+      "en": "Lake Bled · Blue hour"
+    },
+    "author": "Jakub T. Jankiewicz",
+    "authorUrl": "https://commons.wikimedia.org/wiki/User:Jcubic",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bled_Church_island_in_Blue_hour.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "originalWidth": 6064,
+    "originalHeight": 4040,
+    "desktop": "/photos/bled-blue-hour-desktop.webp",
+    "mobile": "/photos/bled-blue-hour-mobile.webp",
+    "originalTitle": "Bled Church island in Blue hour.jpg",
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/54/Bled_Church_island_in_Blue_hour.jpg",
+    "sourceRevisionUrl": "https://commons.wikimedia.org/w/index.php?oldid=1088369471",
+    "originalBytes": 2448962,
+    "originalSha256": "0653bfe15aec473c6f00bb3e384c3f272784edae184c49f7da8135d605672068",
+    "sourceDate": "2022-10-06 06:23:27",
+    "camera": "NIKON D780",
+    "verifiedAt": "2026-10-23",
+    "attribution": "Bled Church island in Blue hour.jpg — Jakub T. Jankiewicz / Wikimedia Commons / CC BY-SA 4.0. Cropped and resized.",
+    "changes": "Cropped for desktop/mobile composition, downsampled with Lanczos, converted to sRGB where needed, and encoded as lossy WebP. Camera metadata removed; attribution retained in XMP and this manifest. No AI generation, generative fill, compositing, or content retouching.",
+    "variants": {
+      "desktop": {
+        "width": 2000,
+        "height": 1250,
+        "bytes": 110516,
+        "quality": 86,
+        "cropBox": [
+          0,
+          125,
+          6064,
+          3915
+        ],
+        "sha256": "59a6885f5e1dd661e2c1cbb686670cd7aa5fcd18f893d7b87cd986c65650a13e"
+      },
+      "mobile": {
+        "width": 900,
+        "height": 1200,
+        "bytes": 40360,
+        "quality": 86,
+        "cropBox": [
+          668,
+          0,
+          3698,
+          4040
+        ],
+        "sha256": "791a2c037fac967850558dc94888f3b72531da2570175e865b9deeca16d1e8fa"
+      }
+    }
+  },
+  {
+    "id": "huangshan-mist",
+    "title": {
+      "zh": "黄山 · 云雾",
+      "en": "Huangshan · Mountain mist"
+    },
+    "author": "eviltomthai",
+    "authorUrl": "https://www.flickr.com/people/eviltomthai/",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Huangshan_pic_6.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "originalWidth": 3888,
+    "originalHeight": 2592,
+    "desktop": "/photos/huangshan-mist-desktop.webp",
+    "mobile": "/photos/huangshan-mist-mobile.webp",
+    "originalTitle": "Huangshan pic 6.jpg",
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Huangshan_pic_6.jpg",
+    "sourceRevisionUrl": "https://commons.wikimedia.org/w/index.php?oldid=1261349376",
+    "originalBytes": 4556184,
+    "originalSha256": "4fb076e282ec37fc095badeecbee0668a36eb242c93f571149c7eafc4a79cc1e",
+    "sourceDate": "2009-09-28",
+    "camera": "Canon EOS DIGITAL REBEL XTi",
+    "verifiedAt": "2026-10-23",
+    "attribution": "Huangshan pic 6.jpg — eviltomthai / Wikimedia Commons / CC BY 2.0. Cropped and resized.",
+    "changes": "Cropped for desktop/mobile composition, downsampled with Lanczos, converted to sRGB where needed, and encoded as lossy WebP. Camera metadata removed; attribution retained in XMP and this manifest. No AI generation, generative fill, compositing, or content retouching.",
+    "variants": {
+      "desktop": {
+        "width": 2000,
+        "height": 1250,
+        "bytes": 200978,
+        "quality": 86,
+        "cropBox": [
+          0,
+          81,
+          3888,
+          2511
+        ],
+        "sha256": "43eebcbad8b5915660f15b68650b88e70e4a8c2b885d2d6af3ce403399f42b8c"
+      },
+      "mobile": {
+        "width": 900,
+        "height": 1200,
+        "bytes": 91748,
+        "quality": 86,
+        "cropBox": [
+          1555,
+          0,
+          3499,
+          2592
+        ],
+        "sha256": "128065144e4f6ebdcde1b946c42c8d6ac871ad6fe1e786014b80b358fc84b210"
+      }
+    }
+  },
+  {
+    "id": "fuji-cloud-sea",
+    "title": {
+      "zh": "富士山 · 云海",
+      "en": "Mount Fuji · Sea of clouds"
+    },
+    "author": "Alpsdake",
+    "authorUrl": "https://commons.wikimedia.org/wiki/User:Alpsdake",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sea_of_clouds_from_Mount_Fuji.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "originalWidth": 6000,
+    "originalHeight": 4000,
+    "desktop": "/photos/fuji-cloud-sea-desktop.webp",
+    "mobile": "/photos/fuji-cloud-sea-mobile.webp",
+    "originalTitle": "Sea of clouds from Mount Fuji.jpg",
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Sea_of_clouds_from_Mount_Fuji.jpg",
+    "sourceRevisionUrl": "https://commons.wikimedia.org/w/index.php?oldid=1192115734",
+    "originalBytes": 7459637,
+    "originalSha256": "77929e5f3533e818b03977a7d93e55bd093a4967fe1ce475290d3d77b5132c19",
+    "sourceDate": "2018-07-02 17:42:34",
+    "camera": "Canon EOS Kiss X8i",
+    "verifiedAt": "2026-10-23",
+    "attribution": "Sea of clouds from Mount Fuji.jpg — Alpsdake / Wikimedia Commons / CC BY-SA 4.0. Cropped and resized.",
+    "changes": "Cropped for desktop/mobile composition, downsampled with Lanczos, converted to sRGB where needed, and encoded as lossy WebP. Camera metadata removed; attribution retained in XMP and this manifest. No AI generation, generative fill, compositing, or content retouching.",
+    "variants": {
+      "desktop": {
+        "width": 2000,
+        "height": 1250,
+        "bytes": 263490,
+        "quality": 86,
+        "cropBox": [
+          0,
+          125,
+          6000,
+          3875
+        ],
+        "sha256": "db2cba7e7219aba3410c4eaa07bd1264c0b544b586ad33242d698487c72a0a0c"
+      },
+      "mobile": {
+        "width": 900,
+        "height": 1200,
+        "bytes": 129268,
+        "quality": 84,
+        "cropBox": [
+          1800,
+          0,
+          4800,
+          4000
+        ],
+        "sha256": "8527e7a41436e8dcd3d043f8b7b625863c99e95fec80a0f2f669599120e92059"
+      }
+    }
+  },
+  {
+    "id": "skye-sunset",
+    "title": {
+      "zh": "斯凯岛 · 海岸日落",
+      "en": "Isle of Skye · Coastal sunset"
+    },
+    "author": "Sanshiro KUBOTA",
+    "authorUrl": "https://www.flickr.com/people/126826552@N05/",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Isle_of_Skye_-_Neist_Point_Lighthouse_at_sunset_(50666980882).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "originalWidth": 8103,
+    "originalHeight": 5407,
+    "desktop": "/photos/skye-sunset-desktop.webp",
+    "mobile": "/photos/skye-sunset-mobile.webp",
+    "originalTitle": "Isle of Skye - Neist Point Lighthouse at sunset (50666980882).jpg",
+    "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Isle_of_Skye_-_Neist_Point_Lighthouse_at_sunset_%2850666980882%29.jpg",
+    "sourceRevisionUrl": "https://commons.wikimedia.org/w/index.php?oldid=1195309725",
+    "originalBytes": 35670329,
+    "originalSha256": "ee7dee9886d6e1d1e02d7818905e9fc7ce7f5d612dc4f6b1843c9d23b768d069",
+    "sourceDate": "Taken on 19 September 2020, 18:14",
+    "camera": "LEICA SL2",
+    "verifiedAt": "2026-10-23",
+    "attribution": "Isle of Skye - Neist Point Lighthouse at sunset (50666980882).jpg — Sanshiro KUBOTA / Wikimedia Commons / CC BY 2.0. Cropped and resized.",
+    "changes": "Cropped for desktop/mobile composition, downsampled with Lanczos, converted to sRGB where needed, and encoded as lossy WebP. Camera metadata removed; attribution retained in XMP and this manifest. No AI generation, generative fill, compositing, or content retouching.",
+    "variants": {
+      "desktop": {
+        "width": 2000,
+        "height": 1250,
+        "bytes": 362712,
+        "quality": 86,
+        "cropBox": [
+          0,
+          171,
+          8103,
+          5235
+        ],
+        "sha256": "d4d0fc08c2f7a01e0255bf8f195efdc8610d3cbfa9acd82b86ee36bdf88023ce"
+      },
+      "mobile": {
+        "width": 900,
+        "height": 1200,
+        "bytes": 119136,
+        "quality": 84,
+        "cropBox": [
+          1214,
+          0,
+          5269,
+          5407
+        ],
+        "sha256": "c7f1e45854c1aa9f26aac646f4ae19d98e33f7bac9fc6fbc5742f54693085b4f"
+      }
+    }
+  }
+]
