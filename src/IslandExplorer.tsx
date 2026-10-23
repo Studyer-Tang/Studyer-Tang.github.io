@@ -2,16 +2,19 @@ import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useSta
 import type { MouseEvent } from 'react'
 import { routeHref } from './navigation'
 import type { Language } from './navigation'
-import { islandLandmarks } from './island/landmarks'
+import { chapterLandmarks, islandLandmarks, landmarkById } from './island/landmarks'
 import type { LandmarkChapter, LandmarkId } from './island/landmarks'
-import type { AnimalAction, IslandController } from './island/world'
+import type { AnimalAction, IslandController, IslandPose } from './island/world'
 import { ActivityLoading } from './IslandActivity'
+import { IslandAtlas } from './IslandAtlas'
+import type { AtlasHandle } from './IslandAtlas'
 import './IslandExplorer.css'
 
 export type IslandExplorerProps = { language: Language; onClose: () => void; onVisit: (chapter: LandmarkChapter) => void }
 type Status = 'loading' | 'ready' | 'error'
-type Activity = 'observatory' | null
+type Activity = 'observatory' | LandmarkId | null
 const Observatory = lazy(() => import('./observatory/Observatory').then(module => ({ default: module.Observatory })))
+const IslandJournal = lazy(() => import('./IslandJournal').then(module => ({ default: module.IslandJournal })))
 const chapterNames = {
   interests: { zh: '个人兴趣', en: 'Interests' }, research: { zh: '研究兴趣', en: 'Research' },
   reading: { zh: '阅读书架', en: 'Reading' }, personal: { zh: '关于我', en: 'About' },
@@ -25,6 +28,14 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
   const joystickRef = useRef<HTMLDivElement>(null)
   const thumbRef = useRef<HTMLSpanElement>(null)
   const runRef = useRef<HTMLButtonElement>(null)
+  const atlasRef = useRef<AtlasHandle>(null)
+  const poseRef = useRef<IslandPose>({ x: -14, z: 27, heading: 0 })
+  const [mapPose, setMapPose] = useState<IslandPose>({ x: -14, z: 27, heading: 0 })
+  const [mapOpen, setMapOpen] = useState(false)
+  const [visited, setVisited] = useState<ReadonlySet<LandmarkId>>(() => new Set())
+  const [route, setRoute] = useState<LandmarkId | null>(null)
+  const [routeError, setRouteError] = useState(false)
+  const [dusk, setDusk] = useState(false)
   const worldRef = useRef<IslandController | null>(null)
   const callbacks = useRef({ onClose, onVisit })
   const controlsActive = useRef(false)
@@ -75,6 +86,7 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
     closeRef.current?.focus({ preventScroll: true })
 
     const trapFocus = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && (event.target as HTMLElement).closest('.island-atlas')) return
       if (event.key === 'Escape') {
         event.preventDefault()
         event.stopPropagation()
@@ -82,7 +94,7 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
         return
       }
       if (event.key !== 'Tab') return
-      const items = [...dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex="0"]')]
+      const items = [...dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), summary, [tabindex="0"]')]
         .filter(item => item.getClientRects().length > 0)
       const first = items[0], last = items.at(-1)
       if (!first || !last) { event.preventDefault(); dialog.focus(); return }
@@ -109,6 +121,12 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
     else if (document.activeElement === closeRef.current || previousActivity.current) canvasRef.current?.focus({ preventScroll: true })
     previousActivity.current = activity
   }, [paused, visible, status, activity, clearInput])
+
+  useEffect(() => {
+    if (!routeError) return
+    const timer = window.setTimeout(() => setRouteError(false), 4500)
+    return () => clearTimeout(timer)
+  }, [routeError])
 
   useEffect(() => {
     if (!animalAction) return
@@ -159,6 +177,7 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
       setNear(null)
       setNearAnimal(null)
       setAnimalAction(null)
+      setRoute(null)
       instance?.dispose()
       if (worldRef.current === instance) worldRef.current = null
     }
@@ -166,7 +185,14 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
     void import('./island/world').then(({ mountIsland }) => {
       if (cancelled) return
       instance = mountIsland(canvas, {
-        onNearLandmark: id => { if (!cancelled && !failed) setNear(id) },
+        onNearLandmark: id => {
+          if (cancelled || failed) return
+          setNear(id)
+          if (id) setVisited(current => current.has(id) ? current : new Set([...current, id]))
+        },
+        onExplore: id => { if (!cancelled && !failed) setActivity(id) },
+        onPose: pose => { poseRef.current = pose; atlasRef.current?.updatePose(pose) },
+        onRoute: id => { if (!cancelled && !failed) setRoute(id) },
         onVisit: chapter => { if (!cancelled && !failed) callbacks.current.onVisit(chapter) },
         onReady: () => {
           if (cancelled || failed) return
@@ -258,6 +284,21 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
     }
   }, [])
 
+  const openMap = () => { clearInput(); setMapPose(poseRef.current); setMapOpen(true) }
+  const closeMap = () => { setMapOpen(false); canvasRef.current?.focus({ preventScroll: true }) }
+  const openPlace = (id: LandmarkId) => {
+    const place = landmarkById(id)
+    setMapOpen(false)
+    if (place.kind === 'observatory') setActivity('observatory')
+    else if (place.kind === 'discovery') setActivity(id)
+    else callbacks.current.onVisit(place.chapter)
+  }
+  const walkTo = (id: LandmarkId) => {
+    clearInput()
+    const found = worldRef.current?.walkTo(id) ?? false
+    setRouteError(!found)
+    if (found) closeMap()
+  }
   const togglePause = () => {
     const next = !pausedRef.current
     pausedRef.current = next
@@ -281,29 +322,34 @@ export function IslandExplorer({ language, onClose, onVisit }: IslandExplorerPro
     <div className="island-vignette" aria-hidden="true" />
     <header className="island-header"><div><p className="island-eyebrow">FIELD NOTES / ON FOOT</p><h2 id="island-title">{t('岛上漫游', 'An island, on foot')}</h2></div>
       <div className="island-actions">
+        <button type="button" aria-expanded={mapOpen} aria-controls="island-atlas-panel" onClick={() => mapOpen ? closeMap() : openMap()}>{t('地图', 'Map')} <span className="island-visited">{visited.size}/{islandLandmarks.length}</span></button>
+        <button type="button" disabled={status !== 'ready'} onClick={() => { const next = !dusk; setDusk(next); worldRef.current?.setDusk(next) }}>{dusk ? t('晨光', 'Morning') : t('暮色', 'Dusk')}</button>
+        <button type="button" disabled={status !== 'ready'} title={t('切换俯瞰与近景', 'Switch between aerial and close views')} onClick={() => worldRef.current?.lookAround()}>{t('俯瞰', 'Overview')}</button>
         <button type="button" disabled={status !== 'ready'} onClick={togglePause}>{paused ? t('继续探索', 'Resume') : t('暂停', 'Pause')}</button>
-        <button type="button" disabled={status !== 'ready'} onClick={() => { clearInput(); worldRef.current?.reset(); if (!paused) canvasRef.current?.focus({ preventScroll: true }) }}>{t('回到起点', 'Start again')}</button>
+        <button type="button" disabled={status !== 'ready'} onClick={() => { clearInput(); setRouteError(false); worldRef.current?.reset(); if (!paused) canvasRef.current?.focus({ preventScroll: true }) }}>{t('回到起点', 'Start again')}</button>
         <button ref={closeRef} type="button" className="island-close" onClick={onClose}>{t('退出', 'Leave')} <span aria-hidden="true">×</span></button>
       </div>
     </header>
+    {mapOpen && <IslandAtlas ref={atlasRef} language={language} initialPose={mapPose} visited={visited} route={route} enabled={status === 'ready' && !paused && !activity} onWalk={walkTo} onRead={openPlace} onClose={closeMap} />}
+    <div className="island-route" role="status">{route ? <><span>{t('沿路前往', 'Walking to')} {landmarkById(route).title[language]}</span><button type="button" onClick={() => worldRef.current?.cancelWalk()}>{t('停下', 'Stop')}</button></> : routeError ? t('暂时找不到通路，可以换一个地面位置再试。', 'No route from here. Try moving to another open spot.') : null}</div>
     <p id="island-description" className="island-sr-only">{t('在岛上步行或奔跑，靠近地标后进入对应内容。按 Escape 退出。下方文字入口与岛上地标提供相同内容。', 'Walk or run to a landmark to open its content. Press Escape to leave. The text links below provide the same content as the island landmarks.')}</p>
 
     {status === 'loading' && <div className="island-status" role="status"><span className="island-loading-line" aria-hidden="true" /><h3>{t('正在准备岛屿…', 'Preparing the island…')}</h3><p>{t('片刻后，就可以沿着小径走走。', 'A short moment, then a path to follow.')}</p><button type="button" onClick={onClose}>{t('取消探索', 'Cancel')}</button></div>}
     {status === 'error' && <div className="island-status island-failure" role="alert"><p className="island-eyebrow">A QUIETER WAY IN</p><h3>{t('暂时无法启程', 'The island is unavailable')}</h3><p>{t('这个浏览器暂时无法显示岛屿。你仍可通过下方入口阅读全部内容。', 'This browser could not display the island. All content is still available through the links below.')}</p>
       <details><summary>{t('查看原因', 'Details')}</summary><p>{failure}</p></details>
-      <button type="button" onClick={() => { closeRef.current?.focus({ preventScroll: true }); setStatus('loading'); setFailure(''); setNear(null); setAttempt(value => value + 1) }}>{t('再试一次', 'Try again')}</button></div>}
+      <button type="button" onClick={() => { closeRef.current?.focus({ preventScroll: true }); setStatus('loading'); setFailure(''); setNear(null); setDusk(false); setAttempt(value => value + 1) }}>{t('再试一次', 'Try again')}</button></div>}
     {status === 'ready' && paused && <div className="island-status island-paused"><p className="island-eyebrow">A MOMENT OF STILLNESS</p><h3>{t('在此停留片刻', 'A moment to pause')}</h3><p>{reduced ? t('已跟随系统偏好暂停。准备好后，也可以选择继续探索。', 'Paused for your reduced-motion preference. You can choose to explore when you are ready.') : t('准备好后，再沿着小径出发。', 'The path will be here when you are ready.')}</p><button type="button" onClick={togglePause}>{t('继续探索', 'Continue exploring')}</button></div>}
-    {status === 'ready' && !paused && !nearAnimal && landmark && <aside className="island-landmark" aria-live="polite" aria-atomic="true"><span>{landmark.title[language]}</span><button type="button" onClick={() => landmark.id === 'research' ? setActivity('observatory') : callbacks.current.onVisit(landmark.chapter)}><kbd aria-hidden="true">E</kbd>{landmark.id === 'research' ? t('打开观星台', 'Open the observatory') : t('进入', 'Enter') + ' ' + chapterNames[landmark.chapter][language]} <span aria-hidden="true">↗</span></button></aside>}
-    {status === 'ready' && !paused && nearAnimal && <aside className="island-landmark island-animal"><span>{t('林间的小狐狸', 'A fox in the woods')}</span><div>{(['pet', 'feed', 'follow', 'stay'] as const).map(action => <button type="button" key={action} onClick={() => worldRef.current?.interactAnimal(action)}>{({ pet: ['摸摸', 'Pet'], feed: ['喂食', 'Feed'], follow: ['一起散步', 'Walk with me'], stay: ['在此休息', 'Stay here'] })[action][zh ? 0 : 1]}</button>)}</div></aside>}
+    {status === 'ready' && !paused && !mapOpen && landmark && <aside className="island-landmark" aria-live="polite" aria-atomic="true"><span>{landmark.title[language]}</span><button type="button" onClick={() => openPlace(landmark.id)}><kbd aria-hidden="true">E</kbd>{landmark.kind === 'observatory' ? t('打开观星台', 'Open the observatory') : landmark.kind === 'discovery' ? t('翻开此处札记', 'Read the field notes') : t('进入', 'Enter') + ' ' + chapterNames[landmark.chapter][language]} <span aria-hidden="true">↗</span></button></aside>}
+    {status === 'ready' && !paused && !mapOpen && nearAnimal && !landmark && <aside className="island-landmark island-animal"><span>{t('林间的小狐狸', 'A fox in the woods')}</span><div>{(['pet', 'feed', 'follow', 'stay'] as const).map(action => <button type="button" key={action} onClick={() => worldRef.current?.interactAnimal(action)}>{({ pet: ['摸摸', 'Pet'], feed: ['喂食', 'Feed'], follow: ['一起散步', 'Walk with me'], stay: ['在此休息', 'Stay here'] })[action][zh ? 0 : 1]}</button>)}</div></aside>}
     <p className="island-animal-status" role="status">{animalAction ? ({ pet: t('小狐狸停下来，让你轻轻摸摸。', 'The fox stops for a gentle pat.'), feed: t('你递出一点食物，小狐狸凑了过来。', 'The fox comes closer for a small treat.'), follow: t('小狐狸会跟着你，一起沿小径走走。', 'The fox will follow you along the paths.'), stay: t('小狐狸留在这里休息。', 'The fox stays here to rest.') })[animalAction] : ''}</p>
 
     <div className="island-touch" data-disabled={status !== 'ready' || paused || !visible || !!activity}>
       <div ref={joystickRef} className="island-joystick" role="group" aria-label={t('方向摇杆，拖动移动', 'Direction joystick: drag to move')}><span className="island-joystick-ring" aria-hidden="true" /><span ref={thumbRef} className="island-joystick-thumb" aria-hidden="true" /></div>
       <button ref={runRef} className="island-run" type="button" disabled={status !== 'ready' || paused || !visible || !!activity} aria-pressed={running}>{t('按住跑步', 'Hold to run')}</button>
     </div>
-    <footer className="island-footer"><nav className="island-links" aria-label={t('直接阅读岛上内容', 'Read island content directly')}><span>{t('直接阅读', 'READ DIRECTLY')}</span>{islandLandmarks.map(item => <a key={item.id} href={routeHref(item.chapter, language)} onClick={event => follow(event, item.chapter)}>{chapterNames[item.chapter][language]}</a>)}</nav>
+    <footer className="island-footer"><nav className="island-links" aria-label={t('直接阅读岛上内容', 'Read island content directly')}><span>{t('直接阅读', 'READ DIRECTLY')}</span>{chapterLandmarks.map(item => <a key={item.id} href={routeHref(item.chapter, language)} onClick={event => follow(event, item.chapter)}>{chapterNames[item.chapter][language]}</a>)}</nav>
       <div className="island-activity-links"><button type="button" onClick={() => setActivity('observatory')}>{t('观星台', 'Observatory')} ↗</button><details className="island-credits"><summary>{t('素材与署名', 'Credits')}</summary><div><p>{t('景观材质、叶片与环境光：', 'Landscape materials, foliage and lighting: ')}<a href="https://polyhaven.com/">Poly Haven</a> · CC0</p><p>{t('人物：', 'Traveler: ')}<a href="https://quaternius.com/packs/ultimatemodularcharacters.html">Quaternius</a> · CC0</p><p>Fox: PixelMannen (CC0); tomkranis ({t('骨骼与动画', 'rigging & animation')}), AsoboStudio & scurest ({t('glTF 转换', 'glTF conversion')}) · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></p><p>{t('模型按比例显示，步态使用动画混合。', 'Models are proportionally scaled with blended animation cycles.')} <a href="https://github.com/Studyer-Tang/Studyer-Tang.github.io/blob/main/docs/world-assets.md">{t('完整素材说明', 'Full asset notes')} ↗</a></p></div></details></div>
       <p className="island-help"><span className="island-keyboard-help"><span className="island-pointer-help">{t('点击步行 · 拖动转向 · 滚轮缩放', 'Click to walk · Drag to orbit · Scroll to zoom')}</span><kbd>WASD</kbd> / ↑↓←→ {t('移动', 'walk')} <span>·</span> <kbd>Shift</kbd> {t('跑步', 'run')} <span>·</span> <kbd>E</kbd> {t('进入', 'enter')}</span><span className="island-touch-help">{t('拖动摇杆移动 · 按住右侧按钮跑步', 'Drag to move · Hold the right button to run')}</span></p>
     </footer>
-  </dialog>{activity && <Suspense fallback={<ActivityLoading language={language} onClose={() => setActivity(null)} />}><Observatory language={language} onClose={() => setActivity(null)} /></Suspense>}</>
+  </dialog>{activity && <Suspense fallback={<ActivityLoading language={language} onClose={() => setActivity(null)} />}>{activity === 'observatory' ? <Observatory language={language} onClose={() => setActivity(null)} /> : <IslandJournal key={activity} id={activity} language={language} onClose={() => setActivity(null)} onVisit={onVisit} onObserve={() => setActivity('observatory')} onMap={() => { setActivity(null); openMap() }} />}</Suspense>}</>
 }

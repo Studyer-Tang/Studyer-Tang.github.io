@@ -3,7 +3,8 @@
 A bilingual personal space for interests, reading and research questions.
 [Visit the site](https://studyer-tang.github.io/). Four licensed landscape
 photographs frame the cover; an optional island lets visitors walk or run between
-a Chinese palace, observatory, woodland and offshore pier. Only the GitHub handle is
+ten places across a Chinese academy, lake, bamboo garden, wooded hills and
+an offshore pier. Only the GitHub handle is
 used for the owner's identity.
 
 ## Editing
@@ -18,7 +19,9 @@ used for the owner's identity.
   [photographers, licenses and modifications](docs/photography.md).
 - Island: `src/IslandGate.tsx` lazily opens `src/IslandExplorer.tsx`;
   `src/island/world.ts` builds the scene, `movement.ts` handles collision and
-  pathfinding, and `landmarks.ts` maps places to chapters.
+  pathfinding, `landmarks.ts` defines the ten destinations, and `trails.ts` shares
+  path coordinates between the scene and map. `IslandAtlas.tsx` provides the
+  live map; `IslandJournal.tsx` reuses the reading lists for six field-note stops.
 - Observatory: `src/observatory/` contains the sky chart and local ephemeris calculations.
 - [Scene assets](docs/world-assets.md), [animated actors](docs/actors.md), and
   [visual asset and data licenses](docs/visual-assets.md).
@@ -66,6 +69,20 @@ and scroll to zoom. Touch screens
 have a direction joystick and a hold-to-run button. Keyboard movement applies
 only while the canvas has focus. Pause, reset and Escape/Leave are always
 available; equivalent text links reach every chapter without walking.
+
+The **Map** shows ten destinations and the traveler’s current position. Choose
+Walk to follow a collision-checked route on foot; manual movement or Stop cancels
+it. Place names also open their reading/activity directly. Visits are counted
+only for the current island session, without storage. Overview/close changes the
+camera distance; Morning/Dusk switches the lighting without changing the
+observatory’s independent observation time.
+
+The expanded island has continuous wooded hills, a lake with a physical bridge,
+a pine gate, library palace, lakeside pavilion, history cloister, bamboo paths,
+waterside study, ridge lookout, observatory and pier. The six new field-note
+stops link to existing book sources and offer reading prompts, without claiming
+completed reading or research. Lake water is impassable outside the bridge.
+Buildings rest on continuous level sites with graded approaches.
 
 The palace, curved eaves, stone terraces, paths and pier are authored in code;
 photographic PBR surfaces, scanned vegetation and rigged animated actors supply

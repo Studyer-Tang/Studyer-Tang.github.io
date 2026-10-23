@@ -3,9 +3,11 @@ import { HDRLoader } from 'three/addons/loaders/HDRLoader.js'
 import { Sky } from 'three/addons/objects/Sky.js'
 import { createArtResources, addRod } from './resources.ts'
 import { createPalace } from './palace.ts'
+import { createAcademy } from './academy.ts'
 import { createLandscape, createDock } from './landscape.ts'
 import { createVegetation } from './vegetation.ts'
-import { terrainHeight } from '../movement.ts'
+import { terrainHeight, walkSurfaceHeight } from '../movement.ts'
+import { islandLandmarks, landmarkById } from '../landmarks.ts'
 import type { CircleObstacle } from '../movement.ts'
 import type { LandmarkId } from '../landmarks.ts'
 
@@ -14,7 +16,7 @@ export function createIslandArt(scene: THREE.Scene, onChange: () => void) {
   const group = new THREE.Group()
   scene.add(group)
   const sky = new Sky()
-  sky.scale.setScalar(450)
+  sky.scale.setScalar(1000)
   sky.material.uniforms.turbidity.value = 1.5
   sky.material.uniforms.rayleigh.value = 3
   sky.material.uniforms.mieCoefficient.value = 0.001
@@ -32,6 +34,7 @@ export function createIslandArt(scene: THREE.Scene, onChange: () => void) {
   const landscape = createLandscape(group, resources, obstacles)
   const palace = createPalace(group, resources, obstacles)
   const dock = createDock(group, resources, obstacles)
+  const academy = createAcademy(group, resources, obstacles)
   const vegetation = createVegetation(group, resources, obstacles, onChange)
   const box = resources.geometry(new THREE.BoxGeometry(1, 1, 1))
   const cylinder = resources.geometry(new THREE.CylinderGeometry(1, 1, 1, 20))
@@ -40,18 +43,20 @@ export function createIslandArt(scene: THREE.Scene, onChange: () => void) {
   // A hillside observatory, with an equatorial mount, counterweight and an
   // armillary instrument, is deliberately distinct from the palace silhouette.
   const observatory = new THREE.Group()
-  observatory.position.set(30, terrainHeight(30, -26), -26)
+  const peak = landmarkById('research').position
+  observatory.position.set(peak.x, terrainHeight(peak.x, peak.z), peak.z)
   group.add(observatory)
   const platform = resources.mesh(resources.geometry(new THREE.CylinderGeometry(6, 6.4, 0.25, 64)), resources.pbr('stone', '#c7c6b6', 3), observatory)
-  platform.position.y = 0.03
+  platform.position.y = -0.125
   const rails = resources.batch(cylinder, metal, observatory)
   for (let index = 0; index < 25; index++) {
-    const angle = Math.PI * 0.05 + index / 24 * Math.PI * 1.8
+    const angle = Math.PI * 0.6 + index / 24 * Math.PI * 1.8
     const x = Math.cos(angle) * 5.6, z = Math.sin(angle) * 5.6
     rails.add([x, 0.68, z], [0.055, 1.2, 0.055])
+    obstacles.push({ x: peak.x + x, z: peak.z + z, radius: 0.08 })
   }
   const railCurve = new THREE.CatmullRomCurve3(Array.from({ length: 40 }, (_, index) => {
-    const angle = Math.PI * 0.05 + index / 39 * Math.PI * 1.8
+    const angle = Math.PI * 0.6 + index / 39 * Math.PI * 1.8
     return new THREE.Vector3(Math.cos(angle) * 5.6, 1.27, Math.sin(angle) * 5.6)
   }))
   resources.mesh(resources.geometry(new THREE.TubeGeometry(railCurve, 64, 0.055, 6, false)), metal, observatory)
@@ -76,7 +81,7 @@ export function createIslandArt(scene: THREE.Scene, onChange: () => void) {
   }
   supports.finish()
   rails.finish()
-  obstacles.push({ x: 30, z: -26, radius: 1.65 })
+  obstacles.push({ ...peak, radius: 1.65 })
   const armillary = new THREE.Group()
   armillary.position.set(3, 1.5, -1.8)
   observatory.add(armillary)
@@ -87,10 +92,11 @@ export function createIslandArt(scene: THREE.Scene, onChange: () => void) {
   const pedestal = resources.mesh(cylinder, resources.pbr('stone', '#c8c7b9'), observatory)
   pedestal.position.set(3, 0.55, -1.8)
   pedestal.scale.set(0.35, 1.1, 0.35)
-  obstacles.push({ x: 33, z: -27.8, radius: 0.65 })
+  obstacles.push({ x: peak.x + 3, z: peak.z - 1.8, radius: 0.65 })
   // A quiet tea bench sits among the woodland, with a stone board and seats.
   const grove = new THREE.Group()
-  grove.position.set(-35, terrainHeight(-35, 15), 15)
+  const retreat = landmarkById('interests').position
+  grove.position.set(retreat.x, terrainHeight(retreat.x, retreat.z), retreat.z)
   group.add(grove)
   const wood = resources.batch(box, resources.pbr('wood', '#baa68b'), grove)
   wood.add([0, 0.7, 0], [3.5, 0.16, 0.8])
@@ -99,12 +105,15 @@ export function createIslandArt(scene: THREE.Scene, onChange: () => void) {
   wood.finish()
   const table = resources.mesh(resources.geometry(new THREE.CylinderGeometry(0.95, 0.7, 0.55, 32)), resources.pbr('stone', '#c9c6b1'), grove)
   table.position.set(0, 0.27, -2.3)
-  obstacles.push({ x: -35, z: 15, radius: 1.75 }, { x: -35, z: 12.7, radius: 1.1 })
+  obstacles.push({ ...retreat, radius: 1.75 }, { x: retreat.x, z: retreat.z - 2.3, radius: 1.1 })
   const markers = new Map<LandmarkId, THREE.MeshStandardMaterial>()
-  for (const [id, x, z] of [['reading', -23, 18], ['research', 31, -20], ['interests', -32, 18], ['personal', 90, 8]] as const) {
+  let dusk = false, nearest: LandmarkId | null = null
+  for (const place of islandLandmarks) {
+    const { id } = place
+    const x = place.entry.x + 2.2, z = place.entry.z + 1.5
     const paint = resources.material(new THREE.MeshStandardMaterial({ color: '#d8bf84', roughness: 0.45, metalness: 0.25, emissive: '#bd965b', emissiveIntensity: 0.1 }))
     const lantern = resources.mesh(resources.geometry(new THREE.CylinderGeometry(0.22, 0.27, 0.6, 12)), paint, group)
-    lantern.position.set(x, (id === 'personal' ? 2.8 : terrainHeight(x, z)) + 1.2, z)
+    lantern.position.set(x, walkSurfaceHeight(x, z) + 1.2, z)
     const post = resources.mesh(cylinder, resources.paint('#5d6154'), group)
     post.position.set(x, lantern.position.y - 0.6, z)
     post.scale.set(0.07, 1, 0.07)
@@ -122,11 +131,23 @@ export function createIslandArt(scene: THREE.Scene, onChange: () => void) {
   return {
     ready: Promise.all([resources.whenReady(), vegetation.ready]).then(results => results.every(Boolean)),
     obstacles,
-    pickSurfaces: [...landscape.pickSurfaces, ...palace.pickSurfaces, ...dock.pickSurfaces, platform],
-    setNear(id: LandmarkId | null) { for (const [key, paint] of markers) paint.emissiveIntensity = key === id ? 0.65 : 0.1 },
-    update(elapsed: number, reduced: boolean, camera: THREE.Camera) {
+    pickSurfaces: [...landscape.pickSurfaces, ...palace.pickSurfaces, ...dock.pickSurfaces, ...academy.pickSurfaces, platform],
+    setNear(id: LandmarkId | null) {
+      nearest = id
+      for (const [key, paint] of markers) paint.emissiveIntensity = key === id ? 0.85 : dusk ? 0.5 : 0.1
+    },
+    setDusk(value: boolean) {
+      dusk = value
+      sky.material.uniforms.sunPosition.value.set(...(dusk ? [-110, 32, 65] : [-55, 100, 55]))
+      sky.material.uniforms.rayleigh.value = dusk ? 2.2 : 3
+      sky.material.uniforms.cloudCoverage.value = dusk ? 0.28 : 0.2
+      for (const [key, paint] of markers) paint.emissiveIntensity = key === nearest ? 0.85 : dusk ? 0.5 : 0.1
+      academy.setDusk?.(dusk)
+      onChange()
+    },
+    update(elapsed: number, reduced: boolean, camera: THREE.Camera, focus: THREE.Vector3) {
       landscape.update(elapsed, reduced)
-      vegetation.update(camera)
+      vegetation.update(camera, focus)
     },
     dispose() {
       disposed = true

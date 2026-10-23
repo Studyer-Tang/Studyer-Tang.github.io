@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { PALACE_CENTER, PALACE_TERRACE_HEIGHT } from '../layout.ts'
 import { terrainHeight, walkSurfaceHeight } from '../movement.ts'
 import type { CircleObstacle } from '../movement.ts'
+import { addRod } from './resources.ts'
 import type { ArtResources } from './resources.ts'
 
 /** A double-eaved hip roof. Its eave and corner lift are part of the surface,
@@ -45,6 +46,11 @@ export function createPalace(parent: THREE.Object3D, resources: ArtResources, ob
   const darkWood = resources.batch(box, resources.pbr('wood', '#9a8a77', 2), group)
   const columns = resources.batch(columnShape, resources.paint('#974a3b', 0.58), group)
   const bases = resources.batch(columnShape, resources.paint('#a6a99e'), group)
+  const bookPages = resources.batch(box, resources.paint('#e0d9be'), group, false)
+  const bookCovers = resources.batch(box, resources.paint('#ffffff'), group, false)
+  const scrolls = resources.batch(columnShape, resources.paint('#d9d2b3'), group, false)
+  const rafters = resources.batch(columnShape, resources.pbr('wood', '#a58b6a'), group)
+
   const floorY = -0.1
   // A broad, tiered stone stylobate supports an open hall and a surrounding walk.
   stone.add([0, -1.22, 3], [40, 2.3, 30])
@@ -130,7 +136,42 @@ export function createPalace(parent: THREE.Object3D, resources: ArtResources, ob
   gold.add([0, 1.63, -3], [6.7, 0.13, 1.35])
   for (let x = -3; x <= 3; x += 0.6) obstacles.push({ x: PALACE_CENTER.x + x, z: PALACE_CENTER.z - 3, radius: 0.64 })
   for (const x of [-8, 0, 8]) darkWood.add([x, 6.4, 0], [0.38, 0.35, 15])
-  for (const batch of [stone, stoneTrim, vermilion, gold, darkWood, columns, bases]) batch.finish()
+  // Four open archive cases contain individually sized, cloth-bound volumes.
+  // They share two instance sets instead of one draw call per book.
+  const bindings = ['#3d5051', '#5c5747', '#734e40', '#3d4c64', '#766749']
+  for (const [caseIndex, x] of [-9, -4.5, 4.5, 9].entries()) {
+    const z = -6.75, width = 3.7
+    for (const side of [-1, 1]) darkWood.add([x + side * width / 2, 2.1, z], [0.13, 4.15, 0.7])
+    darkWood.add([x, 2.1, z - 0.35], [width, 4.15, 0.07])
+    for (let shelf = 0; shelf <= 5; shelf++) {
+      const y = 0.2 + shelf * 0.76
+      darkWood.add([x, y, z], [width + 0.16, 0.1, 0.74])
+      if (shelf === 5) continue
+      for (let book = 0; book < 20; book++) {
+        const height = 0.55 + (book + shelf * 3 + caseIndex) % 4 * 0.04
+        const px = x + (book - 9.5) * 0.17
+        const binding = bindings[(book + shelf + caseIndex) % bindings.length]
+        bookCovers.add([px, y + 0.06 + height / 2, z + 0.225], [0.135, height, 0.03], [0, 0, 0], binding)
+        for (const edge of [0, height]) bookCovers.add([px, y + 0.06 + edge, z], [0.135, 0.025, 0.46], [0, 0, 0], binding)
+        bookPages.add([px, y + 0.06 + height / 2, z], [0.105, height - 0.035, 0.415])
+        gold.add([px, y + 0.06 + height * 0.75, z + 0.246], [0.075, 0.025, 0.012])
+      }
+    }
+    for (let dx = -width / 2; dx <= width / 2; dx += 0.4) obstacles.push({ x: PALACE_CENTER.x + x + dx, z: PALACE_CENTER.z + z, radius: 0.45 })
+  }
+  // An open folio and scrolls sit on the lectern, with slender inkstone and
+  // brush geometry. Their placement does not add another floor collision.
+  for (const side of [-1, 1]) bookPages.add([side * 0.55, 1.74, -3], [1.04, 0.065, 0.76], [0, 0, side * -0.07])
+  for (const x of [-2.6, 2.6]) scrolls.add([x, 1.8, -3], [0.11, 0.78, 0.11], [Math.PI / 2, 0, 0])
+  darkWood.add([1.7, 1.78, -3.2], [0.38, 0.15, 0.25])
+  gold.add([1.6, 1.78, -2.72], [0.7, 0.035, 0.035], [0, 0.12, 0])
+  // Sloping rafters and tie beams remain visible from within the hall.
+  for (const x of [-10, -5, 0, 5, 10]) {
+    for (const side of [-1, 1]) addRod(rafters, new THREE.Vector3(x, 6.65, side * 6.3), new THREE.Vector3(x, 8.8, 0), 0.11)
+    darkWood.add([x, 6.65, 0], [0.2, 0.23, 12.6])
+    darkWood.add([x, 7.75, 0], [0.17, 2.2, 0.17])
+  }
+  for (const batch of [stone, stoneTrim, vermilion, gold, darkWood, columns, bases, bookPages, bookCovers, scrolls, rafters]) batch.finish()
   const walkSurface = resources.mesh(resources.geometry(new THREE.PlaneGeometry(40, 30)), resources.material(new THREE.MeshBasicMaterial({ visible: false })), group, false)
   walkSurface.rotation.x = -Math.PI / 2
   walkSurface.position.set(0, 0.03, 3)

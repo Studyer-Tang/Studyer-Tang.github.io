@@ -1,17 +1,21 @@
 import * as THREE from 'three'
-import { islandLandmarks } from './landmarks'
+import { islandLandmarks, landmarkById } from './landmarks'
 import type { LandmarkChapter, LandmarkId } from './landmarks'
 import { findWalkPath, findWalkTarget, moveWithCollisions, walkSurfaceHeight } from './movement'
 import type { Point2 } from './movement'
 import { createIslandArt } from './art'
 import { createWalker, createFox } from './actors'
 
+export type IslandPose = { x: number; z: number; heading: number }
 export type AnimalAction = 'pet' | 'feed' | 'follow' | 'stay'
 export type IslandCallbacks = {
   onNearLandmark: (id: LandmarkId | null) => void
   onVisit: (chapter: LandmarkChapter) => void
   onReady: () => void
   onError: (message: string) => void
+  onExplore?: (id: LandmarkId) => void
+  onPose?: (pose: IslandPose) => void
+  onRoute?: (id: LandmarkId | null) => void
   onObserve?: () => void
   onNearAnimal?: (id: string | null) => void
   onAnimal?: (action: AnimalAction) => void
@@ -22,6 +26,10 @@ export type IslandController = {
   setRunning: (running: boolean) => void
   setPaused: (paused: boolean) => void
   interactAnimal: (action: AnimalAction) => void
+  walkTo: (id: LandmarkId) => boolean
+  cancelWalk: () => void
+  setDusk: (value: boolean) => void
+  lookAround: () => void
   reset: () => void
   dispose: () => void
 }
@@ -30,7 +38,7 @@ const FOX_SPAWN: Point2 = { x: -8, z: 23 }
 const CAMERA_DISTANCE = 32
 const CAMERA_PITCH = 0.22
 const idleController: IslandController = {
-  setMove() {}, setRunning() {}, setPaused() {}, interactAnimal() {}, reset() {}, dispose() {},
+  setMove() {}, setRunning() {}, setPaused() {}, interactAnimal() {}, walkTo() { return false }, cancelWalk() {}, setDusk() {}, lookAround() {}, reset() {}, dispose() {},
 }
 
 export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallbacks): IslandController {
@@ -43,8 +51,8 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
   }
   const scene = new THREE.Scene()
   scene.background = new THREE.Color('#b8d9ea')
-  scene.fog = new THREE.Fog('#b8d9ea', 190, 390)
-  const camera = new THREE.PerspectiveCamera(50, 1, 0.12, 500)
+  scene.fog = new THREE.Fog('#b8d9ea', 120, 260)
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.12, 900)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
   renderer.outputColorSpace = THREE.SRGBColorSpace
   renderer.toneMapping = THREE.ACESFilmicToneMapping
@@ -53,18 +61,21 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
   renderer.shadowMap.type = THREE.PCFShadowMap
   renderer.shadowMap.autoUpdate = false
   renderer.shadowMap.needsUpdate = true
-  scene.add(new THREE.HemisphereLight('#dbeaff', '#b6bea1', 2.6))
+  const ambient = new THREE.HemisphereLight('#dbeaff', '#b6bea1', 2.6)
+  scene.add(ambient)
   const sunlight = new THREE.DirectionalLight('#fff0d5', 3)
   sunlight.position.set(-55, 100, 55)
   sunlight.castShadow = true
   sunlight.shadow.mapSize.set(2048, 2048)
-  sunlight.shadow.camera.left = sunlight.shadow.camera.bottom = -80
-  sunlight.shadow.camera.right = sunlight.shadow.camera.top = 100
+  sunlight.shadow.camera.left = sunlight.shadow.camera.bottom = -58
+  sunlight.shadow.camera.right = sunlight.shadow.camera.top = 58
   sunlight.shadow.camera.near = 1
   sunlight.shadow.camera.far = 250
   sunlight.shadow.normalBias = 0.05
   sunlight.shadow.bias = -0.00015
-  scene.add(sunlight)
+  scene.add(sunlight, sunlight.target)
+  const sunOffset = new THREE.Vector3(-55, 100, 55)
+  const shadowTarget = new THREE.Vector3(Infinity, 0, Infinity)
   const art = createIslandArt(scene, () => {
     renderer.shadowMap.needsUpdate = true
     renderOnce()
@@ -97,6 +108,9 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
   let lastFrame: number | undefined
   let elapsed = 0
   let waypoints: Point2[] = []
+  let route: LandmarkId | null = null
+  let lastPoseTime = -1
+  let lastPoseX = Infinity, lastPoseZ = Infinity, lastHeading = Infinity
   let near: LandmarkId | null = null
   let nearAnimal = false
   let foxPosition: Point2 = { ...FOX_SPAWN }
@@ -122,8 +136,7 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
     if (action === 'pet' || action === 'feed') {
       if (animalAction === 'follow' || animalAction === 'stay' || animalAction === 'roam') resumeAnimalAction = animalAction
       animalTimer = 3
-      waypoints = []
-      targetMarker.visible = false
+      cancelWalk()
       velocity.set(0, 0)
       externalMove.set(0, 0)
       keys.clear()
@@ -234,8 +247,7 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
     let waypointDistance = Infinity
     const manual = Math.hypot(x, z) > 0.04
     if (manual) {
-      waypoints = []
-      targetMarker.visible = false
+      if (waypoints.length || route !== null) cancelWalk()
       const length = Math.max(1, Math.hypot(x, z))
       const rx = x / length
       const rz = z / length
@@ -252,7 +264,7 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
         const slow = waypoints.length === 1 ? Math.min(1, length / 0.8) : 1
         x = dx / length * slow
         z = dz / length * slow
-      } else { x = z = 0; targetMarker.visible = false; if (wasFollowingPath) velocity.set(0, 0) }
+      } else { x = z = 0; if (wasFollowingPath) cancelWalk() }
     }
     const running = externalRunning || keys.has('ShiftLeft') || keys.has('ShiftRight')
     const speed = running ? 5.7 : 2.4
@@ -276,22 +288,58 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
     walker.position.set(position.x, walkSurfaceHeight(position.x, position.z), position.z)
     walkerActor.update(reducedMotion.matches && !moving ? 0 : dt, { moving, running, distance })
     updateFox(dt)
-    art.update(elapsed, reducedMotion.matches, camera)
     updateNear()
     updateCamera(dt)
+    art.update(elapsed, reducedMotion.matches, camera, followTarget)
+    updateSun()
+    if (elapsed - lastPoseTime > 0.2 && (Math.hypot(position.x - lastPoseX, position.z - lastPoseZ) > 0.1 || Math.abs(walker.rotation.y - lastHeading) > 0.1)) {
+      lastPoseTime = elapsed; emitPose()
+    }
     renderOnce()
     start()
   }
 
+  function emitPose() {
+    lastPoseX = position.x; lastPoseZ = position.z; lastHeading = walker.rotation.y
+    callbacks.onPose?.({ x: position.x, z: position.z, heading: walker.rotation.y })
+  }
+  function updateSun() {
+    // Follow the traveler with a bounded, texel-snapped shadow frustum.
+    const step = 116 / 2048
+    const x = Math.round(position.x / step) * step, z = Math.round(position.z / step) * step
+    const y = walkSurfaceHeight(position.x, position.z)
+    if (Math.abs(shadowTarget.x - x) < 0.2 && Math.abs(shadowTarget.z - z) < 0.2 && Math.abs(shadowTarget.y - y) < 0.2) return
+    shadowTarget.set(x, y, z)
+    sunlight.target.position.copy(shadowTarget)
+    sunlight.position.copy(shadowTarget).add(sunOffset)
+    renderer.shadowMap.needsUpdate = true
+  }
+  function cancelWalk() {
+    waypoints = []
+    velocity.set(0, 0)
+    targetMarker.visible = false
+    if (route !== null) { route = null; callbacks.onRoute?.(null) }
+  }
+  function walkTo(id: LandmarkId) {
+    if (!ready || paused || failed || disposed) return false
+    const target = landmarkById(id).entry
+    cancelWalk()
+    if (Math.hypot(position.x - target.x, position.z - target.z) < 0.3) return true
+    waypoints = findWalkPath(position, target, obstacles)
+    if (!waypoints.length) return false
+    route = id
+    callbacks.onRoute?.(id)
+    targetMarker.position.set(target.x, walkSurfaceHeight(target.x, target.z) + 0.09, target.z)
+    targetMarker.visible = true
+    return true
+  }
   function chooseTarget(event: PointerEvent) {
     const bounds = canvas.getBoundingClientRect()
     if (!bounds.width || !bounds.height) return
     pointer.set((event.clientX - bounds.left) / bounds.width * 2 - 1, -(event.clientY - bounds.top) / bounds.height * 2 + 1)
     raycaster.setFromCamera(pointer, camera)
     const hit = raycaster.intersectObjects(art.pickSurfaces, false)[0]
-    waypoints = []
-    velocity.set(0, 0)
-    targetMarker.visible = false
+    cancelWalk()
     if (!hit) return
     const target = findWalkTarget({ x: hit.point.x, z: hit.point.z }, obstacles)
     if (!target) return
@@ -338,19 +386,20 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
     event.preventDefault()
     const pixels = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? canvas.clientHeight : 1)
     const previous = cameraDistance
-    cameraDistance = THREE.MathUtils.clamp(cameraDistance * Math.exp(THREE.MathUtils.clamp(pixels, -300, 300) * 0.0015), 14, 100)
+    cameraDistance = THREE.MathUtils.clamp(cameraDistance * Math.exp(THREE.MathUtils.clamp(pixels, -300, 300) * 0.0015), 14, 150)
     cameraPitch = THREE.MathUtils.clamp(cameraPitch + Math.log(cameraDistance / previous) * 0.48, 0.18, 1.12)
   }
   function keyDown(event: KeyboardEvent) {
     if (paused || failed || disposed || document.activeElement !== canvas || event.ctrlKey || event.metaKey || event.altKey) return
     if (movementKeys.has(event.code)) { event.preventDefault(); keys.add(event.code) }
     if (event.code === 'KeyE' && !event.repeat) {
-      if (nearAnimal) { event.preventDefault(); interactAnimal('pet') }
-      else if (near) {
+      if (near) {
         event.preventDefault()
-        if (near === 'research' && callbacks.onObserve) callbacks.onObserve()
-        else callbacks.onVisit(near)
-      }
+        const place = landmarkById(near)
+        if (place.kind === 'observatory' && callbacks.onObserve) callbacks.onObserve()
+        else if (place.kind === 'discovery' && callbacks.onExplore) callbacks.onExplore(place.id)
+        else callbacks.onVisit(place.chapter)
+      } else if (nearAnimal) { event.preventDefault(); interactAnimal('pet') }
     }
   }
   const keyUp = (event: KeyboardEvent) => { keys.delete(event.code) }
@@ -406,8 +455,7 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
     externalMove.set(0, 0)
     velocity.set(0, 0)
     externalRunning = false
-    waypoints = []
-    targetMarker.visible = false
+    cancelWalk()
     position = { ...SPAWN }
     walker.position.set(position.x, walkSurfaceHeight(position.x, position.z), position.z)
     walker.rotation.y = 0
@@ -425,6 +473,8 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
     cameraPitch = CAMERA_PITCH
     cameraDistance = CAMERA_DISTANCE
     updateCamera(0, true)
+    updateSun()
+    emitPose()
     updateNear()
     renderer.shadowMap.needsUpdate = true
     renderOnce()
@@ -457,6 +507,31 @@ export function mountIsland(canvas: HTMLCanvasElement, callbacks: IslandCallback
       else start()
     },
     interactAnimal,
+    walkTo,
+    cancelWalk,
+    lookAround() {
+      if (disposed || failed) return
+      const wide = cameraDistance < 80
+      cameraDistance = wide ? 145 : CAMERA_DISTANCE
+      cameraPitch = wide ? 0.82 : CAMERA_PITCH
+      updateCamera(0, true)
+      art.update(elapsed, reducedMotion.matches, camera, followTarget)
+      renderOnce()
+    },
+    setDusk(value) {
+      if (disposed || failed) return
+      ambient.color.set(value ? '#c2c7e4' : '#dbeaff')
+      ambient.groundColor.set(value ? '#777665' : '#b6bea1')
+      ambient.intensity = value ? 1.2 : 2.6
+      sunlight.color.set(value ? '#ffd0a0' : '#fff0d5')
+      sunlight.intensity = value ? 2.1 : 3
+      sunOffset.set(value ? -110 : -55, value ? 32 : 100, value ? 65 : 55)
+      scene.fog!.color.set(value ? '#a89a9e' : '#b8d9ea')
+      art.setDusk(value)
+      shadowTarget.x = Infinity
+      updateSun()
+      renderOnce()
+    },
     reset,
     dispose() {
       if (disposed) return

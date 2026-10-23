@@ -135,3 +135,11 @@
 @media (max-height: 560px) and (max-width: 600px) { .island-touch { bottom: 105px; } }
 @media (prefers-reduced-motion: reduce) { .island-loading-line { animation: none; } }
 @media print { .island-explorer { display: none !important; } }
+.island-visited { padding-left: 4px; color: #c5d3bc; font: 9px/1.6 var(--mono); }
+.island-route { position: absolute; z-index: 2; top: 112px; left: 32px; display: flex; align-items: center; gap: 15px; max-width: calc(100% - 64px); font: 11px/1.8 var(--sans); color: #e7e5ca; text-shadow: 0 1px 6px #06141c; }
+.island-route button { min-height: 32px; font-size: 10px; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 760px) { .island-actions { gap: 0 14px; } .island-route { top: 145px; left: 20px; max-width: calc(100% - 40px); font-size: 10px; } }
+@media (max-width: 600px) { .island-header { gap: 4px; } .island-actions { margin-left: 0; width: 100%; } .island-actions .island-close { margin-left: auto; } .island-actions button { font-size: 10px; } .island-route { top: 135px; } }
+@media (max-height: 560px) { .island-route { top: 70px; } }
+.island-header { padding-bottom: 36px; background: linear-gradient(#071923a6, #07192326 70%, transparent); }
+.island-route:not(:empty) { padding: 2px 12px; border: 1px solid #b5c5b326; border-radius: 3px; background: #0a202bd9; text-shadow: none; }

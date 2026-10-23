@@ -2,31 +2,36 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { findWalkPath, findWalkTarget, islandRadiusAt, isWalkable, moveWithCollisions, stepToward, terrainHeight, walkSurfaceHeight } from '../src/island/movement.ts'
 import type { Point2 } from '../src/island/movement.ts'
-import { DOCK_BRIDGE, DOCK_HEIGHT, DOCK_PLATFORM, PALACE_TERRACE_HEIGHT } from '../src/island/layout.ts'
+import { DOCK_BRIDGE, DOCK_HEIGHT, DOCK_PLATFORM, HISTORY_TERRACE, HISTORY_TERRACE_HEIGHT, ISLAND_BOUNDS, LAKE_BRIDGE, LAKE_BRIDGE_HEIGHT, LAKE_CENTER, LAKE_PAVILION, LAKE_PAVILION_RAMP, LAKE_RADII, LAKE_WATER_HEIGHT, OBSERVATORY_CENTER, OBSERVATORY_HEIGHT, OBSERVATORY_RADIUS, PALACE_TERRACE_HEIGHT, RIDGE_TERRACE, RIDGE_TERRACE_HEIGHT } from '../src/island/layout.ts'
+import { islandLandmarks } from '../src/island/landmarks.ts'
 
 const near = (actual: number, expected: number, tolerance = 1e-5) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} != ${expected}`)
 const radialPoint = (angle: number, q: number): Point2 => ({ x: Math.cos(angle) * islandRadiusAt(angle) * q, z: Math.sin(angle) * islandRadiusAt(angle) * q })
 
-test('ellipse shoreline follows its angular perturbation and the walkable inset includes body clearance', () => {
-  near(islandRadiusAt(0), 66.24)
-  near(islandRadiusAt(Math.PI / 2), 49.14)
-  near(islandRadiusAt(Math.PI), 61.76)
+test('the asymmetric shoreline expands inland and its walkable inset includes body clearance', () => {
+  near(islandRadiusAt(0), 71.26)
+  near(islandRadiusAt(Math.PI / 2), 126.75)
+  near(islandRadiusAt(Math.PI), 162.03)
+  near(islandRadiusAt(-Math.PI / 2), 148.625)
   for (let index = 0; index < 64; index++) {
     const angle = index * Math.PI / 32
-    const point = radialPoint(angle, 0.88)
+    const point = radialPoint(angle, 0.94)
     if (point.x > DOCK_BRIDGE.minX && point.z > DOCK_BRIDGE.minZ - 1 && point.z < DOCK_BRIDGE.maxZ + 1) continue
-    assert.equal(isWalkable(radialPoint(angle, 0.88), 0), true)
-    assert.equal(isWalkable(radialPoint(angle, 0.881), 0), false)
-    assert.equal(isWalkable(radialPoint(angle, 0.88)), false)
-    assert.equal(isWalkable(radialPoint(angle, 0.85)), true)
+    assert.equal(isWalkable(radialPoint(angle, 0.94), 0), true)
+    assert.equal(isWalkable(radialPoint(angle, 0.941), 0), false)
+    assert.equal(isWalkable(radialPoint(angle, 0.94)), false)
+    assert.equal(isWalkable(radialPoint(angle, 0.91)), true)
   }
   assert.equal(isWalkable({ x: NaN, z: 0 }), false)
   assert.equal(isWalkable({ x: 0, z: 0 }, -1), false)
 })
 
-test('terrain rises gently inland, has no discontinuity at the shoreline, and has bounded local slopes', () => {
+test('the continuous terrain contains a true northern ridge while the palace axis stays gentle', () => {
   assert.ok(terrainHeight(0, 0) >= 3 && terrainHeight(0, 0) <= 4, 'the centre remains a modest broad rise')
-  assert.ok(terrainHeight(30, -30) > terrainHeight(65, -45) + 1.5, 'the northeast hill rises clearly above the shoreline')
+  assert.ok(terrainHeight(-25, -104) >= 21, 'the lookout has a real elevated architectural clearing')
+  assert.ok(terrainHeight(-10, -83) > 29, 'the surrounding ridge is real traversable terrain, not a scenic object')
+  assert.ok(terrainHeight(27, -84) > 23, 'the observatory stands on the eastern continuation of the ridge')
+  assert.ok(terrainHeight(-14, 56) < 3, 'the southern entrance remains a gentle approach')
   for (let index = 0; index < 24; index++) {
     const angle = index * Math.PI / 12
     const shore = radialPoint(angle, 1)
@@ -34,7 +39,8 @@ test('terrain rises gently inland, has no discontinuity at the shoreline, and ha
     for (let radius = 0; radius < islandRadiusAt(angle); radius += 0.25) {
       const p = { x: Math.cos(angle) * radius, z: Math.sin(angle) * radius }
       const next = { x: Math.cos(angle) * (radius + 0.25), z: Math.sin(angle) * (radius + 0.25) }
-      assert.ok(Math.abs(terrainHeight(p.x, p.z) - terrainHeight(next.x, next.z)) < 0.065)
+      assert.ok(Math.abs(terrainHeight(p.x, p.z) - terrainHeight(next.x, next.z)) < 0.34,
+        'mountain slopes and lake banks stay continuous at walking scale')
     }
   }
 })
@@ -68,8 +74,9 @@ test('large movement stops at the coast and sustained diagonal input can follow 
   assert.equal(isWalkable(stopped), true)
   assert.ok(stopped.x > 55)
   const pushed = moveWithCollisions(stopped, { x: 1000, z: 0 }, [])
-  near(pushed.x, stopped.x)
-  let position = radialPoint(Math.PI, 0.86)
+  assert.ok(pushed.x - stopped.x < 0.03, 'held input stays at the shoreline while allowing a small tangent slide')
+  assert.equal(isWalkable(pushed), true)
+  let position = radialPoint(Math.PI, 0.92)
   const start = { ...position }
   for (let frame = 0; frame < 120; frame++) {
     const angle = Math.atan2(position.z, position.x)
@@ -91,7 +98,7 @@ test('blocked starts stay put and invalid deltas cannot move a character', () =>
 
 test('click targets reject sea, the body clearance strip, and expanded obstacle discs', () => {
   assert.equal(findWalkTarget(radialPoint(1.2, 1.1), []), null)
-  assert.equal(findWalkTarget(radialPoint(1.2, 0.88), []), null)
+  assert.equal(findWalkTarget(radialPoint(1.2, 0.94), []), null)
   const obstacles = [{ x: 0, z: 0, radius: 1 }]
   assert.equal(findWalkTarget({ x: 1.3, z: 0 }, obstacles), null)
   const point = { x: 3, z: 2 }
@@ -155,11 +162,11 @@ function walkPath(start: Point2, path: Point2[], obstacles: { x: number; z: numb
   let position = { ...start }
   for (const waypoint of path) {
     let arrived = false
-    for (let frame = 0; frame < 1500; frame++) {
+    for (let frame = 0; frame < 2500; frame++) {
       const desired = stepToward(position, waypoint, 0.19).position
       const next = moveWithCollisions(position, { x: desired.x - position.x, z: desired.z - position.z }, obstacles)
       assert.equal(isWalkable(next), true)
-      assert.ok(Math.abs(walkSurfaceHeight(next.x, next.z) - walkSurfaceHeight(position.x, position.z)) < 0.13,
+      assert.ok(Math.abs(walkSurfaceHeight(next.x, next.z) - walkSurfaceHeight(position.x, position.z)) < 0.28,
         'walking must not jump between raised and ground surfaces')
       position = next
       if (Math.hypot(position.x - waypoint.x, position.z - waypoint.z) < 1e-4) { arrived = true; break }
@@ -272,4 +279,130 @@ test('a direct tangent remains usable, but an intersecting straight shortcut mus
   const reached = walkPath(start, detour, [{ x: 0, z: 29.4, radius: 1 }])
   near(reached.x, target.x)
   near(reached.z, target.z)
+})
+
+test('the expanded landscape offers over forty thousand square metres of usable ground within its bounds', () => {
+  let area = 0
+  for (let x = ISLAND_BOUNDS.minX; x <= ISLAND_BOUNDS.maxX; x++) {
+    for (let z = ISLAND_BOUNDS.minZ; z <= ISLAND_BOUNDS.maxZ; z++) {
+      if (isWalkable({ x, z })) area++
+    }
+  }
+  assert.ok(area > 40_000 && area < 48_000, `usable mainland area: ${area} square units`)
+  for (let index = 0; index < 360; index++) {
+    const shore = radialPoint(index * Math.PI / 180, 1)
+    assert.ok(shore.x >= ISLAND_BOUNDS.minX && shore.x <= ISLAND_BOUNDS.maxX)
+    assert.ok(shore.z >= ISLAND_BOUNDS.minZ && shore.z <= ISLAND_BOUNDS.maxZ)
+  }
+})
+
+test('the elliptical lake is real water with a continuous bed and cannot be crossed outside its bridge', () => {
+  near(terrainHeight(LAKE_CENTER.x, LAKE_CENTER.z), LAKE_WATER_HEIGHT - 1)
+  for (let index = 0; index < 32; index++) {
+    const angle = index * Math.PI / 16
+    const shore = { x: LAKE_CENTER.x + Math.cos(angle) * LAKE_RADII.x, z: LAKE_CENTER.z + Math.sin(angle) * LAKE_RADII.z }
+    near(terrainHeight(shore.x, shore.z), LAKE_WATER_HEIGHT)
+    const inside = { x: LAKE_CENTER.x + Math.cos(angle) * LAKE_RADII.x * 0.8, z: LAKE_CENTER.z + Math.sin(angle) * LAKE_RADII.z * 0.8 }
+    if (inside.z >= LAKE_BRIDGE.minZ && inside.z <= LAKE_BRIDGE.maxZ) continue
+    assert.equal(isWalkable(inside), false)
+    assert.equal(findWalkTarget(inside, []), null)
+  }
+  const stopped = moveWithCollisions({ x: LAKE_CENTER.x, z: LAKE_CENTER.z - 20 }, { x: 0, z: 40 }, [])
+  assert.equal(isWalkable(stopped), true)
+  assert.ok(stopped.z < LAKE_CENTER.z - LAKE_RADII.z - 0.44)
+})
+
+test('the lake bridge and pavilion have physical railings and continuous dry-bank ramps at both approaches', () => {
+  const start = { x: LAKE_BRIDGE.minX - 3, z: LAKE_CENTER.z }
+  const target = { x: LAKE_PAVILION_RAMP.maxX + 3, z: LAKE_CENTER.z }
+  near(walkSurfaceHeight(LAKE_BRIDGE.minX, LAKE_CENTER.z), terrainHeight(LAKE_BRIDGE.minX, LAKE_CENTER.z))
+  near(walkSurfaceHeight(LAKE_CENTER.x, LAKE_CENTER.z), LAKE_BRIDGE_HEIGHT)
+  near(walkSurfaceHeight(LAKE_PAVILION.maxX, LAKE_CENTER.z), LAKE_BRIDGE_HEIGHT)
+  near(walkSurfaceHeight(LAKE_PAVILION_RAMP.maxX, LAKE_CENTER.z), terrainHeight(LAKE_PAVILION_RAMP.maxX, LAKE_CENTER.z))
+  const crossed = walkPath(start, findWalkPath(start, target, []))
+  near(crossed.x, target.x)
+  near(crossed.z, target.z)
+  const returned = walkPath(crossed, findWalkPath(crossed, start, []))
+  near(returned.x, start.x)
+  const bridgeSide = moveWithCollisions(LAKE_CENTER, { x: 0, z: 20 }, [])
+  assert.ok(bridgeSide.z < LAKE_BRIDGE.maxZ - 0.45)
+  const pavilionSide = moveWithCollisions({ x: -64, z: -29 }, { x: 0, z: 20 }, [])
+  assert.ok(pavilionSide.z < LAKE_PAVILION.maxZ - 0.45)
+})
+
+test('all ten destinations are reached from the arrival court by real bounded walking steps', () => {
+  const start = { x: -14, z: 27 }
+  assert.equal(islandLandmarks.length, 10)
+  for (const place of islandLandmarks) {
+    assert.equal(isWalkable(place.entry), true, `${place.id} entry is on a physical surface`)
+    const path = findWalkPath(start, place.entry, [])
+    assert.deepEqual(path.at(-1), place.entry, `${place.id} needs a continuous route`)
+    const arrived = walkPath(start, path)
+    near(arrived.x, place.entry.x)
+    near(arrived.z, place.entry.z)
+  }
+})
+
+test('architectural mountain clearings meet their surrounding paths without a hidden step or blocked rim', () => {
+  for (const { rect, height, entry } of [
+    { rect: HISTORY_TERRACE, height: HISTORY_TERRACE_HEIGHT, entry: { x: -109, z: -68 } },
+    { rect: RIDGE_TERRACE, height: RIDGE_TERRACE_HEIGHT, entry: { x: -25, z: -104 } },
+  ]) {
+    for (let fraction = 0; fraction <= 1; fraction += 0.125) {
+      const x = rect.minX + (rect.maxX - rect.minX) * fraction
+      const z = rect.minZ + (rect.maxZ - rect.minZ) * fraction
+      for (const point of [
+        { x, z: rect.minZ - 0.001 }, { x, z: rect.maxZ + 0.001 },
+        { x: rect.minX - 0.001, z }, { x: rect.maxX + 0.001, z },
+      ]) {
+        near(terrainHeight(point.x, point.z), height, 1e-5)
+        assert.equal(isWalkable(point), true, 'the floor meets dry traversable mountainside')
+      }
+    }
+    for (const point of [
+      { x: rect.minX - 4, z: (rect.minZ + rect.maxZ) / 2 },
+      { x: rect.maxX + 4, z: (rect.minZ + rect.maxZ) / 2 },
+      { x: (rect.minX + rect.maxX) / 2, z: rect.minZ - 4 },
+      { x: (rect.minX + rect.maxX) / 2, z: rect.maxZ + 4 },
+    ]) {
+      const arrived = walkPath(entry, findWalkPath(entry, point, []))
+      near(arrived.x, point.x)
+      near(arrived.z, point.z)
+    }
+  }
+})
+
+test('the observatory has a level circular pad and a continuous southern mountain approach', () => {
+  for (let radius = 0; radius <= OBSERVATORY_RADIUS; radius += 0.5) {
+    for (let index = 0; index < 32; index++) {
+      const angle = index * Math.PI / 16
+      const x = OBSERVATORY_CENTER.x + Math.cos(angle) * radius
+      const z = OBSERVATORY_CENTER.z + Math.sin(angle) * radius
+      near(terrainHeight(x, z), OBSERVATORY_HEIGHT)
+      near(walkSurfaceHeight(x, z), OBSERVATORY_HEIGHT)
+    }
+  }
+  const entry = { x: OBSERVATORY_CENTER.x, z: OBSERVATORY_CENTER.z + OBSERVATORY_RADIUS }
+  const lower = { x: entry.x, z: entry.z + 20 }
+  const arrived = walkPath(lower, findWalkPath(lower, entry, []))
+  near(arrived.x, entry.x)
+  near(arrived.z, entry.z)
+  near(terrainHeight(entry.x, entry.z + 0.001), OBSERVATORY_HEIGHT, 1e-5)
+})
+
+test('full-map forest indexing preserves route correctness with twelve hundred collision obstacles', () => {
+  let seed = 934017
+  const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296 }
+  const start = { x: 100, z: 23 }, target = { x: -109, z: -68 }
+  const obstacles = [{ x: 70, z: 14, radius: 1.5 }]
+  while (obstacles.length < 1200) {
+    const point = { x: -158 + random() * 218, z: -134 + random() * 257, radius: 0.3 + random() * 0.4 }
+    if (!isWalkable(point) || [start, target, ...islandLandmarks.map(place => place.entry)].some(entry => Math.hypot(point.x - entry.x, point.z - entry.z) < 4)) continue
+    obstacles.push(point)
+  }
+  const path = findWalkPath(start, target, obstacles)
+  assert.deepEqual(path.at(-1), target)
+  const arrived = walkPath(start, path, obstacles)
+  near(arrived.x, target.x)
+  near(arrived.z, target.z)
 })

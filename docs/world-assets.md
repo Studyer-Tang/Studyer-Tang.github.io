@@ -76,6 +76,32 @@ The manifest records source/result hashes, per-material triangle counts and the 
 
 It deliberately contains **no images**. On load, replace its placeholder materials by the high-detail tree's shared materials using these names, in the same order: `scanned-trunk`, `photographic-leaves`, `scanned-branches`. Rendering its placeholder materials directly will produce untextured geometry. Reuse the high-detail tree's bounding-box height and feet offset for both models; independently normalizing the two LODs causes size/ground-position jumps. The original local coordinates are preserved. This avoids downloading or creating duplicate GPU copies of identical tree textures.
 
+### Expanded scene rendering
+
+The enlarged terrain reuses the same downloaded assets. It instances 480 scanned
+trees in 32 m sectors, uses the original high-detail and geometry-only tree levels
+near the camera, and adds a third horizon level at runtime. The horizon level
+samples complete four-vertex/two-triangle leaf cards from the distant model and
+compensates their area; it retains the original trunk, branches, UVs and shared
+photographic materials. It is about 4,539 triangles per tree, with no additional
+model download. This is a scene rendering derivative, not a new upstream model.
+Distant sectors are hidden, and only nearby trees cast shadows. A bounded
+sunlight shadow frustum follows the traveler instead of covering the whole island
+at poor resolution. In close views, crown volumes crossing the camera-to-traveler
+sightline temporarily hide only those tree instances across all LODs, with
+hysteresis. Their fixed bounds and collision stay intact; aerial views restore
+the full forest. Instance matrices update only when visibility changes.
+
+Bamboo stems use shared segmented geometry; leaves instance the existing
+photographed leaf cutout. Ferns use the four licensed scan variants in spatial
+sectors. Path and courtyard vertices follow the shared terrain/walking height;
+the lake bridge and pavilion picking surfaces match their walkable heights.
+
+The five new academy building groups and expanded palace interiors are authored
+in code with shared instanced timber, stone, roofs, books and furnishings.
+Morning/dusk changes the sky, directional/ambient light and emissive lanterns;
+it does not add hundreds of local lights or fetch weather data.
+
 ## Verification
 
 Downloaded source bytes were checked against the provider's size and MD5; every distributed asset has a SHA-256 in the manifest. Source and final material contact sheets, the photographic sea detail, leaf cutout and fern transparency were visually inspected. Static checks cover all local glTF references, buffer/accessor bounds and alpha ranges. Visual acceptance of the final integrated scene remains a separate browser/rendering check.

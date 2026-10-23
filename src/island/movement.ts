@@ -1,4 +1,4 @@
-import { DOCK_BRIDGE, DOCK_HEIGHT, DOCK_PLATFORM, DOCK_RAMP, islandRadiusAt, PALACE_STAIRS, PALACE_TERRACE, PALACE_TERRACE_HEIGHT, terrainHeight } from './layout.ts'
+import { DOCK_BRIDGE, DOCK_HEIGHT, DOCK_PLATFORM, DOCK_RAMP, ISLAND_BOUNDS, islandRadiusAt, LAKE_BRIDGE, LAKE_BRIDGE_HEIGHT, LAKE_PAVILION, LAKE_PAVILION_RAMP, LAKE_RADII, lakeBridgeHeight, lakeRadiusAt, PALACE_STAIRS, PALACE_TERRACE, PALACE_TERRACE_HEIGHT, terrainHeight } from './layout.ts'
 import type { Rect2 } from './layout.ts'
 
 export { islandRadiusAt, terrainHeight } from './layout.ts'
@@ -6,10 +6,10 @@ export { islandRadiusAt, terrainHeight } from './layout.ts'
 export type Point2 = { x: number; z: number }
 export type CircleObstacle = Point2 & { radius: number }
 
-const WALKABLE_RADIUS = 0.88
+const WALKABLE_RADIUS = 0.94
 // A conservative bound on |gradient(q)| for this ellipse and angular coast.
 // Insetting q by this amount keeps the entire character disc on dry land.
-const RADIUS_GRADIENT_BOUND = 0.0252
+const RADIUS_GRADIENT_BOUND = 0.023
 const MAX_SUBSTEP = 0.2
 const MAX_FRAME_DISTANCE = 200
 const EPSILON = 1e-6
@@ -30,6 +30,14 @@ function contains(rect: Rect2, point: Point2): boolean {
 /** Height of the actual traversable surface, including the ramps and raised decks. */
 export function walkSurfaceHeight(x: number, z: number): number {
   const point = { x, z }
+  if (contains(LAKE_PAVILION, point)) return LAKE_BRIDGE_HEIGHT
+  if (contains(LAKE_BRIDGE, point)) return lakeBridgeHeight(x, z)
+  if (contains(LAKE_PAVILION_RAMP, point)) {
+    const t = (LAKE_PAVILION_RAMP.maxX - x) / (LAKE_PAVILION_RAMP.maxX - LAKE_PAVILION_RAMP.minX)
+    const smooth = t * t * (3 - 2 * t)
+    const ground = terrainHeight(LAKE_PAVILION_RAMP.maxX, z)
+    return ground + (LAKE_BRIDGE_HEIGHT - ground) * smooth
+  }
   if (contains(PALACE_TERRACE, point)) return PALACE_TERRACE_HEIGHT
   if (contains(PALACE_STAIRS, point)) {
     const t = (PALACE_STAIRS.maxZ - z) / (PALACE_STAIRS.maxZ - PALACE_STAIRS.minZ)
@@ -53,8 +61,13 @@ function rectClearance(rect: Rect2, point: Point2): number {
 // Each term is a conservative clearance for a whole circular body. Overlapping
 // regions provide wide, continuous land/deck and bridge/platform connections.
 function surfaceClearance(point: Point2, radius: number): number {
-  return Math.max((WALKABLE_RADIUS - normalizedRadius(point)) / RADIUS_GRADIENT_BOUND,
-    rectClearance(DOCK_BRIDGE, point), rectClearance(DOCK_PLATFORM, point)) - radius
+  const coast = Math.max((WALKABLE_RADIUS - normalizedRadius(point)) / RADIUS_GRADIENT_BOUND,
+    rectClearance(DOCK_BRIDGE, point), rectClearance(DOCK_PLATFORM, point))
+  // |gradient(lakeQ)| <= 1/min(radius), so this is a conservative
+  // clearance of the complete body from the real elliptical waterline.
+  const lake = Math.max((lakeRadiusAt(point.x, point.z) - 1) * Math.min(LAKE_RADII.x, LAKE_RADII.z),
+    rectClearance(LAKE_BRIDGE, point), rectClearance(LAKE_PAVILION, point), rectClearance(LAKE_PAVILION_RAMP, point))
+  return Math.min(coast, lake) - radius
 }
 
 type Wall = { a: Point2; b: Point2 }
@@ -77,6 +90,16 @@ const walls: readonly Wall[] = [
   wall(DOCK_PLATFORM.maxX, DOCK_PLATFORM.minZ, DOCK_PLATFORM.maxX, DOCK_PLATFORM.maxZ),
   wall(DOCK_PLATFORM.minX, DOCK_PLATFORM.minZ, DOCK_PLATFORM.minX, DOCK_BRIDGE.minZ),
   wall(DOCK_PLATFORM.minX, DOCK_BRIDGE.maxZ, DOCK_PLATFORM.minX, DOCK_PLATFORM.maxZ),
+  wall(LAKE_BRIDGE.minX, LAKE_BRIDGE.minZ, LAKE_PAVILION.minX, LAKE_BRIDGE.minZ),
+  wall(LAKE_BRIDGE.minX, LAKE_BRIDGE.maxZ, LAKE_PAVILION.minX, LAKE_BRIDGE.maxZ),
+  wall(LAKE_PAVILION.minX, LAKE_PAVILION.minZ, LAKE_PAVILION.maxX, LAKE_PAVILION.minZ),
+  wall(LAKE_PAVILION.minX, LAKE_PAVILION.maxZ, LAKE_PAVILION.maxX, LAKE_PAVILION.maxZ),
+  wall(LAKE_PAVILION.minX, LAKE_PAVILION.minZ, LAKE_PAVILION.minX, LAKE_BRIDGE.minZ),
+  wall(LAKE_PAVILION.minX, LAKE_BRIDGE.maxZ, LAKE_PAVILION.minX, LAKE_PAVILION.maxZ),
+  wall(LAKE_PAVILION.maxX, LAKE_PAVILION.minZ, LAKE_PAVILION.maxX, LAKE_PAVILION_RAMP.minZ),
+  wall(LAKE_PAVILION.maxX, LAKE_PAVILION_RAMP.maxZ, LAKE_PAVILION.maxX, LAKE_PAVILION.maxZ),
+  wall(LAKE_PAVILION_RAMP.minX, LAKE_PAVILION_RAMP.minZ, LAKE_PAVILION_RAMP.maxX, LAKE_PAVILION_RAMP.minZ),
+  wall(LAKE_PAVILION_RAMP.minX, LAKE_PAVILION_RAMP.maxZ, LAKE_PAVILION_RAMP.maxX, LAKE_PAVILION_RAMP.maxZ),
 ]
 
 function wallDistanceSquared(point: Point2, segment: Wall): number {
@@ -247,12 +270,45 @@ export function findWalkTarget(point: Point2, obstacles: readonly CircleObstacle
 }
 
 const GRID_SPACING = 1.5
-const GRID_MIN_X = -41
-const GRID_MAX_X = 68
-const GRID_MIN_Z = -34
-const GRID_MAX_Z = 34
+const GRID_MIN_X = Math.floor(ISLAND_BOUNDS.minX / GRID_SPACING)
+const GRID_MAX_X = Math.ceil(Math.max(ISLAND_BOUNDS.maxX, DOCK_PLATFORM.maxX) / GRID_SPACING)
+const GRID_MIN_Z = Math.floor(ISLAND_BOUNDS.minZ / GRID_SPACING)
+const GRID_MAX_Z = Math.ceil(ISLAND_BOUNDS.maxZ / GRID_SPACING)
 const GRID_COLUMNS = GRID_MAX_X - GRID_MIN_X + 1
 const GRID_ROWS = GRID_MAX_Z - GRID_MIN_Z + 1
+
+/** Search-local indexing avoids mutable-world caches and whole-forest scans at
+ * every grid node. An expanded circle is registered in every cell it touches. */
+function indexObstacles(obstacles: readonly CircleObstacle[]) {
+  const cellSize = 12
+  const buckets = new Map<string, CircleObstacle[]>()
+  const cell = (value: number) => Math.floor(value / cellSize)
+  const minCellX = cell(ISLAND_BOUNDS.minX) - 1, maxCellX = cell(DOCK_PLATFORM.maxX) + 1
+  const minCellZ = cell(ISLAND_BOUNDS.minZ) - 1, maxCellZ = cell(ISLAND_BOUNDS.maxZ) + 1
+  for (const obstacle of obstacles) {
+    const radius = obstacle.radius + 0.45
+    for (let z = Math.max(minCellZ, cell(obstacle.z - radius)); z <= Math.min(maxCellZ, cell(obstacle.z + radius)); z++) {
+      for (let x = Math.max(minCellX, cell(obstacle.x - radius)); x <= Math.min(maxCellX, cell(obstacle.x + radius)); x++) {
+        const key = `${x},${z}`
+        const bucket = buckets.get(key)
+        if (bucket) bucket.push(obstacle)
+        else buckets.set(key, [obstacle])
+      }
+    }
+  }
+  return {
+    at: (point: Point2) => buckets.get(`${cell(point.x)},${cell(point.z)}`) ?? [],
+    between: (a: Point2, b: Point2) => {
+      const result = new Set<CircleObstacle>()
+      for (let z = cell(Math.min(a.z, b.z)); z <= cell(Math.max(a.z, b.z)); z++) {
+        for (let x = cell(Math.min(a.x, b.x)); x <= cell(Math.max(a.x, b.x)); x++) {
+          for (const obstacle of buckets.get(`${x},${z}`) ?? []) result.add(obstacle)
+        }
+      }
+      return result
+    },
+  }
+}
 
 type SearchEntry = { key: number; score: number }
 
@@ -285,13 +341,14 @@ function dequeue(heap: SearchEntry[]): SearchEntry {
 }
 
 /** Coarse click navigation: waypoints are reached by walking, never by teleporting.
- * The bounded 1.5-unit grid has 7,590 candidate nodes, including the offshore dock.
+ * The bounded 1.5-unit grid covers the expanded island and the offshore dock.
  * Only free nodes are expanded. Narrower passages can be
  * conservatively rejected; direct unobstructed routes still keep the exact target.
  */
 export function findWalkPath(start: Point2, target: Point2, obstacles: readonly CircleObstacle[]): Point2[] {
   const currentObstacles = validObstacles(obstacles)
   if (!isFree(start, currentObstacles, 0.45) || !isFree(target, currentObstacles, 0.45)) return []
+  const obstacleIndex = indexObstacles(currentObstacles)
   const clear = (from: Point2, to: Point2) => {
     const delta = { x: to.x - from.x, z: to.z - from.z }
     const distanceSquared = delta.x ** 2 + delta.z ** 2
@@ -300,7 +357,7 @@ export function findWalkPath(start: Point2, target: Point2, obstacles: readonly 
     const minZ = Math.min(from.z, to.z), maxZ = Math.max(from.z, to.z)
     // Test each tree once against the entire straight edge, rather than sliding
     // through every tree on every 0.2-unit physics substep. Exact tangency is safe.
-    for (const obstacle of currentObstacles) {
+    for (const obstacle of obstacleIndex.between(from, to)) {
       const radius = Math.max(0, obstacle.radius + 0.45 - EPSILON)
       if (obstacle.x < minX - radius || obstacle.x > maxX + radius
         || obstacle.z < minZ - radius || obstacle.z > maxZ + radius) continue
@@ -328,13 +385,17 @@ export function findWalkPath(start: Point2, target: Point2, obstacles: readonly 
   const parents = new Int32Array(nodeCount).fill(-1)
   const closed = new Uint8Array(nodeCount)
   const availability = new Int8Array(nodeCount)
+  const edges = new Map<number, boolean>()
   const heap: SearchEntry[] = []
   const gridPoint = (key: number): Point2 => ({
     x: (key % GRID_COLUMNS + GRID_MIN_X) * GRID_SPACING,
     z: (Math.floor(key / GRID_COLUMNS) + GRID_MIN_Z) * GRID_SPACING,
   })
   const available = (key: number) => {
-    if (!availability[key]) availability[key] = isFree(gridPoint(key), currentObstacles, 0.45) ? 1 : -1
+    if (!availability[key]) {
+      const point = gridPoint(key)
+      availability[key] = isFree(point, obstacleIndex.at(point), 0.45) ? 1 : -1
+    }
     return availability[key] === 1
   }
   const heuristic = (point: Point2) => Math.hypot(point.x - target.x, point.z - target.z)
@@ -379,7 +440,11 @@ export function findWalkPath(start: Point2, target: Point2, obstacles: readonly 
       if (closed[nextKey] || !available(nextKey)) continue
       const next = gridPoint(nextKey)
       const cost = costs[key] + Math.hypot(dx, dz) * GRID_SPACING
-      if (cost >= costs[nextKey] || !clear(point, next)) continue
+      if (cost >= costs[nextKey]) continue
+      const edge = Math.min(key, nextKey) * nodeCount + Math.max(key, nextKey)
+      let passable = edges.get(edge)
+      if (passable === undefined) { passable = clear(point, next); edges.set(edge, passable) }
+      if (!passable) continue
       costs[nextKey] = cost
       parents[nextKey] = key
       enqueue(heap, { key: nextKey, score: cost + heuristic(next) })
