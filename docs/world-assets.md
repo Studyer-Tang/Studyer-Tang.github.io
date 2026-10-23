@@ -15,11 +15,11 @@ Verified on 2026-10-23. [`sources.json`](../public/world-assets/sources.json) re
 | [Grey Roof Tiles](https://polyhaven.com/a/grey_roof_tiles) | Rob Tuytel | `roof-*`, ceramic surface detail | 925,114 B |
 | [Chinese Cedar Bark](https://polyhaven.com/a/chinese_cedar_bark) | Charlotte Baglioni | `bark-*`, trunks and branches | 971,512 B |
 | [Aerial Grass Rock](https://polyhaven.com/a/aerial_grass_rock) | Rob Tuytel | `ground-*`, distant terrain | 1,147,544 B |
-| [Fish Hoek Beach](https://polyhaven.com/a/fish_hoek_beach) | Greg Zaal (HDRI); Rico Cilliers (source collection's backplates) | `coast-*`, photographic 360° view and lighting | 2,717,200 B |
+| [Fish Hoek Beach](https://polyhaven.com/a/fish_hoek_beach) | Greg Zaal (HDRI); Rico Cilliers (source collection's backplates) | `coast-environment.hdr`, island lighting only | 1,433,636 B |
 | [Island Tree 02](https://polyhaven.com/a/island_tree_02) | Rob Tuytel (scanning/processing); Rico Cilliers (cleanup/processing) | `leaf.webp`, `leaves.webp`, `tree/*.glb` | 3,252,548 B |
 | [Fern 02](https://polyhaven.com/a/fern_02) | Rob Tuytel (scanning); Rico Cilliers (modeling) | `fern/`, four plant variants | 2,111,553 B |
 
-**Total asset payload: 12,986,823 bytes (12.39 MiB)**, excluding the small manifest and license text. The two panorama resolutions are alternatives and should not both load for one visit. The original large source downloads and original high-poly tree geometry are not shipped. The five PBR sets, HDR, fern and both tree levels together total **11,632,995 bytes**; the sea viewer adds only its selected panorama on demand. The small standalone leaf images remain available as source derivatives but are not needed by the complete tree model.
+**Total scene asset payload: 11,703,259 bytes (11.16 MiB)**, excluding the small manifest and license text. The original large source downloads and original high-poly tree geometry are not shipped. The five PBR sets, HDR, fern and both tree levels together total **11,632,995 bytes**. The small standalone leaf images remain available as source derivatives but are not needed by the complete tree model. The separate [ocean recording](sea-recording.md) loads only on entering the sea viewer.
 
 ## Material maps
 
@@ -33,19 +33,15 @@ The linear data maps were downsampled with Lanczos to keep the scene small. No d
 
 Approximate physical width of one texture repeat, from the source metadata: stone **1.8 m**, wood **1.8 m**, roof **3 m**, bark **2.27 m**, ground **15 m**. Repeat these maps instead of stretching one copy over the whole island. The roof image supplies surface detail; curved Chinese eaves and ridge geometry must come from the scene mesh.
 
-## Photographic sea view
+## Environment lighting
 
-| File | Dimensions | Bytes | Intended use |
-| --- | --- | ---: | --- |
-| `/world-assets/coast-panorama-8k.webp` | 8192 × 4096 | 965,648 | Desktop 360° view, on demand |
-| `/world-assets/coast-panorama.webp` | 4096 × 2048 | 317,916 | Mobile or texture-size fallback |
-| `/world-assets/coast-environment.hdr` | 1024 × 512 | 1,433,636 | Optional image-based lighting |
+`/world-assets/coast-environment.hdr` is the official 1024 × 512 Radiance RGBE
+file for Fish Hoek Beach, copied unchanged (1,433,636 bytes). It supplies ambient
+lighting and reflections in the island. It is not displayed as a live sea view.
 
-The panorama is a real photograph of Fish Hoek Beach in overcast morning light. It includes the beach, distant coastal buildings and surrounding hills. It is an **equirectangular 360° still image**, not a video or a navigable 3D reconstruction. Both WebP images derive from the provider's 8192 × 4096 tonemapped JPG without cropping or recoloring. The HDR file is copied unchanged from the official 1K download.
-
-An initial view toward image coordinates **u ≈ 0.57, v ≈ 0.50** faces the water. The corresponding yaw depends on the sphere's UV mapping and camera convention; verify it visually rather than copying an arbitrary angle.
-
-Load the panorama only after entering the sea viewer. Check `maxTextureSize` before selecting 8K, fall back to 4K, and dispose of the viewer's texture and geometry on exit. A 965 KB compressed image still occupies approximately **128 MiB for uncompressed RGBA pixels** at 8K, before mipmaps or renderer overhead; transfer size is not a GPU-memory estimate. Reuse or disable mipmaps as appropriate for a background sphere. The 1K HDR is intended for lighting, not a sharp photographic background.
+The former 8K/4K static panoramic sea images have been removed. The pier now
+opens a separate real moving-wave recording; see [video provenance, processing
+and license](sea-recording.md).
 
 ## Foliage
 

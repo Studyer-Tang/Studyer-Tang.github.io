@@ -413,42 +413,14 @@
       "sourceDimensionsMm": null,
       "sources": [
         {
-          "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/fish_hoek_beach.jpg",
-          "bytes": 2179730,
-          "sha256": "953154daf7c0ab7f9ff5ffc3743de021d5922bd4287e58290ef4f9702c5c2d77",
-          "providerMd5": "771173ffa871c7da6a9c9042aaf7ce2b"
-        },
-        {
           "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/fish_hoek_beach_1k.hdr",
           "bytes": 1433636,
           "sha256": "5e1615f4f0485b45c813762b7cd6af8a6cdb5d0e4c01a79e05ae04e8019a94c2",
           "providerMd5": "f31636b9c10f05882ec81071bdce8c91"
         }
       ],
-      "changes": "Official tonemapped photographic panorama re-encoded to WebP; 4K derivative resized with Lanczos. Original HDR copied without changes. No crop, recoloring or generative processing.",
+      "changes": "Official 1K Radiance HDR copied unchanged for island environment lighting only. The sea viewer uses a separately licensed real video.",
       "files": [
-        {
-          "path": "/world-assets/coast-panorama-8k.webp",
-          "bytes": 965648,
-          "sha256": "fdbde87b07dda356d83230897abcbbff6dc02359881f8341a37ef008c21e498e",
-          "role": "equirectangular-background",
-          "colorSpace": "srgb",
-          "encoding": "WebP quality 90",
-          "recommended": "desktop on demand",
-          "width": 8192,
-          "height": 4096
-        },
-        {
-          "path": "/world-assets/coast-panorama.webp",
-          "bytes": 317916,
-          "sha256": "777691b4821468cf9e70c0c87627802d86245df775bd6d4568b36108bf5f8689",
-          "role": "equirectangular-background",
-          "colorSpace": "srgb",
-          "encoding": "WebP quality 90",
-          "recommended": "mobile on demand",
-          "width": 4096,
-          "height": 2048
-        },
         {
           "path": "/world-assets/coast-environment.hdr",
           "bytes": 1433636,
@@ -460,11 +432,7 @@
           "encoding": "Radiance RGBE; unmodified"
         }
       ],
-      "projection": "equirectangular",
-      "seaCenterUV": [
-        0.57,
-        0.5
-      ]
+      "projection": "equirectangular"
     },
     {
       "id": "island_tree_02",
@@ -776,7 +744,7 @@
       }
     }
   ],
-  "totalAssetBytes": 12986823,
+  "totalAssetBytes": 11703259,
   "licenseText": {
     "path": "/world-assets/LICENSE-CC0.txt",
     "sourceUrl": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",

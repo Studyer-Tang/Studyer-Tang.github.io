@@ -1,0 +1,23 @@
+Waves of the sea (Video)
+Creator: Amada44
+Recorded: 2014-07-13
+Original source: https://commons.wikimedia.org/wiki/File:Waves_of_the_sea_(Video).webm
+Creator page: https://commons.wikimedia.org/wiki/User:Amada44
+License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+https://creativecommons.org/licenses/by-sa/4.0/
+Complete legal code: LICENSE-CC-BY-SA-4.0.html
+
+The original is real filmed coastal surf, not a generated scene or live camera.
+The source does not identify a filming location; no location is inferred here.
+
+Changes: trimmed to 18.2 seconds; the edited loop starts at source 0.6 seconds,
+then crossfades its final 0.6 seconds into source 0–0.6 seconds. The resulting
+17.6-second recording plays forward in a loop. Audio is removed. Re-encoded
+as H.264 high-profile/yuv420p MP4 with faststart at 25 fps, in 1920x1080 and
+608x1080 (central portrait crop, without upsampling). The poster is the first frame of the edited recording, encoded WebP.
+No synthetic waves, generative images, reverse playback or AI interpolation.
+The derivative recordings and poster are distributed under CC BY-SA 4.0.
+The website code is separate from these media assets. No endorsement is implied.
+
+Source and derivative SHA-256, sizes and encoding properties are documented in
+src/sea-recording.json in https://github.com/Studyer-Tang/Studyer-Tang.github.io
